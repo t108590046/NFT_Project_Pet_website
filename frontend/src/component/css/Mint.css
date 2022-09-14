@@ -1,0 +1,68 @@
+.background {
+  width: 100%;
+  z-index: 10;
+}
+
+.box{
+  position: relative;
+}
+
+.mintArea{
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  width: 70%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mintArea img{
+  width: 371px;
+  height: 303px;
+  margin: 40px;
+}
+
+.mintArea h1{
+  margin: 10px 0;
+}
+
+.mintButton{
+  margin: 10px 20px;
+  width: 371px;
+  height: 84px;
+  border-radius: 80px;
+  border: none;
+  background-color: #873E15;
+  margin: 40px;
+}
+
+.mintButton:hover{
+  background-color: #825941;
+}
+
+.mintButton p {
+  color: white;
+  font-weight: 700;
+  font-size: 24px;
+}
+
+
+.component{
+  color: white;
+  background-color: black;
+  border-radius: 40px;
+  z-index: 1;
+  width:40%;
+  text-align: center;
+}
+
+.token {
+  color: white;
+  background-color: black;
+  border-radius: 40px;
+  z-index: 1;
+  width:40%;
+  text-align: center;
+}

@@ -1,0 +1,53 @@
+header{
+  width: 100%;
+  height: 90px;
+  background-color: black;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left-header{
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.right-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.connectButton{
+  border: none;
+  border-radius: 9999px;
+  background-color: #FDC314;;
+  color: white;
+  padding: 15px 30px;
+  font-size: 14px;
+  text-transform: uppercase;
+  margin: 20px;
+}
+
+.connectButton p{
+  color: black;
+  margin: 0px;
+}
+
+.address{
+  color: white;
+}
+
+.link{
+  text-align: center;
+  width: 20%;
+  padding: 10px 0px;
+  text-decoration: none;
+  color: white;
+}
+
+.logo{
+  max-width: 50%;
+  max-height: 50%;
+}

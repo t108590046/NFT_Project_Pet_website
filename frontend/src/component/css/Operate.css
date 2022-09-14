@@ -1,0 +1,68 @@
+.tabs{
+  width: 90%;
+  height: 70%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  margin: 0px, auto;
+  
+}
+
+.tabs input[type="radio"]{
+  display: none;
+}
+
+.tabs label{
+  padding: 20px;
+  background-color: #873E15;
+  font-size: 35px;
+  font-weight: bold;
+  color: white;
+  margin-right: 3px;
+  border-radius: 30px 30px 0px 0px;
+}
+
+.tabs label:hover{
+  background-color: #825941;;
+}
+
+.tabs .tabsContent{
+  width: 100%;
+  height: 100%;
+  background-color: #FDC314;
+  padding: 20px;
+  order: 1;
+  display: none;
+}
+
+.tabs input[type="radio"]:checked+label+.tabsContent {
+  display: block;
+}
+
+.itemList{
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  display: flex;  
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.itemInfo{
+  margin: 0px 20px;
+  height: 30%;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.itemInfo img{
+  height: 100%;
+}
+
+.itemInfo p{
+  color: black;
+  font-weight: bold;
+  font-size: 55px;
+}
