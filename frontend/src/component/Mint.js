@@ -12,6 +12,7 @@ const Mint = () => {
 
   const [openModal, setOpenModal] = useState(false);
   const [text, setText] = useState("");
+  const [PetNameTitle,setPetNameTitle] = useState("");
 
   const enableWeb3 = async () => {
     await Moralis.enableWeb3();
@@ -36,6 +37,7 @@ const Mint = () => {
             className="mintButton"
             onClick={() => {
               setText("Input token ID");
+              setPetNameTitle("Pet Name");
               setOpenModal(true);
             }}
           >
@@ -57,7 +59,7 @@ const Mint = () => {
           </button>
         </div>
       </section>
-      {openModal && <Modal trigger={setOpenModal} content={text} />}
+      {openModal && <Modal trigger={setOpenModal} content={text} PNtitle={PetNameTitle} />}
     </div>
   );
 };
