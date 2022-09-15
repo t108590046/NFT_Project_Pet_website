@@ -39,7 +39,7 @@ const Mint = () => {
               setOpenModal(true);
             }}
           >
-            <p>Mint</p>
+            Mint
           </button>
         </div>
 
@@ -53,7 +53,7 @@ const Mint = () => {
               setOpenModal(true);
             }}
           >
-            <p>Mint</p>
+            Mint
           </button>
         </div>
       </section>

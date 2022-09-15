@@ -6,10 +6,17 @@ header{
   justify-content: space-between;
 }
 
+.left-header .link:hover {
+  font-size: 20px;
+  border-radius: 10% 10% 10% 10%;
+}
+
 .left-header{
+  width: 45%;
   margin-left: 10px;
+  font-size: 15px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -37,14 +44,19 @@ header{
 
 .address{
   color: white;
+  width: auto;
 }
 
 .link{
+  height: 60px;
   text-align: center;
   width: 20%;
   padding: 10px 0px;
   text-decoration: none;
   color: white;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
 }
 
 .logo{
