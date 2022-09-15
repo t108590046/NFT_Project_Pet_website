@@ -23,7 +23,7 @@ const Collection = () => {
     };
     const mumbaiNFTs = await Web3Api.account.getNFTsForContract(options);
     mumbaiNFTs.result.forEach((data) => {
-      if (data.token_id >= "8000") {
+      if (parseInt(data.token_id) >= 8000) {
         setComponents(oldArray => [...oldArray, data])
       }
       else {
