@@ -1,0 +1,60 @@
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row
+}
+
+.aboutPage .column {
+    float: left;
+    width: 20%;
+    margin-bottom: 16px;
+    padding: 0 8px;
+  }
+  
+.aboutPage .card {
+    box-shadow: 0 4px 8px 0 rgba(37, 37, 37, 0.2);
+    margin: 8px;
+}
+
+.aboutPage .about-section {
+    padding: 50px;
+    text-align: center;
+    background-color: #3b3ffd;
+    color: white;
+}      
+
+.aboutPage .container {
+    padding: 0 16px;
+}
+
+.aboutPage .container::after, .row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.aboutPage .headline{
+    color:orange;
+    text-align: center;
+}
+
+.aboutPage .title {
+    color: grey;
+}
+
+.aboutPage .button {
+    border: none;
+    outline: 0;
+    display: inline-block;
+    padding: 8px;
+    color: white;
+    background-color: #000;
+    text-align: center;
+    cursor: pointer;
+    width: 100%;
+}
+
+.aboutPage .button:hover {
+    background-color: #555;
+}
