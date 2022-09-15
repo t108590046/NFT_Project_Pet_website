@@ -6,13 +6,23 @@ const serverUrl = process.env.DAPP_URL
 const appId = process.env.APP_ID
 const masterKey = process.env.MASTER_KEY
 
+//檢查帳號
+const CheckUser = async (_address) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const _User = Moralis.Object.extend("_User")
+    const query = new Moralis.Query(_User)
+    query.equalTo("ethAddress", _address)
+    const result = await query.find({useMasterKey: true})
+    return result[0];
+}
+
 //插入資料庫
 const InsertData = async (_className, _newObjectJson) => {
     await Moralis.start({ serverUrl, appId, masterKey })
-    const Class = Moralis.Object.extend(className)
+    const Class = Moralis.Object.extend(_className)
     const newClass = new Class()
-    for (var attributename in newObjectJson) {
-        newClass.set(attributename, newObjectJson[attributename])
+    for (var attributename in _newObjectJson) {
+        newClass.set(attributename, _newObjectJson[attributename])
     }
     await newClass.save()
 }
@@ -26,6 +36,35 @@ const FindQuery = async (_className) => {
     const object = await query.find()
     console.log(object)
     //console.log(object.get('height'))
+};
+//查詢資料庫Pet
+const FindQueryPet = async (_tokenID) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Pet")
+    const query = new Moralis.Query(Class)
+    query.limit(25)
+    query.equalTo("TokenID", _tokenID);
+    const results = await query.find();
+    const objectID = results[0].id
+    let petInfo = {}
+   await query.get(objectID).then(
+        (Pet) => {
+          // The object was retrieved successfully.
+          petInfo = 
+          {
+            "Name":Pet.get("Name"),
+            "Satiety":Pet.get("Satiety"),
+            "Friendship":Pet.get("Friendship"),
+            "Characteristics":Pet.get("Characteristics")
+          }
+        },
+        (error) => {
+          // The object was not retrieved successfully.
+          // error is a Moralis.Error with an error code and message.
+          return error
+        }
+      );
+      return petInfo
 };
 
 //刪除資料庫
@@ -81,4 +120,4 @@ const UploadFileToMoralisIpfs = async () => {
     await file.saveIPFS();
 }
 
-module.exports = { InsertData, GetMorailsConnection }
+module.exports = { InsertData, GetMorailsConnection,CheckUser ,FindQueryPet}
