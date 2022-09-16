@@ -1,6 +1,7 @@
 import React from "react";
 import "./css/Header.css";
 import logo from "../image/logo.png";
+import coin from "../image/coin.png";
 import { useMoralis } from "react-moralis";
 import { Link } from "react-router-dom";
 
@@ -28,6 +29,12 @@ const Header = () => {
     if (isAuthenticated) {
       return (
         <div className="right-header">
+          <div className="coinRemain">
+            <img src={coin} className="logo"></img>
+            <div className="textArea">
+              <p>CoinRemain</p>
+            </div>
+          </div>
           <p className="address">
             {user.get("ethAddress").slice(0, 8) + "..."}
           </p>

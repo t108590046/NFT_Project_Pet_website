@@ -7,22 +7,43 @@ header{
 }
 
 .left-header{
-  margin-left: 10px;
+  margin-left: 1%;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
 }
 
 .right-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
+}
+
+.coinRemain{
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  align-items: center;
+  color:black;
+  margin-right: 2%;
+}
+
+.coinRemain img{
+  width:10%;
+}
+
+.coinRemain .textArea{
+  width:30%;
+  background-color:#FDC314;
+  border-radius: 45%;
+  font-size:20px;
+  text-align: center;
 }
 
 .connectButton{
   border: none;
   border-radius: 9999px;
-  background-color: #FDC314;;
+  background-color: #FDC314;
   color: white;
   padding: 15px 30px;
   font-size: 14px;

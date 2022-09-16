@@ -34,7 +34,7 @@ const Market = () => {
 						<img src={Meat} alt="meat in market"></img>
 						<h3>普通的肉</h3>
 						<p> 飽足度+3</p>
-						<button className="market-btn" onClick={() => {setItemName("普通的肉"); setPopupOpen(true);}}>
+						<button className="market-btn" onClick={() => {setItemDescription("飽足度+3"); setItemName("普通的肉"); setPopupOpen(true);}}>
 							Buy
 						</button>
 					</div>
@@ -43,7 +43,7 @@ const Market = () => {
 						<img src={Meat} alt="meat in market"></img>
 						<h3>難吃的肉</h3>
 						<p>親密度-1 飽足度+2</p>
-						<button className="market-btn" onClick={() => {setItemName("難吃的肉"); setPopupOpen(true);}}>
+						<button className="market-btn" onClick={() => {setItemDescription("親密度-1 飽足度+2"); setItemName("難吃的肉"); setPopupOpen(true);}}>
 							Buy
 						</button>
 					</div>
