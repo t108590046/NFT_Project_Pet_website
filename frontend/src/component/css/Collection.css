@@ -18,17 +18,15 @@
 }
 
 .collection {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  margin: auto;
+  background-color: #8E7700;
   width: 80%;
-  padding: 20px;
+  max-height: 698px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  z-index: 1;
+  align-items: top;
+  flex-wrap: wrap;
+  overflow-y: auto;
 }
 
 .showImg .image{
