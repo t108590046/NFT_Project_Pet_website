@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getSynthesizedTokens_ABI, contractAddress } from "../abi/abi";
 import { Link } from "react-router-dom";
+import axios from 'axios'
 import {
   useMoralis,
   useWeb3ExecuteFunction,
@@ -12,13 +13,15 @@ import "./css/NFT.css";
 import background from "../image/background.png";
 
 const NFT = () => {
-  const {id} = useParams()
+  const { id } = useParams()
   const { Moralis } = useMoralis();
   const Web3Api = useMoralisWeb3Api();
   const contractProcessor = useWeb3ExecuteFunction();
-  const [imageURI,setImageURI] = useState();
+  const [imageURI, setImageURI] = useState();
+  const [species, setSpecies] = useState();
+  const [NFT_info_database,setNFT_info_database] = useState({});
   const [subTokens, setSubTokens] = useState([]);
- 
+
   const getMetadata = async (_id) => {
     let apiOptions = {
       address: contractAddress,
@@ -28,10 +31,23 @@ const NFT = () => {
     let result = await Web3Api.token.getTokenIdMetadata(apiOptions);
     let Metadata = JSON.parse(result.metadata);
     setImageURI(Metadata.image);
+    if (Metadata.attributes[5].value === "pet_0") setSpecies("猴子")
+    else setSpecies("狗")
   }
 
   useEffect(() => {
     getMetadata(id);
+    axios({
+      method: 'POST',
+      url: 'http://localhost:8001/database/QueryPet',
+      data:
+      {
+        TokenID: id
+      }
+    }).then((response) => {
+      console.log(response.data)
+      setNFT_info_database(response.data)
+    })
   }, []);
 
 
@@ -49,15 +65,15 @@ const NFT = () => {
         </div>
         <div className="infoText">
           <div className="inner">
-            <h1>Mockey</h1>
+            <h1>{NFT_info_database.Name}</h1>
           </div>
           <div className="inner">
             <p>TokenID:{id}</p>
-            <p>種族：猴子5</p>
-            <p>個性：活潑</p>
-            <p>親密度：一百</p>
+            <p>種族：{species}</p>
+            <p>個性：{NFT_info_database.Characteristics}</p>
+            <p>親密度：{NFT_info_database.Friendship}</p>
             <p>等級：三</p>
-            <p>飽足度：一百</p>
+            <p>飽足度：{NFT_info_database.Satiety}</p>
           </div>
           <div className="inner">
             <section className="componentList">
