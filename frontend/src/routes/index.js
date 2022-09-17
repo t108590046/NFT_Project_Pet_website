@@ -4,7 +4,7 @@ import Market from "../component/Market";
 import Mint from "../component/Mint";
 import Collection from "../component/Collection";
 import NFT from "../component/NFT";
-// import Operate from "../component/Operate";
+import Operate from "../component/Operate";
 import About from "../component/About";
 
 const routes = [
@@ -22,7 +22,7 @@ const routes = [
     },
     {
         path:"/NFT/:id",
-        element:<NFT />
+        element:<NFT />,
     },
     {
         path:"/mint",

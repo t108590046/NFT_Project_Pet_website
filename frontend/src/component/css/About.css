@@ -37,10 +37,20 @@
 .aboutPage .headline{
     color:orange;
     text-align: center;
+    font-size: 35px;
+    font-weight: bold;
 }
 
 .aboutPage .title {
     color: grey;
+    font-size: 40px;
+}
+
+.aboutPage .introduction {
+    color: grey;
+    font-size: 26px;
+    padding-left: 100px;
+    padding-right: 100px;
 }
 
 .aboutPage .button {

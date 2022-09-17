@@ -1,8 +1,8 @@
 import React from "react";
 import { useState } from "react";
+import "./css/Main.css";
 import "./css/Market.css";
 import Meat from "../image/meat.png";
-import background from "./../image/background.png";
 import Popup from "./Popup.js"
 
 
@@ -14,7 +14,6 @@ const Market = () => {
 
   	return(
 		<div className="box">
-			<img className="background" src={background} alt="This is background image"/>
 			<div className="marketArea">
 				<div className="title">
 					<h1 className="heading"> Shop </h1>

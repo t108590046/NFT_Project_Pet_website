@@ -5,20 +5,12 @@ import background from "../image/background.png";
 import Meat from "../image/meat.png";
 import "./css/Operate.css";
 
-const Operate = () => {
+const Operate = ({trigger}) => {
   let { id } = useParams();
   return (
-    <div className="box">
-      <img
-        className="background"
-        src={background}
-        alt="This is background image"
-      />
-      <section className="infoContainer">
-        <div className="infoImage">
-          <img src={MockToken} />
-        </div>
+        
         <div className="infoText">
+          <button onClick={() => trigger(false)}>&lt;一</button>
           <div className="tabs">
             <input type="radio" id="item" name="tabs" checked="checked" />
             <label for="item">ITEM</label>
@@ -36,7 +28,6 @@ const Operate = () => {
                 </div>
               </section>
             </div>
-
             <input type="radio" name="tabs" id="component" />
             <label for="component">COMPONENT</label>
             <div className="tabsContent">
@@ -44,8 +35,6 @@ const Operate = () => {
             </div>
           </div>
         </div>
-      </section>
-    </div>
   );
 };
 
