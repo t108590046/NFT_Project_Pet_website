@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useMoralis } from "react-moralis";
-import background from "./../image/background.png";
 import "./css/Main.css";
 import "./css/Mint.css";
 

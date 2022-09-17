@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import Header from "./component/Header";
+import Footer from "./component/Footer";
 import { BrowserRouter } from "react-router-dom";
 import { MoralisProvider } from "react-moralis";
 
@@ -14,6 +15,7 @@ root.render(
     >
       <Header />
       <App />
+      <Footer />
     </MoralisProvider>
   </BrowserRouter>
 );

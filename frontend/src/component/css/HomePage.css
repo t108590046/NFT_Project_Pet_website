@@ -9,7 +9,8 @@ body {
   }
   
   h2 {
-    margin: 20px ;
+    margin: 0px;
+    padding: 20px;
     text-overflow: ellipsis;
   }
   
