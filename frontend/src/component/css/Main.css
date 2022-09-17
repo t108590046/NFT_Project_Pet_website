@@ -8,6 +8,7 @@
 }
 
 .box {
+    position: relative;
     background-image: url("/src/image/background.png");
     background-repeat: no-repeat;
     background-attachment: fixed;
