@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useMoralis } from "react-moralis";
 import background from "./../image/background.png";
+import "./css/Main.css";
 import "./css/Mint.css";
 
 import unknownPet from "./../image/pet.png";
@@ -24,11 +25,6 @@ const Mint = () => {
 
   return (
     <div className="box">
-      <img
-        className="background"
-        src={background}
-        alt="This is background image"
-      />
       <section className="mintArea">
         <div className="token">
           <img src={unknownPet} alt="Loading" />

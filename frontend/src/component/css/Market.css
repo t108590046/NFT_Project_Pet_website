@@ -7,15 +7,8 @@
     --outline-hover:.2rem solid var(--black);
 }
 
-
 .marketArea{
-    display: block;
     align-items: center;
-    position: absolute;
-    width: 70%;
-    top: 38%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 
@@ -25,17 +18,18 @@
 }
 
 .heading{
+    margin: 0;
     text-align: center;
-    padding:5% 0;
-    padding-bottom: 0rem;
+    padding: 30px;
     font-size: 3.5rem;
     color:var(--black);
 }
 
 .market-box-container{
+    margin: 5vw;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
-    gap:1rem;
+    gap: 1rem;
 }
 
 .market-box{
