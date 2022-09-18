@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { create } = require("ipfs-http-client") ;
+const { create } = require("ipfs-http-client");
 const INFURA_ID = process.env.INFURA_ID
 const INFURA_SECRET_KEY = process.env.INFURA_SECRET_KEY
 const Moralis = require("moralis/node")
@@ -23,15 +23,24 @@ async function ipfsClient() {
     return ipfs;
 }
 
-const UploadMoralisIpfs = async(_filename) =>
-    {
-      await Moralis.start({ serverUrl, appId, masterKey })
-      buffile = fs.readFileSync(_filename, {encoding: 'base64'});
-      const image = "data:image/png;base64,"+ buffile; 
-      const file = new Moralis.File("image.png", { base64: image });
-      await file.saveIPFS({useMasterKey:true});
-      return file.ipfs();
-    }
+const UploadImageMoralisIpfs = async (_filename) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    buffile = fs.readFileSync(_filename, { encoding: 'base64' });
+    const image = "data:image/png;base64," + buffile;
+    const file = new Moralis.File("image.png", { base64: image });
+    await file.saveIPFS({ useMasterKey: true });
+    return file.ipfs();
+}
+const UploadFileMoralisIpfs = async (_file) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    let objJsonStr = JSON.stringify(_file);
+    let objJsonB64 = Buffer.from(objJsonStr).toString("base64");
+    const file = new Moralis.File("file.json", {
+        base64: objJsonB64,
+      });
+    await file.saveIPFS({ useMasterKey: true });
+    return file.ipfs();
+}
 
 //將檔案地址傳入並上傳至ipfs
 const UploadFileToIpfs = async (_filename) => {
@@ -47,4 +56,4 @@ const UploadFileToIpfs = async (_filename) => {
 
 
 
-module.exports = { UploadFileToIpfs ,UploadMoralisIpfs}
+module.exports = { UploadFileToIpfs, UploadImageMoralisIpfs,UploadFileMoralisIpfs }

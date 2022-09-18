@@ -56,7 +56,7 @@ const About = () => {
                 <div className="column">
                     <div className="card">
                         <div className="container">
-                            <h2>蔡禎誠</h2>
+                            <h2>蔡禎宸</h2>
                             <p className="title">分工</p>
                             <p>資工系</p>
                             <p>xxxx@gmail.com</p>

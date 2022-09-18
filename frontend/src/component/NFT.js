@@ -14,7 +14,7 @@ import background from "../image/background.png";
 
 const NFT = () => {
   const { id } = useParams()
-  const { Moralis } = useMoralis();
+  const { Moralis, isAuthenticated,isWeb3Enabled } = useMoralis();
   const Web3Api = useMoralisWeb3Api();
   const contractProcessor = useWeb3ExecuteFunction();
   const [imageURI, setImageURI] = useState();
@@ -24,10 +24,11 @@ const NFT = () => {
   const [isShowOperate, setIsShowOperate] = useState(false);
   const [equipments, setEquipments] = useState([])
 
-
   const enableWeb3 = async () => {
     await Moralis.enableWeb3();
   };
+
+  console.log(equipments);
   //獲得 metadata
   const getMetadata = async (_id) => {
     let apiOptions = {
@@ -38,19 +39,21 @@ const NFT = () => {
     let result = await Web3Api.token.getTokenIdMetadata(apiOptions);
     let Metadata = JSON.parse(result.metadata);
     if (parseInt(_id) >= 8000) {
+      let typeStr = Metadata.local_image.slice(28, -4)
       //配件
       let temp =
       {
         name: Metadata.name,
-        subTokenID: Metadata.token_id,
-        imageURI: Metadata.image
+        token_id: Metadata.token_id,
+        imageURI: Metadata.image,
+        type: typeStr
       }
       setEquipments(oldArray => [...oldArray, temp])
     }
-    else { //nft主體
+    else { //nft主體'
+      console.log(Metadata.image)
       setImageURI(Metadata.image);
-      if (Metadata.attributes[5].value === "pet_0") setSpecies("猴子")
-      else setSpecies("狗")
+      setSpecies(Metadata.attributes[5].value)
     }
   }
   //獲得nft配件ID
@@ -77,33 +80,35 @@ const NFT = () => {
       },
       onError: (error) => {
         alert("Error:" + error.message);
+        window.location.reload();
       },
     });
   };
 
-  const ShowSubInfo = equipments.map((equipment) => { 
-      return (<div>
-        <div>配件:{equipment.name}</div>
-        <div>tokenID:{equipment.subTokenID}</div>
-        </div>)
-    })
+  const ShowSubInfo = equipments.map((equipment) => {
+    return (<div>
+      <div>配件:{equipment.name}</div>
+      <div>tokenID:{equipment.token_id}</div>
+    </div>)
+  })
 
   useEffect(() => {
-
-    getSubTokens()
-    getMetadata(id);
-    axios({
-      method: 'POST',
-      url: 'http://localhost:8001/database/QueryPet',
-      data:
-      {
-        TokenID: id
-      }
-    }).then((response) => {
-      console.log(response.data)
-      setNFT_info_database(response.data)
-    })
-  }, []);
+    if (isAuthenticated) {
+      getSubTokens()
+      getMetadata(id);
+      axios({
+        method: 'POST',
+        url: 'http://localhost:8001/database/QueryPet',
+        data:
+        {
+          TokenID: id
+        }
+      }).then((response) => {
+        console.log(response.data)
+        setNFT_info_database(response.data)
+      })
+    }
+  }, [isAuthenticated]);
 
   const ShowNFTInfo = () => {
     return (
@@ -128,7 +133,6 @@ const NFT = () => {
       </div>)
   }
 
-
   return (
     <div className="box">
       <img
@@ -140,7 +144,7 @@ const NFT = () => {
         <div className="infoImage">
           <img src={imageURI} alt='' />
         </div>
-        {isShowOperate && <Operate trigger={setIsShowOperate} />}
+        {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} _species={species} />}
         {!isShowOperate && ShowNFTInfo()}
       </section>
     </div>

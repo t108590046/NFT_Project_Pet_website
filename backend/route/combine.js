@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const basePath = process.cwd();
-const { UploadFileToIpfs,UploadMoralisIpfs } = require(`${basePath}/models/ipfs`)
+const { UploadFileToIpfs,UploadImageMoralisIpfs,UploadFileMoralisIpfs } = require(`${basePath}/models/ipfs`)
 const { Combine, GetBuildImagePath, GetNFTMetadata,GetRandomNFT } = require(`${basePath}/models/canvas`)
 const { AddAttributeToList, GetAttributeList } = require(`${basePath}/models/function`)
 const router = express.Router()
@@ -19,10 +19,11 @@ router.post('/', async (req, res, next) => {
     var tokenId = req.body.tokenId
     var itemList = [pet, pant, cloth, glasses, hat, hand]
     await Combine(itemList, tokenId)
-    let ipfsPath = await UploadMoralisIpfs(`${basePath}/public/build/${tokenId}.png`)
+    let ipfsPath = await UploadImageMoralisIpfs(`${basePath}/public/build/${tokenId}.png`)
     let attributesList = GetAttributeList(itemList)
     let tempMetadata =  GetNFTMetadata('nft_pet', 'it is a cool pet', tokenId, ipfsPath, GetBuildImagePath(tokenId), attributesList)
-    res.json(tempMetadata)
+    let URL = await UploadFileMoralisIpfs(tempMetadata);
+    res.send(URL);
 })
 
 

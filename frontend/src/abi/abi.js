@@ -84,3 +84,76 @@ export const getSynthesizedTokens_ABI = {
   stateMutability: "view",
   type: "function",
 };
+
+export const separateOne_ABI = {
+  inputs: [
+    {
+      internalType: "uint256",
+      name: "tokenId",
+      type: "uint256"
+    },
+    {
+      internalType: "uint256",
+      name: "subId",
+      type: "uint256"
+    },
+    {
+      internalType: "string",
+      name: "_uri",
+      type: "string"
+    }
+  ],
+  name: "separateOne",
+  outputs: [],
+  stateMutability: "nonpayable",
+  type: "function"
+};
+
+export const combine_ABI = {
+  inputs: [
+    {
+      internalType: "uint256",
+      name: "tokenId",
+      type: "uint256"
+    },
+    {
+      internalType: "uint256[]",
+      name: "subIds",
+      type: "uint256[]"
+    },
+    {
+      internalType: "string",
+      name: "_uri",
+      type: "string"
+    }
+  ],
+  name: "combine",
+  outputs: [],
+  stateMutability: "nonpayable",
+  type: "function"
+};
+
+export const tokenOfOwnerByIndex_ABI = {
+  inputs: [
+    {
+      internalType: "address",
+      name: "owner",
+      type: "address"
+    },
+    {
+      internalType: "uint256",
+      name: "index",
+      type: "uint256"
+    }
+  ],
+  name: "tokenOfOwnerByIndex",
+  outputs: [
+    {
+      internalType: "uint256",
+      name: "",
+      type: "uint256"
+    }
+  ],
+  stateMutability: "view",
+  type: "function"
+}

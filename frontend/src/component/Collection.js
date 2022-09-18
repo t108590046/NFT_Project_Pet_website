@@ -1,18 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { ownerOf_ABI, contractAddress } from "../abi/abi";
+import { ownerOf_ABI, contractAddress, tokenOfOwnerByIndex_ABI, tokenURI_ABI } from "../abi/abi";
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-moralis";
 import background from "../image/background.png";
 import Moralis from "moralis";
-import MockToken from "../image/MockToken.png";
 import "./css/Collection.css";
+import axios from 'axios';
 
 const Collection = () => {
   const [Pets, setPets] = useState([]);
-  const [Components, setComponents] = useState([]);
-  const { user, isAuthenticated } = useMoralis();
+  const { enableWeb3, user, isAuthenticated, isWeb3Enabled, web3,authenticate } = useMoralis();
+  const [amountOfNFT, setAmountOfNFT] = useState(0);
   const contractProcessor = useWeb3ExecuteFunction();
   const Web3Api = useMoralisWeb3Api();
+
+  //根據index傳回address對應tokenID
+  const fetchIndexTokenID = async (_index) => {
+    let options = {
+      contractAddress: contractAddress,
+      functionName: "tokenOfOwnerByIndex",
+      abi: [tokenOfOwnerByIndex_ABI],
+      params: {
+        owner: user.get("ethAddress"),
+        index: _index
+      },
+    };
+
+    await contractProcessor.fetch({
+      params: options,
+      onSuccess: (response) => {
+        let id = parseInt(response._hex, 16);
+        if (id < 8000) {
+          getMetadata(id);
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  const getMetadata = async (_id) => {
+    let apiOptions = {
+      address: contractAddress,
+      token_id: _id,
+      chain: "mumbai",
+    };
+    let result = await Web3Api.token.getTokenIdMetadata(apiOptions);
+    let Metadata = JSON.parse(result.metadata);
+    setPets(oldArray => [...oldArray, Metadata]);
+  }
+
+  const GetAllPetMetadata = async () => {
+    var i = amountOfNFT;
+    console.log(i);
+    for (i = 0; i < amountOfNFT; i++) {
+      console.log(i);
+      await fetchIndexTokenID(i);
+    }
+  }
 
   //查詢address所有的NFT
   const fetchNFTsForContract = async () => {
@@ -22,31 +68,36 @@ const Collection = () => {
       token_address: contractAddress,
     };
     const mumbaiNFTs = await Web3Api.account.getNFTsForContract(options);
-    mumbaiNFTs.result.forEach((data) => {
-      if (parseInt(data.token_id) >= 8000) {
-        setComponents(oldArray => [...oldArray, data])
-      }
-      else {
-        setPets(oldArray => [...oldArray, data])
-      }
-    })
+    setAmountOfNFT(mumbaiNFTs.result.length);
   };
-
-  //f5時更新資料
+  console.log(Pets, amountOfNFT)
+   
+  //check web3 and meatamask
   useEffect(() => {
-    fetchNFTsForContract()
-  }, []);
+    if (isWeb3Enabled && isAuthenticated) {
+      fetchNFTsForContract();
+      //getMetadata(9);
+    }
+    else if(!isWeb3Enabled){
+      enableWeb3();
+    }
+    else if(!isAuthenticated){
+      authenticate();
+    }
+  }, [isWeb3Enabled,isAuthenticated]);
+  
+  useEffect(() => {
+    GetAllPetMetadata();
+  }, [amountOfNFT]);
 
   const showNFTImage = Pets.map((data) => {
-      var imageURL = JSON.parse(data.metadata).image;
-      return (
-        <NavLink className="image" to={`/NFT/${JSON.parse(data.metadata).token_id}`}>
-          <img src={imageURL} alt='' />
-        </NavLink>
-      );
-    })
+    return (
+      <NavLink className="image" to={`/NFT/${data.token_id}`}>
+        <img src={data.image} alt='' />
+      </NavLink>
+    );
+  })
 
-  console.log(Pets);
   return (
     <div className="box">
       <img
@@ -63,51 +114,3 @@ const Collection = () => {
   );
 };
 export default Collection;
-// {
-//   tokens.map((token) => {
-//     return (
-//       <div key={token.id}>
-//         <Link to={`/collection/${token.id}`}>
-//           <img src={token.img} />
-//         </Link>
-//         <button>{token.id}</button>
-//       </div>
-//     );
-//   });
-// }
-
-
-/*
-            <Link className="image" to={`/collection/1`}>
-            <img src={MockToken} />
-          </Link>
-
-  const getUserNFT = async () => {
-    const options = {
-      address: contractAddress,
-      chain: "mumbai",
-    };
-    const nftOwners = await Web3Api.token.getNFTOwners(options);
-    let userNFT = nftOwners.result.filter(
-      (nft) => nft.token_id < 100 && nft.owner_of == user.get("ethAddress")
-    );
- 
-    let _token = [];
-    userNFT.forEach((item) => {
-      let img = JSON.parse(item.metadata);
-      let token = {
-        id: item.token_id,
-        img: img.image,
-      };
-      _token.push(token);
-    });
-    setTokens(_token);
-  };
-  getUserNFT();
-  
-  useEffect(() => {
-    if (isAuthenticated) {
-      getUserNFT();
-    }
-  }, [isAuthenticated]);
-*/
