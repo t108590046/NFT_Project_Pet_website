@@ -81,7 +81,6 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
   //改變腳色配件資訊
   const ChangeState = (equipment) => {
     let alertText = "you selected " + equipment.name + " id: " + equipment.token_id;
-    InitEquipmentState();
     setSelectedSubToken(equipment.token_id)
     if (operationType === "separate") {
       SetTypeNone(equipment.name);
@@ -140,8 +139,10 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       params: options,
       onSuccess: () => {
         alert("Succesful Separate");
+        window.location.reload();
       },
       onError: (error) => {
+        InitEquipmentState();
         alert(error);
       },
     });
@@ -165,8 +166,10 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       params: options,
       onSuccess: () => {
         alert("Succesful Combine");
+        window.location.reload();
       },
       onError: (error) => {
+        InitEquipmentState();
         alert(error);
       },
     });
@@ -303,6 +306,31 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
     }
   }, []);
 
+  //post 改變寵物圖片及合約寵物狀態
+  useEffect(() => {
+    if (isAuthenticated) {
+      if (operationType === 'separate') {
+        postRequest_separate();
+      }
+      else if(operationType === 'combine')
+      {
+        postRequest_combine();
+      }
+    }
+    else
+    {
+      authenticate();
+    }
+  }, [handType,hatType,glassesType,pantType,clothType]);
+
+
+  // 切換操作 reset狀態
+  useEffect(() => {
+    InitEquipmentState();
+    setSelectedSubToken('');
+  }, [operationType]);
+
+
   return (
 
     <div className="infoText">
@@ -348,7 +376,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
         </div>
 
         <input type="radio" name="tabs" id="equipment" />
-        <label for="equipment" className={equipmentsLabel} onClick={() => {setLabelSelected(1); InitEquipmentState(); setSelectedSubToken(''); setOperationType("separate"); }}>EQUIPMENT</label>
+        <label for="equipment" className={equipmentsLabel} onClick={() => {setLabelSelected(1); setOperationType("separate"); }}>EQUIPMENT</label>
         <div className="tabsContent">
           <div className="itemList">
             {ShowEquipments}
@@ -356,7 +384,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
         </div>
 
         <input type="radio" name="tabs" id="component" />
-        <label for="component" className={componentLabel} onClick={() => {setLabelSelected(2); InitEquipmentState(); setSelectedSubToken(''); setOperationType("combine"); }}>COMPONENT</label>
+        <label for="component" className={componentLabel} onClick={() => {setLabelSelected(2); setOperationType("combine"); }}>COMPONENT</label>
         <div className="tabsContent">
           <div className="itemList">
             {ShowComponent}

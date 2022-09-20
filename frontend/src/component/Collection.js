@@ -75,7 +75,10 @@ const Collection = () => {
   //check web3 and meatamask
   useEffect(() => {
     if (isWeb3Enabled && isAuthenticated) {
+      setPets([]);
+      setAmountOfNFT(0);
       fetchNFTsForContract();
+
       //getMetadata(9);
     }
     else if(!isWeb3Enabled){

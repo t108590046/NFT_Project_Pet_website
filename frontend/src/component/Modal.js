@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useWeb3ExecuteFunction } from "react-moralis";
 import { useMoralis } from "react-moralis";
 import { mint_ABI, contractAddress } from "../abi/abi";
+import { mint_ABI_test, contractAddress_test,act_ABI } from "../abi/testabi";
 import "./css/Modal.css";
 import axios from 'axios';
 
@@ -28,11 +29,46 @@ function Modal({ trigger, content,PNtitle }) {
     })
   }
 
+  const open = async () => {
+
+    let options = {
+      contractAddress: contractAddress_test,
+      functionName: "setIsActive",
+      abi: [act_ABI],
+      params: {
+        status: true,
+        newURI:''
+      },
+    };
+
+    await contractProcessor.fetch({
+      params: options,
+      onSuccess: () => {
+        alert("Succesful");
+      },
+      onError: (error) => {
+        console.log(error.message);
+      },
+    });
+  };
+
   const mint = async (_tokenId) => {
+    /*
     let options = {
       contractAddress: contractAddress,
       functionName: "mint",
       abi: [mint_ABI],
+      params: {
+        tokenId: _tokenId,
+      },
+      msgValue: Moralis.Units.ETH(0.005),
+    };
+    */
+
+    let options = {
+      contractAddress: contractAddress_test,
+      functionName: "mint",
+      abi: [mint_ABI_test],
       params: {
         tokenId: _tokenId,
       },
@@ -46,6 +82,7 @@ function Modal({ trigger, content,PNtitle }) {
         alert("Succesful Mint");
       },
       onError: (error) => {
+        console.log(error)
         alert("Error:" + error.message);
       },
     });
@@ -68,6 +105,7 @@ function Modal({ trigger, content,PNtitle }) {
             <button onClick={() => mint(tokenId)}>
               <p>Confirm</p>
             </button>
+            <button onClick={() => open()}>open</button>
           </div>
         </section>
       </article>
