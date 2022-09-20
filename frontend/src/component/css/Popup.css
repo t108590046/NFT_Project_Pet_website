@@ -1,36 +1,36 @@
 
 .popupContainer {
-    width: 40%;
-    height: 60%;
-    top:35%;
-    left: 30%;
+    width: 30%;
+    height: 50%;
+    top:40%;
+    left:35%;
     position:fixed;
     border-radius: 12px;
     background-color: rgb(255, 149, 0);
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     display: flex;
+    padding: 1%;
     flex-direction: column;
-    padding: 5px;
     justify-content: center; 
     align-items: center; 
+    z-index:999;
 }
 
 .popupContainer .popupTitle {
-    color: rgb(47, 25, 4);
+    color: rgb(255, 0, 0);
     display: inline-block;
     text-align: center;
-    margin-top: 3px;
+    padding-top: 3%;
 }
 
 .popupContainer .body {
     flex: 30%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
     text-align: center;
     flex-direction: column;
     line-height: 3px;
+    font-weight: bold;
 }
 
 .popupContainer .footer {

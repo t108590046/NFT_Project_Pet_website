@@ -4,6 +4,7 @@ import axios from 'axios'
 import Meat from "../image/meat.png";
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-moralis";
 import "./css/Operate.css";
+import { Button, Icon } from "semantic-ui-react";
 
 const Operate = ({ trigger, equipments, TokenID, _species }) => {
   const { user, isAuthenticated,authenticate } = useMoralis();
@@ -17,6 +18,12 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
   const [pantType, setPantTyp] = useState('none');
   const [selectedSubToken, setSelectedSubToken] = useState('');
   const [operationType, setOperationType] = useState('');
+
+  const [equipmentsLabel, setequipmentsLabel] = useState("defaultTab");
+  const [itemLabel, setitemLabel] = useState("defaultTab");
+  const [componentLabel, setcomponentLabel] = useState("defaultTab");
+
+
 
 
   const SetTypeNone = (name) => {
@@ -229,7 +236,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       <div className="itemInfo">
         <p>{equipment.name}</p>
         <img src={equipment.imageURI} alt=''></img>
-        <button onClick={() => { ChangeState(equipment) }}>select</button>
+        <Button inverted color='red' variant="contained" onClick={() => { ChangeState(equipment) }}>Remove</Button>
       </div>
     )
   })
@@ -247,10 +254,11 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       <div className="itemInfo">
         <p>{component.name}</p>
         <img src={component.image} alt=''></img>
-        <button onClick={() => { ChangeState(component) }}>select</button>
+        <Button inverted color='brown' onClick={() => { ChangeState(component) }}>select</Button>
       </div>
     )
   })
+
 
   //查詢address所有的可裝備Components
   const fetchComponents = async () => {
@@ -263,6 +271,25 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
     mumbaiNFTs.result.forEach((data) => {
       if (parseInt(data.token_id) > 8000) setComponents(oldArray => [...oldArray, data])
     })
+  };
+
+  //顯示處於哪個tab
+  const setLabelSelected = (selected) => {
+    if(selected === 0){
+      setitemLabel("selectedTab");
+      setequipmentsLabel("defaultTab");
+      setcomponentLabel("defaultTab");
+    }
+    else if(selected === 1){
+      setitemLabel("defaultTab");
+      setequipmentsLabel("selectedTab");
+      setcomponentLabel("defaultTab");
+    }
+    else{
+      setitemLabel("defaultTab");
+      setequipmentsLabel("defaultTab");
+      setcomponentLabel("selectedTab");
+    }
   };
 
   useEffect(() => {
@@ -279,15 +306,32 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
   return (
 
     <div className="infoText">
-      <nobr>
-        <button onClick={() => trigger(false)}>&lt;一</button>
-        <button onClick={() => { window.location.reload(); }}>reload</button>
+      {/* <nobr>
         <button onClick={() => { postRequest_separate() }}>separate</button>
         <button onClick={() => { postRequest_combine() }}>combine</button>
-      </nobr>
+      </nobr> */}
+
+      <div className="BtnGroup">
+      <Button.Group>
+        <Button animated="fade" onClick={() => trigger(false)} size="large">
+          <Button.Content visible>Back To Info</Button.Content>
+          <Button.Content hidden>
+            <Icon name='arrow left' />
+          </Button.Content>
+        </Button>
+        <Button animated="fade" onClick={() => { window.location.reload(); }} size="large">
+          <Button.Content visible>Reload</Button.Content>
+          <Button.Content hidden>
+            <Icon name='redo alternate' />
+          </Button.Content>
+        </Button>
+      </Button.Group>
+      
+      </div>
+
       <div className="tabs">
-        <input type="radio" id="item" name="tabs" />
-        <label for="item">ITEM</label>
+        <input type="radio" name="tabs" id="item" />
+        <label for="item" className={itemLabel} onClick={() => {setLabelSelected(0);}}>ITEM</label>
         <div className="tabsContent">
           <section className="itemList">
             <div className="itemInfo">
@@ -302,15 +346,17 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
             </div>
           </section>
         </div>
+
         <input type="radio" name="tabs" id="equipment" />
-        <label for="equipment" onClick={() => { InitEquipmentState(); setSelectedSubToken(''); setOperationType("separate"); }}>EQUIPMENT</label>
+        <label for="equipment" className={equipmentsLabel} onClick={() => {setLabelSelected(1); InitEquipmentState(); setSelectedSubToken(''); setOperationType("separate"); }}>EQUIPMENT</label>
         <div className="tabsContent">
           <div className="itemList">
             {ShowEquipments}
           </div>
         </div>
+
         <input type="radio" name="tabs" id="component" />
-        <label for="component" onClick={() => { InitEquipmentState(); setSelectedSubToken(''); setOperationType("combine"); }}>COMPONENT</label>
+        <label for="component" className={componentLabel} onClick={() => {setLabelSelected(2); InitEquipmentState(); setSelectedSubToken(''); setOperationType("combine"); }}>COMPONENT</label>
         <div className="tabsContent">
           <div className="itemList">
             {ShowComponent}

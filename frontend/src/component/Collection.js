@@ -92,9 +92,9 @@ const Collection = () => {
 
   const showNFTImage = Pets.map((data) => {
     return (
-      <NavLink className="image" to={`/NFT/${data.token_id}`}>
-        <img src={data.image} alt='' />
-      </NavLink>
+        <NavLink className="image" to={`/NFT/${data.token_id}`}>
+          <img src={data.image} alt='' />
+        </NavLink>
     );
   })
 

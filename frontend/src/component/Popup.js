@@ -2,7 +2,7 @@ import React from "react";
 import "./css/Popup.css";
 import { useState } from "react";
 
-function Popup({itemDescription, itemName, setPopupOpen }) {
+function Popup({itemDescription, itemName, setPopupOpen}) {
 
     const [currentNum, setcurrentNum] = useState(1); //購買數量
     
@@ -14,8 +14,8 @@ function Popup({itemDescription, itemName, setPopupOpen }) {
             </div>
             
             <div className="body">
-                <p>產品名稱:{itemName}</p>
-                <p>產品功能:{itemDescription}</p>
+                <h2>產品名稱:{itemName}</h2>
+                <h3 className="description">產品功能:{itemDescription}</h3>
             </div>
 
             <div className="numSelctContainer">

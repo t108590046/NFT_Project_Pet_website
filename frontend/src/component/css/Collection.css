@@ -1,10 +1,10 @@
 .showImg {
   position: absolute;
-  top: 0%;
+  top: 10%;
   padding: 30px;
-  background-color: black;
+  background-color: rgba(255, 255, 255, 0.468);
   border-radius: 40px ;
-  width: 80%;
+  width: 70%;
   display: flex;
   align-items: center;
   justify-content: flex-start;

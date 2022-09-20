@@ -6,6 +6,8 @@ import Footer from "./component/Footer";
 import { BrowserRouter } from "react-router-dom";
 import { MoralisProvider } from "react-moralis";
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   

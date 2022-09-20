@@ -142,6 +142,7 @@ const NFT = () => {
       />
       <section className="infoContainer">
         <div className="infoImage">
+          <h2>Your Pet</h2>
           <img src={imageURI} alt='' />
         </div>
         {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} _species={species} />}
