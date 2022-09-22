@@ -28,4 +28,10 @@ router.post('/QueryPet', async (req, res, next) => {
     res.json(data);
 })
 
+//更新pet圖片
+router.post('/UpdatePetURI', async (req, res, next) => {
+    
+    res.json(data);
+})
+
 module.exports = router

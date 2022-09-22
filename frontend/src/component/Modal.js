@@ -105,7 +105,6 @@ function Modal({ trigger, content,PNtitle }) {
             <button onClick={() => mint(tokenId)}>
               <p>Confirm</p>
             </button>
-            <button onClick={() => open()}>open</button>
           </div>
         </section>
       </article>
