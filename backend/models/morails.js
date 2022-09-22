@@ -12,7 +12,7 @@ const CheckUser = async (_address) => {
     const _User = Moralis.Object.extend("_User")
     const query = new Moralis.Query(_User)
     query.equalTo("ethAddress", _address)
-    const result = await query.find({useMasterKey: true})
+    const result = await query.find({ useMasterKey: true })
     return result[0];
 }
 
@@ -47,24 +47,24 @@ const FindQueryPet = async (_tokenID) => {
     const results = await query.find();
     const objectID = results[0].id
     let petInfo = {}
-   await query.get(objectID).then(
+    await query.get(objectID).then(
         (Pet) => {
-          // The object was retrieved successfully.
-          petInfo = 
-          {
-            "Name":Pet.get("Name"),
-            "Satiety":Pet.get("Satiety"),
-            "Friendship":Pet.get("Friendship"),
-            "Characteristics":Pet.get("Characteristics")
-          }
+            // The object was retrieved successfully.
+            petInfo =
+            {
+                "Name": Pet.get("Name"),
+                "Satiety": Pet.get("Satiety"),
+                "Friendship": Pet.get("Friendship"),
+                "Characteristics": Pet.get("Characteristics")
+            }
         },
         (error) => {
-          // The object was not retrieved successfully.
-          // error is a Moralis.Error with an error code and message.
-          return error
+            // The object was not retrieved successfully.
+            // error is a Moralis.Error with an error code and message.
+            return error
         }
-      );
-      return petInfo
+    );
+    return petInfo
 };
 
 //刪除資料庫
@@ -98,6 +98,51 @@ const UpdateData = async (_className) => {
     }
 }
 
+const UpdateFoodAmount = async (data) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Food")
+    const query = new Moralis.Query(Class)
+    query.equalTo("Owner", data.Owner);
+    let oldFoodAmount;
+    oldFoodAmount = await GetFoodAmount(data.Owner,data.FoodType);
+    console.log(oldFoodAmount)
+    //更新食物數量
+    const object = await query.first();
+    if (object) {
+        object.set(data.FoodType, oldFoodAmount + data.Amount)
+        object.save().then(() => {
+            console.log('update done');
+        }, (error) => {
+            console.log(error);
+        });
+    }
+}
+
+//查詢目前食物數量
+const GetFoodAmount = async (owner,foodtype) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Food")
+    const query = new Moralis.Query(Class)
+    query.equalTo("Owner", owner)
+    let oldFoodAmount = 0;
+    const results = await query.find();
+    const objectID = results[0].id
+    
+    await query.get(objectID).then(
+        (food) => {
+            oldFoodAmount = food.get(foodtype);
+            // The object was retrieved successfully.
+        },
+        (error) => {
+            // The object was not retrieved successfully.
+            // error is a Moralis.Error with an error code and message.
+        }
+    );
+    return oldFoodAmount;
+}
+
+
+
 //取得morails的連線
 const GetMorailsConnection = async () => {
     await Moralis.start({ serverUrl, appId, masterKey })
@@ -120,4 +165,4 @@ const UploadFileToMoralisIpfs = async () => {
     await file.saveIPFS();
 }
 
-module.exports = { InsertData, GetMorailsConnection,CheckUser ,FindQueryPet}
+module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount }
