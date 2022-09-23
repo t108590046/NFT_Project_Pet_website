@@ -4,7 +4,7 @@ import axios from 'axios'
 import Meat from "../image/meat.png";
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-moralis";
 import "./css/Operate.css";
-import { Button, Icon } from "semantic-ui-react";
+import { Button, Icon, Popup } from "semantic-ui-react";
 
 const Operate = ({ trigger, equipments, TokenID, _species }) => {
   const { user, isAuthenticated,authenticate } = useMoralis();
@@ -233,11 +233,35 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
     }
   }
   console.log(operationType)
+
+   
+   const items = [
+    { name:"test1", itemImg:Meat, itemAmount:6, itemDescription: "testingDescription01"},
+    { name:"test2", itemImg:Meat, itemAmount:66, itemDescription: "testingDescription02"},
+    { name:"test3", itemImg:Meat, itemAmount:666, itemDescription: "testingDescription03"},
+   ]
+   //顯示道具
+   const showItems = items.map((item) => {
+    return (
+      <div className="itemInfo">
+        <Popup
+        content={item.itemDescription}
+        key={item.name}
+        header={item.name}
+        trigger={<img className="itemImg" src={item.itemImg} alt=''></img>}
+        />
+        <h1>{item.name} x{item.itemAmount}</h1>
+        {/* <h4 className="itemDescription">{item.itemDescription}</h4> */}
+        <Button inverted color='orange' variant="contained" onClick={() => {}}>Use</Button>
+      </div>
+    )
+  })
+
   //顯示身上裝備的配件
   const ShowEquipments = equipments.map((equipment) => {
     return (
       <div className="itemInfo">
-        <p>{equipment.name}</p>
+        <h1>{equipment.name}</h1>
         <img src={equipment.imageURI} alt=''></img>
         <Button inverted color='red' variant="contained" onClick={() => { ChangeState(equipment) }}>Remove</Button>
       </div>
@@ -255,7 +279,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
     }
     return (
       <div className="itemInfo">
-        <p>{component.name}</p>
+        <h1>{component.name}</h1>
         <img src={component.image} alt=''></img>
         <Button inverted color='brown' onClick={() => { ChangeState(component) }}>select</Button>
       </div>
@@ -341,13 +365,13 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
 
       <div className="BtnGroup">
       <Button.Group>
-        <Button animated="fade" onClick={() => trigger(false)} size="large">
+        <Button animated="fade" basic inverted color='yellow' onClick={() => trigger(false)} size="large">
           <Button.Content visible>Back To Info</Button.Content>
           <Button.Content hidden>
             <Icon name='arrow left' />
           </Button.Content>
         </Button>
-        <Button animated="fade" onClick={() => { window.location.reload(); }} size="large">
+        <Button animated="fade" basic inverted color='yellow' onClick={() => { window.location.reload(); }} size="large">
           <Button.Content visible>Reload</Button.Content>
           <Button.Content hidden>
             <Icon name='redo alternate' />
@@ -358,11 +382,12 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       </div>
 
       <div className="tabs">
-        <input type="radio" name="tabs" id="item" />
-        <label for="item" className={itemLabel} onClick={() => {setLabelSelected(0);}}>ITEM</label>
+        <input type="radio" name="tabs" id="items"/>
+        <label for="items" className={itemLabel} onClick={() => {setLabelSelected(0);}}>ITEM</label>
         <div className="tabsContent">
           <section className="itemList">
-            <div className="itemInfo">
+            {showItems}
+            {/* <div className="itemInfo">
               <img src={Meat}></img>
               <p>X</p>
               <p>4</p>
@@ -371,7 +396,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
               <img src={Meat}></img>
               <p>X</p>
               <p>4</p>
-            </div>
+            </div> */}
           </section>
         </div>
 

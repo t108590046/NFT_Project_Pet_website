@@ -11,6 +11,7 @@ import {
 
 import "./css/NFT.css";
 import background from "../image/background.png";
+import { Button, Icon, Modal, Header, Input} from "semantic-ui-react";
 
 const NFT = () => {
   const { id } = useParams()
@@ -22,7 +23,10 @@ const NFT = () => {
   const [NFT_info_database, setNFT_info_database] = useState({});
   const [subTokens, setSubTokens] = useState([]);
   const [isShowOperate, setIsShowOperate] = useState(false);
-  const [equipments, setEquipments] = useState([])
+  const [equipments, setEquipments] = useState([]);
+  const [open, setOpen] = React.useState(false);
+
+  const [newName, setNewName] = React.useState("");
 
   const enableWeb3 = async () => {
     await Moralis.enableWeb3();
@@ -92,6 +96,40 @@ const NFT = () => {
     </div>)
   })
 
+  
+  const setingPopup=(oldName)=> {
+    return (
+      <Modal
+        basic
+        onClose={() => setOpen(false)}
+        onOpen={() => setOpen(true)}
+        open={open}
+        size='large'
+        // dimmer='blurring'
+        trigger={<Button circular icon='edit'/>}
+      >
+        <Header icon>
+          <Icon name='edit' />
+          Edit Pet Name!
+        </Header>
+        <Modal.Content>
+          <div className='inputArea'>
+            <Input icon='pencil alternate' size='huge' iconPosition='left' placeholder={oldName} value={newName} onChange={(event)=>setNewName(event.target.value)}/>
+          </div>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button basic color='red' inverted onClick={() => {setOpen(false); setNewName("");}}>
+            <Icon name='remove' /> Cancel
+          </Button>
+          <Button color='green' inverted onClick={() => setOpen(false)}>
+            {/* 可在此加入更改name之function(設為newName) */}
+            <Icon name='checkmark' /> Confirm
+          </Button>
+        </Modal.Actions>
+      </Modal>
+    )
+  }
+
   useEffect(() => {
     if (isAuthenticated) {
       getSubTokens()
@@ -115,6 +153,8 @@ const NFT = () => {
       <div className="infoText">
         <div className="inner">
           <h1>{NFT_info_database.Name}</h1>
+          {setingPopup(NFT_info_database.Name)}
+          {/* placeholder預設為舊名字 */}
         </div>
         <div className="inner">
           <p>TokenID:{id}</p>
@@ -132,6 +172,8 @@ const NFT = () => {
         </div>
       </div>)
   }
+
+  
 
   return (
     <div className="box">
@@ -151,6 +193,8 @@ const NFT = () => {
     </div>
   );
 };
+
+
 
 /*
   const enableWeb3 = async () => {
