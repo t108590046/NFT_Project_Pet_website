@@ -2,33 +2,41 @@ body {
   margin: 0;
 }
 
+
 .container{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
+  width: 100vw;
+  height: 75vh;
+  background-image: url("/src/image/homepage.jpg");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
   
-  h2 {
-    margin: 0px;
-    padding: 20px;
-    text-overflow: ellipsis;
-  }
-  
-  
-  .btn{ 
-    border: none;
-    border-radius: 9999px;
-    background-color: seagreen;
-    padding: 10px 20px;
-    margin: 20px
-  }
-  
-  .submit{
-    position: relative;
-    margin: 0 20px;
-  }
-  
-  .background{
-    width: 100%;
-    z-index: 10;
-  }
+h2 {
+  margin: 0px;
+  padding: 20px;
+  text-overflow: ellipsis;
+}
+
+
+.btn{ 
+  border: none;
+  border-radius: 9999px;
+  background-color: seagreen;
+  padding: 10px 20px;
+  margin: 20px
+}
+
+.submit{
+  position: relative;
+  margin: 0 20px;
+}
+
+.background{
+  width: 100%;
+  z-index: 10;
+}

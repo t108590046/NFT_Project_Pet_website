@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useMoralis, useMoralisWeb3Api } from "react-moralis";
 import Moralis from "moralis";
-import homepage from "../image/homepage.jpg";
 import "./css/HomePage.css";
 
 const Homepage = () => {
@@ -55,11 +54,6 @@ const Homepage = () => {
   if (isAuthenticated) {
     return (
       <div className="container">
-        <img
-          className="background"
-          src={homepage}
-          alt="This is background image"
-        />
       </div>
     );
   }
