@@ -26,6 +26,15 @@ router.post('/', async (req, res, next) => {
     res.send(URL);
 })
 
+/*
+router.post('/nft', async (req, res, next) => {
+    await GetRandomNFT(0, 10);
+    res.send(123);
+})
+*/
+
+
+
 
 
 module.exports = router

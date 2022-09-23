@@ -2,7 +2,7 @@
   "name": "nft_pet",
   "description": "it is a cool pet",
   "token_id": 7,
-  "image": "https://ipfs.moralis.io:2053/ipfs/QmT5Fgg91BdZoVLoCnE3oBatqpCEN5txQuJYriEm4243n2",
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmQEY6NpvEA2YYHGkiy9QH4UwSSiAzSv2sjcryZTVjBWr2",
   "local_image": "http://127.0.0.1:8001/build/7.png",
   "attributes": [
     {
@@ -11,11 +11,11 @@
     },
     {
       "trait_type": "hat",
-      "value": "none"
+      "value": "hat_1"
     },
     {
       "trait_type": "glasses",
-      "value": "none"
+      "value": "glasses_1"
     },
     {
       "trait_type": "cloth",
@@ -23,11 +23,11 @@
     },
     {
       "trait_type": "pant",
-      "value": "none"
+      "value": "pant_1"
     },
     {
       "trait_type": "pet",
-      "value": "pet_0"
+      "value": "pet_1"
     }
   ]
 }

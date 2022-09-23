@@ -1,0 +1,8 @@
+{
+  "name": "hand",
+  "description": "component",
+  "token_id": 0,
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmfFqHZnMEiS9fbSENadjppSHgMmFYX5FhjNsEDtdTzHNj",
+  "local_image": "http://127.0.0.1:8001/image/hand_0.png",
+  "type": "hand_0"
+}
