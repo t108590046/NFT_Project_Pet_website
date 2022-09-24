@@ -14,50 +14,60 @@ header {
 }
 
 .left-header {
-  width: 45%;
+  height: inherit;
+  width: 40%;
   margin-left: 10px;
   font-size: 15px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .right-header {
+  width: 25%;
+  height: inherit;
   display: flex;
-  justify-content: flex-end;
   align-items: center;
+  justify-content: space-between;
   margin-right: 20px;
 }
 
 .coinRemain{
+  width: 200px;
   display: flex;
-  justify-content: flex-end;
-  flex-direction: row;
+  justify-content: center;
   align-items: center;
   color:black;
-  margin-right: 2%;
 }
 
 .coinRemain img{
-  width:10%;
+  width:20%;
 }
 
 .coinRemain .textArea{
-  width:30%;
+  width: 10em;
   background-color:#FDC314;
-  border-radius: 45%;
+  height: 50px;
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.coinRemain .textArea p {
   font-size:20px;
-  text-align: center;
+  text-align: baseline;
 }
 
 .connectButton{
+  width: 150px;
+  height: 50px;
   border: none;
   border-radius: 9999px;
   background-color: #FDC314;
   color: white;
-  padding: 15px 30px;
   font-size: 14px;
   text-transform: uppercase;
-  margin: 20px;
 }
 
 .connectButton p{

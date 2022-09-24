@@ -3,7 +3,9 @@
 }
 
 .mintArea{
-  margin: auto 10%;
+  box-sizing: border-box;
+  height: 75vh;
+  margin: auto 20vw;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -46,24 +48,21 @@
 
 
 .component{
-  margin: 30px;
   min-width: 300px;
   max-width: 500px;
   color: white;
   background-color: black;
   border-radius: 40px;
-  width:40%;
+  width: 30%;
   text-align: center;
 }
 
 .token {
-  margin: 30px;
   min-width: 300px;
   max-width: 500px;
-
   color: white;
   background-color: black;
   border-radius: 40px;
-  width:40%;
+  width:30%;
   text-align: center;
 }

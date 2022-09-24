@@ -121,12 +121,7 @@ const Collection = () => {
 
   return (
     <div className="box">
-      <img
-        className="background"
-        src={background}
-        alt=''
-      />
-      <div className="collection">
+      <div className="collectionPage">
         <section className="showImg">
           {showNFTImage}
         </section>
