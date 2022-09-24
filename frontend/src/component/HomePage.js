@@ -53,7 +53,7 @@ const Homepage = () => {
 
   if (isAuthenticated) {
     return (
-      <div className="container">
+      <div className="homePage">
       </div>
     );
   }

@@ -13,10 +13,9 @@
   overflow-y: auto;
 }
 
-.collection {
-  margin: auto;
+.collectionPage {
   background-color: #8E7700;
-  width: 80%;
+  height: 75vh;
   max-height: 698px;
   display: flex;
   justify-content: center;

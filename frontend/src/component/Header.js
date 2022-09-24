@@ -35,12 +35,16 @@ const Header = () => {
               <p>CoinRemain</p>
             </div>
           </div>
-          <p className="address">
-            {user.get("ethAddress").slice(0, 8) + "..."}
-          </p>
-          <button className="connectButton" onClick={logOut}>
-            <p>Log Out</p>
-          </button>
+          <div>
+            <p className="address">
+              {user.get("ethAddress").slice(0, 8) + "..."}
+            </p>
+          </div>
+          <div>
+            <button className="connectButton" onClick={logOut}>
+              <p>Log Out</p>
+            </button>
+          </div>
         </div>
       );
     } else {

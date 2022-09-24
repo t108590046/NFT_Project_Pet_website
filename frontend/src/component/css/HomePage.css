@@ -3,7 +3,7 @@ body {
 }
 
 
-.container{
+.homePage {
   width: 100vw;
   height: 75vh;
   background-image: url("/src/image/homepage.jpg");
