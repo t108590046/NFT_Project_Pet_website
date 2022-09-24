@@ -1,11 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const basePath = process.cwd();
-<<<<<<< HEAD
-const { InsertData, CheckUser, FindQueryPet, UpdateFoodAmount, CheckUserIn,UpdatePetName } = require(`${basePath}/models/morails`)
-=======
 const { InsertData, CheckUser, FindQueryPet,UpdateFoodAmount,UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin} = require(`${basePath}/models/morails`)
->>>>>>> origin/main
 const { GetRandomFromList } = require(`${basePath}/models/function`)
 const router = express.Router()
 const ipAddress = process.env.IP_ADDRESS
