@@ -15,7 +15,7 @@ header {
 
 .left-header {
   height: inherit;
-  width: 45%;
+  width: 40%;
   margin-left: 10px;
   font-size: 15px;
   display: flex;
@@ -24,7 +24,7 @@ header {
 }
 
 .right-header {
-  width: 35%;
+  width: 25%;
   height: inherit;
   display: flex;
   align-items: center;
