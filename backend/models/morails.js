@@ -116,6 +116,7 @@ const UpdateFoodAmount = async (data) => {
             console.log(error);
         });
     }
+
 }
 
 //查詢目前食物數量
@@ -141,6 +142,151 @@ const GetFoodAmount = async (owner,foodtype) => {
     return oldFoodAmount;
 }
 
+//更新coin數量
+const UpdateCoinAmount = async (data) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Coin")
+    const query = new Moralis.Query(Class)
+    query.equalTo("Owner", data.Owner);
+    let oldCoinAmount = GetCurrentCoin(data.Owner);
+
+
+    var FoodPrice = {"meat":1,"banana":2,"chocolate":3};
+
+    switch(data.FoodType){
+        case "meat":
+            oldCoinAmount -= (FoodPrice["meat"])*data.Amount;
+
+            break;
+        case "banana":
+            oldCoinAmount -= (FoodPrice["banana"])*data.Amount;
+            break;
+        case "chocolate":
+            oldCoinAmount -= (FoodPrice["chocolate"])*data.Amount;
+            break;
+    }
+
+    const object = await query.first();
+    if (object) {
+        object.set("Amount", oldCoinAmount)
+        object.save().then(() => {
+            console.log('update coin done');
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
+}
+//查詢目前Coin數量
+const GetCurrentCoin = async (owner) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Coin")
+    const query = new Moralis.Query(Class)
+    query.equalTo("Owner", owner)
+    let CurrentCoin = 0;
+    const results = await query.find();
+    console.log(owner);
+    
+    const objectID = results[0].id
+    
+    await query.get(objectID).then(
+        (coin) => {
+            CurrentCoin = coin.get("Amount");
+            // The object was retrieved successfully.
+        },
+        (error) => {
+            // The object was not retrieved successfully.
+            // error is a Moralis.Error with an error code and message.
+        }
+    );
+    
+    return CurrentCoin;
+}
+
+//寵物吃食物後更新飽食度與親密度
+const FeedPetUpdate = async (data) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Pet")
+    const query = new Moralis.Query(Class)
+    query.equalTo("TokenID", data.TokenID);
+    let oldPetSatiety = 0;
+    let oldFriendship = 0;
+    const results = await query.find();
+    const objectID = results[0].id
+    
+    await query.get(objectID).then(
+        (data) => {
+            oldPetSatiety = data.get("Satiety");
+            oldFriendship = data.get("Friendship");
+            // The object was retrieved successfully.
+        },
+        (error) => {
+            console.log(error)
+            // The object was not retrieved successfully.
+            // error is a Moralis.Error with an error code and message.
+        }
+    );
+    console.log("now:",oldPetSatiety,oldFriendship);
+    var GetSatiety = {"meat":10,"banana":20,"chocolate":30};
+    var GetFriendship = {"meat":1,"banana":2,"chocolate":3};
+
+    switch(data.FoodType){
+        case "meat":
+            oldPetSatiety = await UpdateSatiety(oldPetSatiety,GetSatiety["meat"]);
+            oldFriendship = await UpdateFriendship(oldFriendship,GetFriendship["meat"]);
+            
+
+            break;
+        case "banana":
+            oldPetSatiety = await UpdateSatiety(oldPetSatiety,GetSatiety["banana"]);
+            oldFriendship = await UpdateFriendship(oldFriendship,GetFriendship["banana"]);
+            break;
+        case "chocolate":
+            oldPetSatiety = await UpdateSatiety(oldPetSatiety,GetSatiety["chocolate"]);
+            oldFriendship = await UpdateFriendship(oldFriendship,GetFriendship["chocolate"]);
+            break;
+    }
+    console.log(oldPetSatiety,oldFriendship);
+    //更新寵物飽食度
+    const object = await query.first();
+    if (object) {
+        object.set("Satiety", oldPetSatiety);
+        object.set("Friendship", oldFriendship);
+        object.save().then(() => {
+            console.log('update Satiety and Friendship done');
+        }, (error) => {
+            console.log(error);
+        });
+    }
+
+
+}
+//計算飽食度
+const UpdateSatiety = async (oldPetSatiety,NumberOfChanges) => {
+    oldPetSatiety += NumberOfChanges;
+    if(oldPetSatiety > 100){
+        oldPetSatiety = 100;
+    }
+    else if(oldPetSatiety < 0){
+        oldPetSatiety = 0;
+    }
+
+    return oldPetSatiety;
+}
+//計算親密度
+const UpdateFriendship = async (oldFriendship,NumberOfChanges) => {
+    oldFriendship += NumberOfChanges;
+    if(oldFriendship > 100){
+        oldFriendship = 100;
+    }
+    else if(oldFriendship < 0){
+        oldFriendship = 0;
+    }
+
+    return oldFriendship;
+}
+
+
 
 
 //取得morails的連線
@@ -165,4 +311,4 @@ const UploadFileToMoralisIpfs = async () => {
     await file.saveIPFS();
 }
 
-module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount }
+module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin}

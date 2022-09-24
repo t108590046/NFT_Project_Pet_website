@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const basePath = process.cwd();
-const { InsertData, CheckUser, FindQueryPet,UpdateFoodAmount } = require(`${basePath}/models/morails`)
+const { InsertData, CheckUser, FindQueryPet,UpdateFoodAmount,UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin} = require(`${basePath}/models/morails`)
 const { GetRandomFromList } = require(`${basePath}/models/function`)
 const router = express.Router()
 const ipAddress = process.env.IP_ADDRESS
@@ -46,10 +46,36 @@ router.post('/BuyFood', async (req, res, next) => {
     }
     let foodPrice = []
 
-    //await 扣硬幣
+    
     await UpdateFoodAmount(temp);
+    //await 扣硬幣
+    await UpdateCoinAmount(temp);
     res.send('update done');
 
+})
+
+//寵物吃食物更新飽食度與親密度
+router.post('/FeedPet', async (req, res, next) => {
+    let temp =
+    {
+        "TokenID" :parseInt(req.body.TokenID),
+        "FoodType":req.body.FoodType,
+    }
+    await FeedPetUpdate(temp);
+    
+    res.send('Update Satiety and Friendship');
+})
+
+//查詢目前Coin數量
+router.post('/GetCoinAmount', async (req, res, next) => {
+    
+    let temp =
+    {
+        "Owner" :await CheckUser(req.body.Owner),
+        
+    }
+    let CurrentCoin = await GetCurrentCoin(temp.Owner);
+    res.json(CurrentCoin);
 })
 
 
