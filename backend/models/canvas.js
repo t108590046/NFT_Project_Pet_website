@@ -4,7 +4,7 @@ const crypto = require("crypto")
 const { listenerCount } = require("process")
 const basePath = process.cwd()
 const { createCanvas, loadImage } = require(`${basePath}/node_modules/canvas`)
-const { UploadFileToIpfs,UploadMoralisIpfs } = require(`${basePath}/models/ipfs`)
+const { UploadFileToIpfs,UploadFileMoralisIpfs,UploadImageMoralisIpfs } = require(`${basePath}/models/ipfs`)
 const { AddAttributeToList, GetAttributeList, GetRandomFromList, GetRandomItemList, GetRandomName, Wait, GetRandomItemListWithNone } = require(`${basePath}/models/function`)
 const buildDir = `${basePath}/public/build`
 const componentDir = `${basePath}/public/image`
@@ -52,11 +52,17 @@ const SaveImage = async (_name) => {
 };
 
 //將json object儲存成json檔
-const SaveMetadata = async (_data, _name) => {
+const SaveMetadata = async (_data, _name, _object) => {
+    let path = `${buildDir}/${_name}.json`;
+    if(_object != "main")
+    {
+        path = `${buildDir}/${_object}/${_name}.json`;
+    }
     await fs.writeFileSync(
-        `${buildDir}/${_name}.json`,
+        `${path}`,
         JSON.stringify(_data, null, 2)
     );
+
 }
 
 //將圖片buffer畫進canvas
@@ -84,13 +90,14 @@ const GetNFTMetadata = (_name, _description, _tokenId, _image, _localImage, _att
 }
 
 //NFT配件的metadata預設值
-const GetComponentsMetadata = (_name, _description, _tokenId, _image, _localImage) => {
+const GetComponentsMetadata = (_name, _description, _tokenId, _image, _localImage, _type) => {
     let tempMetadata = {
         name: _name,
         description: _description,
         token_id: _tokenId,
         image: _image,
-        local_image: _localImage
+        local_image: _localImage,
+        type: _type
     };
     return tempMetadata
 }
@@ -117,18 +124,15 @@ const Combine = async (_objectList, name) => {
 }
 
 //產生隨機的nft以及其配件
-const GetRandomNFT = async (_tokenStart, _tokenEnd, _nftTotal, _componentStartIndex) => {
-    var currentComponentStartIndex = _componentStartIndex
+const GetRandomNFT = async (_tokenStart, _tokenEnd) => {
     for (let i = _tokenStart; i < _tokenEnd; i++) {
-        //var randomItemList = GetRandomItemList()
-        var randomItemList = GetRandomItemListWithNone()
+        var randomItemList = GetRandomItemList()
         await Combine(randomItemList, i)
-        let ipfsPath = await UploadMoralisIpfs(`${basePath}/public/build/${i}.png`)
+        let ipfsPath = await UploadImageMoralisIpfs(`${basePath}/public/build/${i}.png`)
         let attributesList = GetAttributeList(randomItemList)
         let tempMetadata = GetNFTMetadata('nft_pet', 'it is a cool pet', i, ipfsPath, GetBuildImagePath(i), attributesList)
-        await SaveMetadata(tempMetadata, i)
-        await GenerateComponentJson(randomItemList, _nftTotal, currentComponentStartIndex)
-        currentComponentStartIndex += 5
+        await SaveMetadata(tempMetadata, i , "main")
+        await GenerateComponentJson(randomItemList, i)
     }
 }
 
@@ -155,14 +159,12 @@ const UploadAllImageToIpfsByDir = async (_dir, _start) => {
 }
 
 //根據給定的配件表以及token的global資訊來產生配件json
-const GenerateComponentJson = async (_itemList, _nftTotal, _componentStartIndex) => {
-    const itemName = ['pet', 'pant', 'cloth', 'glasses', 'hat', 'hand']
-    var newOrder = [4, 3, 5, 1, 2]
-    for (let i = 0; i < newOrder.length; i++) {
-        var tokenId = _nftTotal + _componentStartIndex + i
-        var index = newOrder[i]
-        var tempMetadata = GetComponentsMetadata(itemName[index], 'component', tokenId, componentIpfs[_itemList[index]], GetPublicImagePath(_itemList[index]))
-        await SaveMetadata(tempMetadata, tokenId)
+const GenerateComponentJson = async (_itemList, _componentIndex) => {
+    const itemName = ['pant', 'cloth', 'glasses', 'hat', 'hand','pet']
+    for (let i = 0; i < itemName.length; i++) {
+        var tokenId =_componentIndex
+        var tempMetadata = GetComponentsMetadata(_itemList[i].slice(0,-2), 'component', tokenId, componentIpfs[_itemList[i]], GetPublicImagePath(_itemList[i]), _itemList[i])
+        await SaveMetadata(tempMetadata, tokenId,_itemList[i].slice(0,-2))
     }
 }
 
