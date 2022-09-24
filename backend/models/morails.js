@@ -6,6 +6,23 @@ const serverUrl = process.env.DAPP_URL
 const appId = process.env.APP_ID
 const masterKey = process.env.MASTER_KEY
 
+//檢查
+const CheckUserIn = async (_address,_objectName) => {
+    let isInUser = await CheckUser(_address);
+
+    if (!isInUser) {
+        console.log("this user not in database");
+    }
+    else {
+        await Moralis.start({ serverUrl, appId, masterKey })
+        const _object = Moralis.Object.extend(_objectName)
+        const query = new Moralis.Query(_object)
+        query.equalTo("Owner", isInUser)
+        const result = await query.find({ useMasterKey: true })
+        console.log(result);
+    }
+}
+
 //檢查帳號
 const CheckUser = async (_address) => {
     await Moralis.start({ serverUrl, appId, masterKey })
@@ -55,7 +72,8 @@ const FindQueryPet = async (_tokenID) => {
                 "Name": Pet.get("Name"),
                 "Satiety": Pet.get("Satiety"),
                 "Friendship": Pet.get("Friendship"),
-                "Characteristics": Pet.get("Characteristics")
+                "Characteristics": Pet.get("Characteristics"),
+                "Metadata":Pet.get("Metadata")
             }
         },
         (error) => {
@@ -104,7 +122,7 @@ const UpdateFoodAmount = async (data) => {
     const query = new Moralis.Query(Class)
     query.equalTo("Owner", data.Owner);
     let oldFoodAmount;
-    oldFoodAmount = await GetFoodAmount(data.Owner,data.FoodType);
+    oldFoodAmount = await GetFoodAmount(data.Owner, data.FoodType);
     console.log(oldFoodAmount)
     //更新食物數量
     const object = await query.first();
@@ -118,8 +136,27 @@ const UpdateFoodAmount = async (data) => {
     }
 }
 
+//更新寵物名字
+const UpdatePetName = async (_id, _newName) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Pet")
+    const query = new Moralis.Query(Class)
+    query.equalTo("TokenID", _id);
+    console.log(_id, _newName)
+    const object = await query.first();
+    console.log(object)
+    if (object) {
+        object.set("Name", _newName);
+        object.save().then(() => {
+            console.log('update done');
+        }, (error) => {
+            console.log(error);
+        });
+    }
+}
+
 //查詢目前食物數量
-const GetFoodAmount = async (owner,foodtype) => {
+const GetFoodAmount = async (owner, foodtype) => {
     await Moralis.start({ serverUrl, appId, masterKey })
     const Class = Moralis.Object.extend("Food")
     const query = new Moralis.Query(Class)
@@ -127,7 +164,7 @@ const GetFoodAmount = async (owner,foodtype) => {
     let oldFoodAmount = 0;
     const results = await query.find();
     const objectID = results[0].id
-    
+
     await query.get(objectID).then(
         (food) => {
             oldFoodAmount = food.get(foodtype);
@@ -165,4 +202,4 @@ const UploadFileToMoralisIpfs = async () => {
     await file.saveIPFS();
 }
 
-module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount }
+module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, CheckUserIn,UpdatePetName}

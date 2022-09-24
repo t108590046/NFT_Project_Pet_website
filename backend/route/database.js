@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const basePath = process.cwd();
-const { InsertData, CheckUser, FindQueryPet,UpdateFoodAmount } = require(`${basePath}/models/morails`)
+const { InsertData, CheckUser, FindQueryPet, UpdateFoodAmount, CheckUserIn,UpdatePetName } = require(`${basePath}/models/morails`)
 const { GetRandomFromList } = require(`${basePath}/models/function`)
 const router = express.Router()
 const ipAddress = process.env.IP_ADDRESS
@@ -17,6 +17,7 @@ router.post('/insertNewPet', async (req, res, next) => {
         "Characteristics": GetRandomFromList(Characteristics),
         "Owner": await CheckUser(req.body.Owner),
         "TokenID": parseInt(req.body.TokenID),
+        "Metadata": req.body.MetadataURI
     }
     await InsertData("Pet", temp);
     res.send("Inserted New Pet!!")
@@ -28,21 +29,26 @@ router.post('/QueryPet', async (req, res, next) => {
     res.json(data);
 })
 
-//更新pet圖片
-router.post('/UpdatePetURI', async (req, res, next) => {
-    
-    res.json(data);
+//更新寵物名字
+router.post('/ChangeName', async (req, res, next) => {
+    await UpdatePetName(parseInt(req.body.TokenID),req.body.NewName);
+    res.send("done");
 })
 
+//更新pet圖片
+router.post('/UpdatePetURI', async (req, res, next) => {
+
+    res.json(data);
+})
 
 //更新食物數量
 router.post('/BuyFood', async (req, res, next) => {
 
     let temp =
     {
-        "Owner" : await CheckUser(req.body.Owner),
-        "FoodType":req.body.FoodType,
-        "Amount":parseInt(req.body.Amount)
+        "Owner": await CheckUser(req.body.Owner),
+        "FoodType": req.body.FoodType,
+        "Amount": parseInt(req.body.Amount)
     }
     let foodPrice = []
 
@@ -50,6 +56,12 @@ router.post('/BuyFood', async (req, res, next) => {
     await UpdateFoodAmount(temp);
     res.send('update done');
 
+})
+
+router.post('/CheckInsertDatabase', async (req, res, next) => {
+
+    CheckUserIn("0xd6c6b68c2c892ae32f73bb9dbe7f6964cac740d4", "Food");
+    res.send('done');
 })
 
 

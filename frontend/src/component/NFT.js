@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getSynthesizedTokens_ABI, contractAddress } from "../abi/abi";
 import Operate from "./Operate";
+import { getSubTokens_ABI_Pet, contractAddress_Pet, tokenURI_ABI_Pet } from "../abi/pet"
 import axios from 'axios'
 import {
   useMoralis,
@@ -11,83 +11,114 @@ import {
 
 import "./css/NFT.css";
 import background from "../image/background.png";
-import { Button, Icon, Modal, Header, Input} from "semantic-ui-react";
+import { Button, Icon, Modal, Header, Input } from "semantic-ui-react";
 
 const NFT = () => {
   const { id } = useParams()
-  const { Moralis, isAuthenticated,isWeb3Enabled } = useMoralis();
+  const { enableWeb3, Moralis, isAuthenticated, isWeb3Enabled, authenticate } = useMoralis();
   const Web3Api = useMoralisWeb3Api();
   const contractProcessor = useWeb3ExecuteFunction();
-  const [imageURI, setImageURI] = useState();
+  const [ImageURI, setImageURI] = useState();
   const [species, setSpecies] = useState();
   const [NFT_info_database, setNFT_info_database] = useState({});
-  const [subTokens, setSubTokens] = useState([]);
   const [isShowOperate, setIsShowOperate] = useState(false);
   const [equipments, setEquipments] = useState([]);
   const [open, setOpen] = React.useState(false);
 
   const [newName, setNewName] = React.useState("");
 
-  const enableWeb3 = async () => {
-    await Moralis.enableWeb3();
-  };
+  //將MetadataURI轉成json格式
+  const TurnToJson = async (_uri, _type) => {
+    await fetch(_uri)
+      .then(response => response.json())
+      .then(responseData => {
+        let temp =
+        {
+          name: responseData.name,
+          token_id: responseData.token_id,
+          imageURI: responseData.image,
+          type: responseData.type
+        }
+        if (_type === "component") setEquipments(oldArray => [...oldArray, temp]);
+        else if (_type === "pet") {setImageURI(responseData.image);setSpecies(responseData.attributes[5].value);}
+      })
+  }
 
   console.log(equipments);
-  //獲得 metadata
-  const getMetadata = async (_id) => {
-    let apiOptions = {
-      address: contractAddress,
-      token_id: _id,
-      chain: "mumbai",
-    };
-    let result = await Web3Api.token.getTokenIdMetadata(apiOptions);
-    let Metadata = JSON.parse(result.metadata);
-    if (parseInt(_id) >= 8000) {
-      let typeStr = Metadata.local_image.slice(28, -4)
-      //配件
-      let temp =
-      {
-        name: Metadata.name,
-        token_id: Metadata.token_id,
-        imageURI: Metadata.image,
-        type: typeStr
-      }
-      setEquipments(oldArray => [...oldArray, temp])
+  //獲得 pet metadata
+  const GetMetadata = async (_id, _type) => {
+    let input_contract_address = contractAddress_Pet;
+    if (_type !== contractAddress_Pet) {
+      input_contract_address = _type;
     }
-    else { //nft主體'
-      console.log(Metadata.image)
-      setImageURI(Metadata.image);
-      setSpecies(Metadata.attributes[5].value)
-    }
-  }
-  //獲得nft配件ID
-  const getSubTokens = async () => {
-    await enableWeb3();
+
     let options = {
-      contractAddress: contractAddress,
-      functionName: "getSynthesizedTokens",
-      abi: [getSynthesizedTokens_ABI],
+      contractAddress: input_contract_address,
+      functionName: "tokenURI",
+      abi: [tokenURI_ABI_Pet],
       params: {
-        tokenId: id,
+        tokenId: _id
       },
-      msgValue: 0,
     };
 
     await contractProcessor.fetch({
       params: options,
       onSuccess: (response) => {
-        response.forEach((subToken) => {
-          const subId = parseInt(subToken[1]._hex, 16);
-          getMetadata(subId);
-          setSubTokens(oldArray => [...oldArray, subId])
+        //配件
+        if (_type !== contractAddress_Pet) {
+          TurnToJson(response, "component");
+        }
+        //pet
+        else {
+          TurnToJson(response, "pet");
+        }
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  const GetSubTokens = async (_id) => {
+    let options = {
+      contractAddress: contractAddress_Pet,
+      functionName: "getSynthesizedTokens",
+      abi: [getSubTokens_ABI_Pet],
+      params: {
+        tokenId: _id
+      },
+    };
+
+    await contractProcessor.fetch({
+      params: options,
+      onSuccess: (response) => {
+        console.log(response);
+        response.forEach(element => {
+          GetMetadata(parseInt(element.id._hex, 16), element.token);
         });
       },
       onError: (error) => {
-        alert("Error:" + error.message);
-        window.location.reload();
+        console.log(error);
       },
     });
-  };
+  }
+
+  const ChangeNewName = async (_newName) => {
+    await axios({
+      method: 'POST',
+      url: 'http://localhost:8001/database/ChangeName',
+      data:
+      {
+        TokenID: id,
+        NewName: _newName
+      }
+    }).then((response) => {
+      alert("更改成功");
+      window.location.reload();
+    }).catch((error)=>{
+      alert(error);
+    })
+  }
 
   const ShowSubInfo = equipments.map((equipment) => {
     return (<div>
@@ -96,8 +127,8 @@ const NFT = () => {
     </div>)
   })
 
-  
-  const setingPopup=(oldName)=> {
+
+  const setingPopup = (oldName) => {
     return (
       <Modal
         basic
@@ -106,7 +137,7 @@ const NFT = () => {
         open={open}
         size='large'
         // dimmer='blurring'
-        trigger={<Button circular icon='edit'/>}
+        trigger={<Button circular icon='edit' />}
       >
         <Header icon>
           <Icon name='edit' />
@@ -114,14 +145,14 @@ const NFT = () => {
         </Header>
         <Modal.Content>
           <div className='inputArea'>
-            <Input icon='pencil alternate' size='huge' iconPosition='left' placeholder={oldName} value={newName} onChange={(event)=>setNewName(event.target.value)}/>
+            <Input icon='pencil alternate' size='huge' iconPosition='left' placeholder={oldName} value={newName} onChange={(event) => setNewName(event.target.value)} />
           </div>
         </Modal.Content>
         <Modal.Actions>
-          <Button basic color='red' inverted onClick={() => {setOpen(false); setNewName("");}}>
+          <Button basic color='red' inverted onClick={() => { setOpen(false); setNewName(""); }}>
             <Icon name='remove' /> Cancel
           </Button>
-          <Button color='green' inverted onClick={() => setOpen(false)}>
+          <Button color='green' inverted onClick={() => { setOpen(false); ChangeNewName(newName) }}>
             {/* 可在此加入更改name之function(設為newName) */}
             <Icon name='checkmark' /> Confirm
           </Button>
@@ -131,9 +162,11 @@ const NFT = () => {
   }
 
   useEffect(() => {
-    if (isAuthenticated) {
-      getSubTokens()
-      getMetadata(id);
+    if (isAuthenticated && isWeb3Enabled) {
+      GetMetadata(id, contractAddress_Pet);
+      GetSubTokens(id);
+      //getSubTokens()
+      //getMetadata(id);
       axios({
         method: 'POST',
         url: 'http://localhost:8001/database/QueryPet',
@@ -144,9 +177,16 @@ const NFT = () => {
       }).then((response) => {
         console.log(response.data)
         setNFT_info_database(response.data)
+        //TurnToJson(response.data.Metadata, "image");
       })
     }
-  }, [isAuthenticated]);
+    else if (!isWeb3Enabled) {
+      enableWeb3();
+    }
+    else if (!isAuthenticated) {
+      authenticate();
+    }
+  }, [isWeb3Enabled, isAuthenticated]);
 
   const ShowNFTInfo = () => {
     return (
@@ -173,8 +213,6 @@ const NFT = () => {
       </div>)
   }
 
-  
-
   return (
     <div className="box">
       <img
@@ -185,7 +223,7 @@ const NFT = () => {
       <section className="infoContainer">
         <div className="infoImage">
           <h2>Your Pet</h2>
-          <img src={imageURI} alt='' />
+          <img src={ImageURI} alt='' />
         </div>
         {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} _species={species} />}
         {!isShowOperate && ShowNFTInfo()}
@@ -193,59 +231,5 @@ const NFT = () => {
     </div>
   );
 };
-
-
-
-/*
-  const enableWeb3 = async () => {
-    await Moralis.enableWeb3();
-    getSubTokens();
-  };
-
-  const getSubTokens = async () => {
-    let options = {
-      contractAddress: contractAddress,
-      functionName: "getSynthesizedTokens",
-      abi: [getSynthesizedTokens_ABI],
-      params: {
-        tokenId: id,
-      },
-      msgValue: 0,
-    };
-
-    await contractProcessor.fetch({
-      params: options,
-      onSuccess: (response) => {
-        response.map((subToken) => {
-          const subId = parseInt(subToken[1]._hex, 16);
-          getMetadata(subId);
-        });
-      },
-      onError: (error) => {
-        alert("Error:" + error.message);
-      },
-    });
-  };
-
-  const getMetadata = async (subId) => {
-    let apiOptions = {
-      address: contractAddress,
-      token_id: subId,
-      chain: "mumbai",
-    };
-    let result = await Web3Api.token.getTokenIdMetadata(apiOptions);
-    let subTokenMetadata = JSON.parse(result.metadata);
-    console.log(result);
-    let token = {
-      id: result.token_id,
-      image: subTokenMetadata.image,
-    };
-    setSubTokens((prev) => [...prev, token]);
-  };
-
-  useEffect(() => {
-    enableWeb3();
-  }, []);
- */
 
 export default NFT;
