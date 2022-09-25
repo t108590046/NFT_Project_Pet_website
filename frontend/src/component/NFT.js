@@ -153,7 +153,6 @@ const NFT = () => {
             <Icon name='remove' /> Cancel
           </Button>
           <Button color='green' inverted onClick={() => { setOpen(false); ChangeNewName(newName) }}>
-            {/* 可在此加入更改name之function(設為newName) */}
             <Icon name='checkmark' /> Confirm
           </Button>
         </Modal.Actions>
@@ -210,7 +209,6 @@ const NFT = () => {
         <div className="inner">
           <h1>{NFT_info_database.Name}</h1>
           {setingPopup(NFT_info_database.Name)}
-          {/* placeholder預設為舊名字 */}
         </div>
         <div className="inner">
           <p>TokenID:{id}</p>

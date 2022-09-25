@@ -85,47 +85,9 @@ const Market = () => {
 				<div className="sliderContainer">
 					<CollectionSwiper maketItemList={maketItemList} />
 				</div>
-				{popupOpen && < Popup itemDescription={itemDescription} itemName={itemName} setPopupOpen={setPopupOpen} foodtype={foodType} />}
+				{popupOpen && < Popup mode="market" itemDescription={itemDescription} itemName={itemName} setPopupOpen={setPopupOpen} foodtype={foodType} />}
 			</div>
 		</div>
-
-		//舊版本
-		// <div className="box">
-		// 	<div className="marketArea">
-		// 		<div className="title">
-		// 			<h1 className="heading"> Shop </h1>
-		// 		</div>
-		// 		{popupOpen && < Popup itemDescription = {itemDescription} itemName = {itemName}  setPopupOpen = {setPopupOpen} />} 
-		// 		<div className="market-box-container">
-		// 			<div className="market-box">
-		// 				<img src={Meat} alt="meat in market"></img>
-		// 				<h3>好吃的肉</h3>
-		// 				<p>親密度+1 飽足度+5</p>
-		// 				<button className="market-btn" onClick={() => {setItemDescription("親密度+1 飽足度+5"); setItemName("好吃的肉"); setPopupOpen(true);}}>
-		// 					Buy
-		// 				</button>
-		// 			</div>
-
-		// 			<div className="market-box">
-		// 				<img src={Meat} alt="meat in market"></img>
-		// 				<h3>普通的肉</h3>
-		// 				<p> 飽足度+3</p>
-		// 				<button className="market-btn" onClick={() => {setItemDescription("飽足度+3"); setItemName("普通的肉"); setPopupOpen(true);}}>
-		// 					Buy
-		// 				</button>
-		// 			</div>
-
-		// 			<div className="market-box">
-		// 				<img src={Meat} alt="meat in market"></img>
-		// 				<h3>難吃的肉</h3>
-		// 				<p>親密度-1 飽足度+2</p>
-		// 				<button className="market-btn" onClick={() => {setItemDescription("親密度-1 飽足度+2"); setItemName("難吃的肉"); setPopupOpen(true);}}>
-		// 					Buy
-		// 				</button>
-		// 			</div>
-		// 		</div>
-		// 	</div>
-		// </div>
 	);
 };
 export default Market;

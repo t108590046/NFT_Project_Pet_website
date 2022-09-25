@@ -6,6 +6,7 @@ import "./css/Mint.css";
 import unknownPet from "./../image/pet.png";
 import unknownComponent from "./../image/hat_large.png";
 import Modal from "./Modal.js";
+import Popup from "./Popup.js"
 
 const Mint = () => {
   const { Moralis } = useMoralis();
@@ -13,6 +14,8 @@ const Mint = () => {
   const [openModal, setOpenModal] = useState(false);
   const [text, setText] = useState("");
   const [PetNameTitle,setPetNameTitle] = useState("");
+  const [popupOpen, setPopupOpen] = useState(false); //判斷Popup是否開啟
+  const [mintType, setMintType] = useState("角色");
 
   const enableWeb3 = async () => {
     await Moralis.enableWeb3();
@@ -34,11 +37,15 @@ const Mint = () => {
               setText("Input token ID");
               setPetNameTitle("Pet Name");
               setOpenModal(true);
+              // setPopupOpen(true);
+              // setMintType("角色");
             }}
           >
             Mint
           </button>
         </div>
+          
+        {popupOpen && < Popup mode="mint" mintType={mintType} setPopupOpen={setPopupOpen} />}
 
         <div className="component">
           <img src={unknownComponent} alt="Loading" />
@@ -48,6 +55,8 @@ const Mint = () => {
             onClick={() => {
               setText("Input component ID");
               setOpenModal(true);
+              // setPopupOpen(true);
+              // setMintType("裝備");
             }}
           >
             Mint

@@ -6,6 +6,7 @@ import background from "../image/background.png";
 import Moralis from "moralis";
 import "./css/Collection.css";
 import axios from 'axios';
+import { Loader } from 'semantic-ui-react'
 
 const Collection = () => {
   const [Pets, setPets] = useState([]);
@@ -13,6 +14,7 @@ const Collection = () => {
   const [amountOfNFT, setAmountOfNFT] = useState(0);
   const contractProcessor = useWeb3ExecuteFunction();
   const Web3Api = useMoralisWeb3Api();
+  const [collectionLoadComplete, setCollectionLoadComplete] = useState(true);
 
   //將MetadataURI轉成json格式
   const TurnToJson = async (_uri) => {
@@ -123,7 +125,8 @@ const Collection = () => {
     <div className="box">
       <div className="collectionPage">
         <section className="showImg">
-          {showNFTImage}
+          {!collectionLoadComplete && <Loader size="large" active inline='centered'><h3>Loading Pet</h3></Loader>}
+          {collectionLoadComplete && showNFTImage}
         </section>
       </div>
     </div>
