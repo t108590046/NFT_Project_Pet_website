@@ -221,6 +221,28 @@ const GetFoodAmount = async (owner, foodtype) => {
     );
     return oldFoodAmount;
 }
+//查詢上次餵食時間
+const GetLastFeedTime = async (id) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Pet")
+    const query = new Moralis.Query(Class)
+    query.equalTo("TokenID", id)
+    let time = 0;
+    const results = await query.find();
+    const objectID = results[0].id
+
+    await query.get(objectID).then(
+        (pet) => {
+            time = pet.get("updatedAt");
+            // The object was retrieved successfully.
+        },
+        (error) => {
+            // The object was not retrieved successfully.
+            // error is a Moralis.Error with an error code and message.
+        }
+    );
+    return time;
+}
 
 //更新coin數量
 const UpdateCoinAmount = async (data) => {
@@ -313,15 +335,13 @@ const FeedPetUpdate = async (data) => {
         }
     );
     console.log("now:", oldPetSatiety, oldFriendship);
-    var GetSatiety = { "meat": 10, "banana": 20, "chocolate": 30 };
-    var GetFriendship = { "meat": 1, "banana": 2, "chocolate": 3 };
+    var GetSatiety = { "meat": 10, "banana": 20, "chocolate": 30, "hungry": -10 };
+    var GetFriendship = { "meat": 1, "banana": 2, "chocolate": 3, "hungry": -1 };
 
     switch (data.FoodType) {
         case "meat":
             oldPetSatiety = await UpdateSatiety(oldPetSatiety, GetSatiety["meat"]);
             oldFriendship = await UpdateFriendship(oldFriendship, GetFriendship["meat"]);
-
-
             break;
         case "banana":
             oldPetSatiety = await UpdateSatiety(oldPetSatiety, GetSatiety["banana"]);
@@ -330,6 +350,10 @@ const FeedPetUpdate = async (data) => {
         case "chocolate":
             oldPetSatiety = await UpdateSatiety(oldPetSatiety, GetSatiety["chocolate"]);
             oldFriendship = await UpdateFriendship(oldFriendship, GetFriendship["chocolate"]);
+            break;
+        case "hungry":
+            oldPetSatiety = await UpdateSatiety(oldPetSatiety, GetSatiety["hungry"]);
+            oldFriendship = await UpdateFriendship(oldFriendship, GetFriendship["hungry"]);
             break;
     }
     console.log(oldPetSatiety, oldFriendship);
@@ -344,8 +368,6 @@ const FeedPetUpdate = async (data) => {
             console.log(error);
         });
     }
-
-
 }
 //計算飽食度
 const UpdateSatiety = async (oldPetSatiety, NumberOfChanges) => {
@@ -373,8 +395,6 @@ const UpdateFriendship = async (oldFriendship, NumberOfChanges) => {
 }
 
 
-
-
 //取得morails的連線
 const GetMorailsConnection = async () => {
     await Moralis.start({ serverUrl, appId, masterKey })
@@ -397,4 +417,4 @@ const UploadFileToMoralisIpfs = async () => {
     await file.saveIPFS();
 }
 
-module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn,GetFoodAmount }
+module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn, GetFoodAmount, GetLastFeedTime }

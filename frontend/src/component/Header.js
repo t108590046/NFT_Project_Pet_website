@@ -14,12 +14,8 @@ const Header = () => {
     if(isAuthenticated)
     {
       axios({
-        method: 'POST',
-        url: 'http://localhost:8001/database/GetCoinAmount',
-        data:
-        {
-          Owner:user.get("ethAddress")
-        }
+        method: 'GET',
+        url: `http://localhost:8001/database/GetCoinAmount/${user.get("ethAddress")}`,
       }).then((response) => {
         if(response.data !== "error") setCoin(response.data);
       }).catch((error) => console.log(error));

@@ -161,19 +161,35 @@ const NFT = () => {
     )
   }
 
+  const checkPetSatiety = async()=>{
+    await axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/checkSatiety/${id}`,
+      data:
+      {
+        TokenID: id
+      }
+    }).then((response) => {
+      if(response.data === "pet is hungry") 
+      {
+        alert(response.data);
+        window.location.reload();
+      }
+  
+    })
+  }
+
   useEffect(() => {
     if (isAuthenticated && isWeb3Enabled) {
       GetMetadata(id, contractAddress_Pet);
       GetSubTokens(id);
+      checkPetSatiety();
       //getSubTokens()
       //getMetadata(id);
+      setTimeout(50);
       axios({
-        method: 'POST',
-        url: 'http://localhost:8001/database/QueryPet',
-        data:
-        {
-          TokenID: id
-        }
+        method: 'GET',
+        url: `http://localhost:8001/database/QueryPet/${id}`,
       }).then((response) => {
         console.log(response.data)
         setNFT_info_database(response.data)

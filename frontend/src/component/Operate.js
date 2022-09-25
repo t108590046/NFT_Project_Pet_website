@@ -437,12 +437,8 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
 
   const GetFoodAmount = async () => {
     await axios({
-      method: 'POST',
-      url: 'http://localhost:8001/database/GetFoodAmount',
-      data:
-      {
-        Owner: user.get("ethAddress")
-      }
+      method: 'GET',
+      url: `http://localhost:8001/database/GetFoodAmount/${user.get("ethAddress")}`,
     }).then((response) => {
       setMeatAmount(response.data.meat);
       setBananaAmount(response.data.banana);

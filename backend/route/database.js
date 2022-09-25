@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const basePath = process.cwd();
-const { InsertData, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn,GetFoodAmount} = require(`${basePath}/models/morails`)
+const { InsertData, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn,GetFoodAmount,GetLastFeedTime} = require(`${basePath}/models/morails`)
 const { GetRandomFromList } = require(`${basePath}/models/function`)
 const router = express.Router()
 const ipAddress = process.env.IP_ADDRESS
@@ -38,8 +38,8 @@ router.post('/insertNewUser', async (req, res, next) => {
 });
 
 //查詢user寵物資訊
-router.post('/QueryPet', async (req, res, next) => {
-    const data = await FindQueryPet(parseInt(req.body.TokenID));
+router.get('/QueryPet/:id', async (req, res, next) => {
+    const data = await FindQueryPet(parseInt(req.params["id"]));
     res.json(data);
 })
 
@@ -47,12 +47,6 @@ router.post('/QueryPet', async (req, res, next) => {
 router.post('/ChangeName', async (req, res, next) => {
     await UpdatePetName(parseInt(req.body.TokenID), req.body.NewName);
     res.send("done");
-})
-
-//更新pet圖片
-router.post('/UpdatePetURI', async (req, res, next) => {
-
-    res.json(data);
 })
 
 //更新食物數量
@@ -92,11 +86,11 @@ router.post('/FeedPet', async (req, res, next) => {
 })
 
 //查詢目前Coin數量
-router.post('/GetCoinAmount', async (req, res, next) => {
+router.get('/GetCoinAmount/:owner', async (req, res, next) => {
 
     let temp =
     {
-        "Owner": await CheckUser(req.body.Owner),
+        "Owner": await CheckUser(req.params["owner"]),
     }
 
     await GetCurrentCoin(temp.Owner).then((CurrentCoin) => {
@@ -108,11 +102,11 @@ router.post('/GetCoinAmount', async (req, res, next) => {
 })
 
 //查詢目前Food數量
-router.post('/GetFoodAmount', async (req, res, next) => {
+router.get('/GetFoodAmount/:owner', async (req, res, next) => {
 
     let temp =
     {
-        "Owner": await CheckUser(req.body.Owner),
+        "Owner": await CheckUser(req.params["owner"]),
     }
     
     let meatAmount = await GetFoodAmount(temp.Owner,"meat");
@@ -125,6 +119,33 @@ router.post('/GetFoodAmount', async (req, res, next) => {
         chocolate:chocolateAmount
     }
     res.json(output);
+})
+
+//隨時間下降飢餓度
+router.get('/checkSatiety/:id', async (req, res, next) => {
+    var ONE_HOUR = 1000 * 60 * 60;
+    var ONE_MIN = 1000 * 60;
+    let temp =
+    {
+        "TokenID": parseInt(req.params["id"]),
+        "FoodType": "hungry",
+    }
+    let time = await GetLastFeedTime(temp.TokenID);
+    timeUTC = new Date(time.toUTCString());
+    const nowtime = new Date(new Date().toUTCString());
+    console.log(timeUTC,nowtime)
+    var diff = nowtime - timeUTC;
+    var leftMins = Math.floor(diff/ONE_HOUR); //距離上次餵食時間超過?小時
+    console.log(leftMins);
+    if(leftMins >= 1) {
+        await FeedPetUpdate(temp);
+        res.send("pet is hungry");
+    }
+    else
+    {
+        res.send("pet is good");
+    }
+   
 })
 
 
