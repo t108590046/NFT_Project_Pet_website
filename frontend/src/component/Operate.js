@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios'
 import Meat from "../image/meat.png";
-import { contractAddress_Cloth ,contractAddress_Pant, contractAddress_Glasses, contractAddress_Pet, contractAddress_Hat, contractAddress_Hand, balanceOf_ABI_Pet, separate_One_ABI_Pet, combine_ABI_Pet, tokenOfOwnerByIndex_ABI_Pet, tokenURI_ABI_Pet } from "../abi/pet"
+import Banana from "../image/banana.png";
+import Chocolate from "../image/chocolate.png"
+import { contractAddress_Cloth, contractAddress_Pant, contractAddress_Glasses, contractAddress_Pet, contractAddress_Hat, contractAddress_Hand, balanceOf_ABI_Pet, separate_One_ABI_Pet, combine_ABI_Pet, tokenOfOwnerByIndex_ABI_Pet, tokenURI_ABI_Pet } from "../abi/pet"
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-moralis";
 import "./css/Operate.css";
 import { Button, Icon, Popup } from "semantic-ui-react";
@@ -19,8 +21,12 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
   const [selectedSubToken, setSelectedSubToken] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [operationType, setOperationType] = useState('');
-  const contract_List = [contractAddress_Hat, contractAddress_Hand, contractAddress_Glasses, contractAddress_Pant,contractAddress_Cloth];
-  const contract_dictionary = {'hand':contractAddress_Hand,'hat':contractAddress_Hat, 'glasses':contractAddress_Glasses, 'cloth':contractAddress_Cloth, 'pant':contractAddress_Pant}
+  const [meatAmount, setMeatAmount] = useState(0);
+  const [bananaAmount, setBananaAmount] = useState(0);
+  const [chocolateAmount, setChocolateAmount] = useState(0);
+  const contract_List = [contractAddress_Hat, contractAddress_Hand, contractAddress_Glasses, contractAddress_Pant, contractAddress_Cloth];
+  const contract_dictionary = { 'hand': contractAddress_Hand, 'hat': contractAddress_Hat, 'glasses': contractAddress_Glasses, 'cloth': contractAddress_Cloth, 'pant': contractAddress_Pant }
+
   const [equipmentsLabel, setequipmentsLabel] = useState("defaultTab");
   const [itemLabel, setitemLabel] = useState("defaultTab");
   const [componentLabel, setcomponentLabel] = useState("defaultTab");
@@ -152,7 +158,10 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
   const Combine_Contract = async (uri) => {
     let subArray = []
     let subArray_address = [contract_dictionary[selectedType]]
+
     subArray.push(selectedSubToken);
+    console.log(subArray)
+    console.log(subArray_address)
     let options = {
       contractAddress: contractAddress_Pet,
       functionName: "combine",
@@ -160,7 +169,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       params: {
         tokenId: parseInt(TokenID),
         subIds: subArray,
-        subAddress:subArray_address,
+        subAddress: subArray_address,
         _uri: uri
       },
     };
@@ -173,7 +182,8 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       },
       onError: (error) => {
         InitEquipmentState();
-        alert(error);
+        alert(error.data.message);
+        alert("請檢查setting是否開啟操作權限");
       },
     });
   };
@@ -237,11 +247,43 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
   }
   console.log(operationType)
 
+  const FeedPet = async (_foodtype, _amount) => {
+    if (_amount > 0) {
+      switch (_foodtype) {
+        case "meat":
+          setMeatAmount(meatAmount - 1);
+          break;
+        case "banana":
+          setBananaAmount(bananaAmount - 1);
+          break;
+        case "chocolate":
+          setChocolateAmount(chocolateAmount - 1);
+          break;
+        default:
+          break;
+      }
+      await axios({
+        method: 'POST',
+        url: 'http://localhost:8001/database/FeedPet',
+        data:
+        {
+          Owner:user.get("ethAddress"),
+          FoodType: _foodtype,
+          TokenID: TokenID
+        }
+      }).then((response) => {
+        alert(response.data);
+      }).catch((error) => console.log(error));
+    }
+    else {
+      alert("沒有食物了!")
+    }
+  }
 
   const items = [
-    { name: "test1", itemImg: Meat, itemAmount: 6, itemDescription: "testingDescription01" },
-    { name: "test2", itemImg: Meat, itemAmount: 66, itemDescription: "testingDescription02" },
-    { name: "test3", itemImg: Meat, itemAmount: 666, itemDescription: "testingDescription03" },
+    { name: "meat", itemImg: Meat, itemAmount: meatAmount, itemDescription: "好吃的肉" },
+    { name: "banana", itemImg: Banana, itemAmount: bananaAmount, itemDescription: "好吃的香蕉" },
+    { name: "chocolate", itemImg: Chocolate, itemAmount: chocolateAmount, itemDescription: "好吃的巧克力" },
   ]
   //顯示道具
   const showItems = items.map((item) => {
@@ -255,7 +297,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
         />
         <h1>{item.name} x{item.itemAmount}</h1>
         {/* <h4 className="itemDescription">{item.itemDescription}</h4> */}
-        <Button inverted color='orange' variant="contained" onClick={() => { }}>Use</Button>
+        <Button inverted color='orange' variant="contained" onClick={() => { FeedPet(item.name, item.itemAmount) }}>Use</Button>
       </div>
     )
   })
@@ -393,9 +435,25 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
     }
   };
 
+  const GetFoodAmount = async () => {
+    await axios({
+      method: 'POST',
+      url: 'http://localhost:8001/database/GetFoodAmount',
+      data:
+      {
+        Owner: user.get("ethAddress")
+      }
+    }).then((response) => {
+      setMeatAmount(response.data.meat);
+      setBananaAmount(response.data.banana);
+      setChocolateAmount(response.data.chocolate);
+    }).catch((error) => console.log(error));
+  }
+
   useEffect(() => {
     if (isAuthenticated) {
       fetchComponents();
+      GetFoodAmount();
       InitEquipmentState();
     }
     else {

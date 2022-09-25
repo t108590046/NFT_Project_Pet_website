@@ -170,29 +170,73 @@ export const separate_One_ABI_Pet = {
 
 export const combine_ABI_Pet = {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256"
-      },
-      {
-        internalType: "uint256[]",
-        name: "subIds",
-        type: "uint256[]"
-      },
-      {
-        internalType: "address[]",
-        name: "subAddress",
-        type: "address[]"
-      },
-      {
-        internalType: "string",
-        name: "_uri",
-        type: "string"
-      }
+        {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256"
+        },
+        {
+            internalType: "uint256[]",
+            name: "subIds",
+            type: "uint256[]"
+        },
+        {
+            internalType: "address[]",
+            name: "subAddress",
+            type: "address[]"
+        },
+        {
+            internalType: "string",
+            name: "_uri",
+            type: "string"
+        }
     ],
     name: "combine",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function"
-  };
+};
+
+export const IsApprovedForAll_ABI = {
+    inputs: [
+        {
+            internalType: "address",
+            name: "owner",
+            type: "address"
+        },
+        {
+            internalType: "address",
+            name: "operator",
+            type: "address"
+        }
+    ],
+    name: "isApprovedForAll",
+    outputs: [
+        {
+            internalType: "bool",
+            name: "",
+            type: "bool"
+        }
+    ],
+    stateMutability: "view",
+    type: "function"
+};
+
+export const setApprovalForAll_ABI = {
+    inputs:[
+        {
+            internalType:"address",
+            name:"operator",
+            type:"address"
+        },
+        {
+            internalType:"bool",
+            name:"approved",
+            type:"bool"
+        }
+    ],
+    name:"setApprovalForAll",
+    outputs:[],
+    stateMutability:"nonpayable",
+    type:"function"
+}

@@ -122,7 +122,7 @@ const NFT = () => {
 
   const ShowSubInfo = equipments.map((equipment) => {
     return (<div>
-      <div>配件:{equipment.name}</div>
+      <div>配件:<img src={equipment.imageURI} alt=''/></div>
       <div>tokenID:{equipment.token_id}</div>
     </div>)
   })
@@ -205,9 +205,12 @@ const NFT = () => {
           <p>飽足度：{NFT_info_database.Satiety}</p>
         </div>
         <div className="inner">
+          {/*
           <section className="componentList">
             {ShowSubInfo}
           </section>
+          */
+          }
           <button className="operateButton" onClick={() => setIsShowOperate(true)}>operate</button>
         </div>
       </div>)
