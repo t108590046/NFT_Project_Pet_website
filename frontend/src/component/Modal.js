@@ -14,7 +14,7 @@ function Modal({ trigger, content,PNtitle }) {
 
   const InsertNewPetToDatabase = async(_tokenId, _URI)=>
   {
-    axios({
+    await axios({
       method: 'POST',
       url: 'http://localhost:8001/database/insertNewPet',
       data:

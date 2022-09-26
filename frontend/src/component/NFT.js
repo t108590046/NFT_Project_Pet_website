@@ -174,26 +174,27 @@ const NFT = () => {
         alert(response.data);
         window.location.reload();
       }
-  
-    })
+    }).catch((error)=>{alert(error)})
+  }
+
+  const GetDatabaseInfo =()=>
+  {
+    checkPetSatiety();
+    axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/QueryPet/${id}`,
+    }).then((response) => {
+      console.log(response.data)
+      setNFT_info_database(response.data)
+      //TurnToJson(response.data.Metadata, "image");
+    }).catch((error)=>{alert(error)})
   }
 
   useEffect(() => {
     if (isAuthenticated && isWeb3Enabled) {
       GetMetadata(id, contractAddress_Pet);
       GetSubTokens(id);
-      checkPetSatiety();
-      //getSubTokens()
-      //getMetadata(id);
-      setTimeout(50);
-      axios({
-        method: 'GET',
-        url: `http://localhost:8001/database/QueryPet/${id}`,
-      }).then((response) => {
-        console.log(response.data)
-        setNFT_info_database(response.data)
-        //TurnToJson(response.data.Metadata, "image");
-      })
+      GetDatabaseInfo();
     }
     else if (!isWeb3Enabled) {
       enableWeb3();

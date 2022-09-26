@@ -9,7 +9,7 @@ const database = require('./route/database')
 
 const limiter = rateLimit({
     windowMs: 5 * 60 * 1000, // 限制5分鐘
-    max: 10 // 限制請求數量
+    max: 1000 // 限制請求數量
 })
 
 app.use(express.static('public'))
