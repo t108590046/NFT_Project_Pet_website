@@ -113,6 +113,16 @@ const Collection = () => {
     GetAllPetMetadata();
   }, [amountOfNFT]);
 
+  useEffect(() => {
+    if(amountOfNFT > Pets.length)
+    {
+      setCollectionLoadComplete(false);
+    }
+    else{
+      setCollectionLoadComplete(true);
+    }
+  }, [Pets]);
+
   const showNFTImage = Pets.map((data) => {
     return (
         <NavLink className="image" to={`/NFT/${data.token_id}`}>

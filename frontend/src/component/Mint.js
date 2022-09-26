@@ -37,8 +37,8 @@ const Mint = () => {
               setText("Input token ID");
               setPetNameTitle("Pet Name");
               setOpenModal(true);
-              // setPopupOpen(true);
-              // setMintType("角色");
+              //setPopupOpen(true);
+              //setMintType("角色");
             }}
           >
             Mint
@@ -55,8 +55,8 @@ const Mint = () => {
             onClick={() => {
               setText("Input component ID");
               setOpenModal(true);
-              // setPopupOpen(true);
-              // setMintType("裝備");
+              //setPopupOpen(true);
+              //setMintType("裝備");
             }}
           >
             Mint
