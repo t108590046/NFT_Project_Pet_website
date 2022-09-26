@@ -37,7 +37,7 @@ const Header = () => {
           </div>
           <div>
             <p className="address">
-              {user.get("ethAddress").slice(0, 8) + "..."}
+              {user.get("ethAddress").slice(0, 5) + "..." + user.get("ethAddress").slice(38)}
             </p>
           </div>
           <div>

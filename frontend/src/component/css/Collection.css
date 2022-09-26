@@ -1,30 +1,31 @@
+.collectionPage {
+  height: 75vh;
+  max-height: 698px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+
 .showImg {
   position: absolute;
   top: 10%;
   padding: 30px;
   background-color: rgba(255, 255, 255, 0.468);
-  border-radius: 40px ;
+  border-radius: 40px;
   width: 70%;
+  min-width: 265px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-wrap: wrap;
-  max-height: 86vh;
+  max-height: 70vh;
   overflow-y: auto;
 }
 
-.collectionPage {
-  background-color: #8E7700;
-  height: 75vh;
-  max-height: 698px;
-  display: flex;
-  justify-content: center;
-  align-items: top;
-  flex-wrap: wrap;
-  overflow-y: auto;
-}
-
-.showImg .image{
+.showImg .image {
+  min-width: 100px;
   width: 20%;
   height: 25%;
   padding: 20px;

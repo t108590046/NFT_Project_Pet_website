@@ -10,7 +10,6 @@ import {
 } from "react-moralis";
 
 import "./css/NFT.css";
-import background from "../image/background.png";
 import { Button, Icon, Modal, Header, Input} from "semantic-ui-react";
 
 const NFT = () => {
@@ -177,19 +176,16 @@ const NFT = () => {
 
   return (
     <div className="box">
-      <img
-        className="background"
-        src={background}
-        alt=''
-      />
-      <section className="infoContainer">
-        <div className="infoImage">
-          <h2>Your Pet</h2>
-          <img src={imageURI} alt='' />
-        </div>
-        {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} _species={species} />}
-        {!isShowOperate && ShowNFTInfo()}
-      </section>
+      <div className="NFTPage">
+        <section className="infoContainer">
+          <div className="infoImage">
+            <h2>Your Pet</h2>
+            <img src={imageURI} alt='' />
+          </div>
+          {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} _species={species} />}
+          {!isShowOperate && ShowNFTInfo()}
+        </section>
+      </div>
     </div>
   );
 };

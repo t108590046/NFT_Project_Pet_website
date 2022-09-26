@@ -364,21 +364,20 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       </nobr> */}
 
       <div className="BtnGroup">
-      <Button.Group>
-        <Button animated="fade" basic inverted color='yellow' onClick={() => trigger(false)} size="large">
-          <Button.Content visible>Back To Info</Button.Content>
-          <Button.Content hidden>
-            <Icon name='arrow left' />
-          </Button.Content>
-        </Button>
-        <Button animated="fade" basic inverted color='yellow' onClick={() => { window.location.reload(); }} size="large">
-          <Button.Content visible>Reload</Button.Content>
-          <Button.Content hidden>
-            <Icon name='redo alternate' />
-          </Button.Content>
-        </Button>
-      </Button.Group>
-      
+        <Button.Group>
+          <Button animated="fade" basic inverted color='yellow' onClick={() => trigger(false)} size="large">
+            <Button.Content visible>Back To Info</Button.Content>
+            <Button.Content hidden>
+              <Icon name='arrow left' />
+            </Button.Content>
+          </Button>
+          <Button animated="fade" basic inverted color='yellow' onClick={() => { window.location.reload(); }} size="large">
+            <Button.Content visible>Reload</Button.Content>
+            <Button.Content hidden>
+              <Icon name='redo alternate' />
+            </Button.Content>
+          </Button>
+        </Button.Group>
       </div>
 
       <div className="tabs">
