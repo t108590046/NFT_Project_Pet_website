@@ -1,27 +1,31 @@
 .showImg {
-  position: absolute;
-  top: 10%;
-  padding: 30px;
-  background-color: rgba(255, 255, 255, 0.468);
+  top: 3%;
+  padding: 1%;
+  background-color: #9c3303ef;
   border-radius: 40px ;
+  height: 80%;
   width: 70%;
-  display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-wrap: wrap;
-  max-height: 86vh;
-  overflow-y: auto;
+  overflow-y: scroll;
+}
+
+.CollectionTitle{
+  background-color:orange;
+  border-radius: 40px 40px 0px 0px;
+  width: 105%;
+  padding: 2%;
 }
 
 .collectionPage {
   background-color: #8E7700;
   height: 75vh;
-  max-height: 698px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: top;
-  flex-wrap: wrap;
-  overflow-y: auto;
+  align-items: center;
+  padding: auto;
 }
 
 .showImg .image{
@@ -32,6 +36,6 @@
 
 .image img{
   border-radius: 30px;
-  width: 100%;
-  height: 100%;
+  width: 16%;
+  height: auto;
 }
