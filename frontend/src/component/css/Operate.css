@@ -36,9 +36,9 @@
   border-radius: 30px 30px 0px 0px;
 }
 
-.tabs label:hover{
+/* .tabs label:hover{
   background-color: #825941;;
-}
+} */
 
 .tabs .tabsContent{
   width: 100%;
