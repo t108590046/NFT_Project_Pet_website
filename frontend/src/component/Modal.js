@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useWeb3ExecuteFunction } from "react-moralis";
 import { useMoralis } from "react-moralis";
-import { mint_ABI, contractAddress } from "../abi/abi";
-import { mint_ABI_test, contractAddress_test,act_ABI } from "../abi/testabi";
+import {contractAddress_Pet, mint_ABI_Pet, tokenURI_ABI_Pet} from "../abi/pet"
 import "./css/Modal.css";
 import axios from 'axios';
 
@@ -13,62 +12,50 @@ function Modal({ trigger, content,PNtitle }) {
   const [tokenId, setTokenId] = useState();
   const [PetName, setPetName] = useState();
 
-  const InsertNewPetToDatabase = async(_tokenId)=>
+  const InsertNewPetToDatabase = async(_tokenId, _URI)=>
   {
-    axios({
+    await axios({
       method: 'POST',
       url: 'http://localhost:8001/database/insertNewPet',
       data:
       {
         Name:PetName,
         Owner:user.get("ethAddress"),
-        TokenID:_tokenId
+        TokenID:_tokenId,
+        MetadataURI:_URI
       }
     }).then((response) => {
       console.log(response.data);
     })
   }
 
-  const open = async () => {
-
+  const GetMetadata = async (_id) => {
     let options = {
-      contractAddress: contractAddress_test,
-      functionName: "setIsActive",
-      abi: [act_ABI],
+      contractAddress: contractAddress_Pet,
+      functionName: "tokenURI",
+      abi: [tokenURI_ABI_Pet],
       params: {
-        status: true,
-        newURI:''
+        tokenId: _id
       },
     };
 
     await contractProcessor.fetch({
       params: options,
-      onSuccess: () => {
-        alert("Succesful");
+      onSuccess: (response) => {
+        InsertNewPetToDatabase(_id, response);
       },
       onError: (error) => {
-        console.log(error.message);
+        console.log(error);
       },
     });
-  };
+  }
 
   const mint = async (_tokenId) => {
-    /*
-    let options = {
-      contractAddress: contractAddress,
-      functionName: "mint",
-      abi: [mint_ABI],
-      params: {
-        tokenId: _tokenId,
-      },
-      msgValue: Moralis.Units.ETH(0.005),
-    };
-    */
 
     let options = {
-      contractAddress: contractAddress_test,
+      contractAddress: contractAddress_Pet,
       functionName: "mint",
-      abi: [mint_ABI_test],
+      abi: [mint_ABI_Pet],
       params: {
         tokenId: _tokenId,
       },
@@ -78,7 +65,7 @@ function Modal({ trigger, content,PNtitle }) {
     await contractProcessor.fetch({
       params: options,
       onSuccess: () => {
-        InsertNewPetToDatabase(_tokenId);
+        GetMetadata(_tokenId);
         alert("Succesful Mint");
       },
       onError: (error) => {
@@ -86,6 +73,7 @@ function Modal({ trigger, content,PNtitle }) {
         alert("Error:" + error.message);
       },
     });
+
   };
 
   return (

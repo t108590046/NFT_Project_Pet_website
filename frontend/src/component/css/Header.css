@@ -24,7 +24,7 @@ header {
 }
 
 .right-header {
-  width: 35%;
+  width: 25%;
   min-width: 480px;
   height: inherit;
   display: flex;

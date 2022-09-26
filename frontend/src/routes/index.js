@@ -6,6 +6,7 @@ import Collection from "../component/Collection";
 import NFT from "../component/NFT";
 import Operate from "../component/Operate";
 import About from "../component/About";
+import Setting from "../component/setting";
 
 const routes = [
     {
@@ -31,6 +32,10 @@ const routes = [
     {
         path:"/about",
         element:<About />
+    },
+    {
+        path:"/setting",
+        element:<Setting />
     },
 
 ]

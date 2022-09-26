@@ -4,9 +4,42 @@ import logo from "../image/logo.png";
 import coin from "../image/coin.png";
 import { useMoralis } from "react-moralis";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from 'axios'
 
 const Header = () => {
   const { authenticate, isAuthenticated, user, logout } = useMoralis();
+  const [coinAmount,setCoin] = useState();
+
+  const GetUserCoin = async()=>{
+    await axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/GetCoinAmount/${user.get("ethAddress")}`,
+    }).then((response) => {
+      if(response.data !== "error") setCoin(response.data);
+    }).catch((error) => alert(error));
+  }
+  
+  useEffect(() => {
+    if(isAuthenticated)
+    {
+      GetUserCoin();
+    }
+  }, [isAuthenticated]);
+
+  const InsertNewData = async (_objectid)=>{
+    await axios({
+      method: 'POST',
+      url: 'http://localhost:8001/database/insertNewUser',
+      data:
+      {
+        id:_objectid
+      }
+    }).then((response) => {
+      console.log(response.data)
+    }).catch((error) => console.log(error));
+  }
+
 
   const logOut = async () => {
     await logout();
@@ -18,6 +51,7 @@ const Header = () => {
       await authenticate({ signingMessage: "Log in using Moralis" })
         .then((user) => {
           console.log("logged in user:", user);
+          InsertNewData(user.id);
         })
         .catch((error) => {
           console.log(error);
@@ -32,7 +66,7 @@ const Header = () => {
           <div className="coinRemain">
             <img src={coin} className="logo"></img>
             <div className="textArea">
-              <p>CoinRemain</p>
+              <p>{coinAmount}</p>
             </div>
           </div>
           <div>
@@ -78,6 +112,9 @@ const Header = () => {
         </Link>
         <Link className="link" to="/about">
           <p>About</p>
+        </Link>
+        <Link className="link" to="/setting">
+          <p>Setting</p>
         </Link>
       </div>
       {buttonController()}

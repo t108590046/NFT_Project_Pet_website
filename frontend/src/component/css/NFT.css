@@ -7,7 +7,7 @@
 
 .infoContainer{
   background-color: rgba(244, 117, 33, 0.9);
-  width: 75%;
+  width: 70%;
   height: 85%;
   padding: 30px;
   border-radius: 30px;
@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: space-between;
 }
+/* rgba(244, 117, 33, 0.9); */
 
 .infoImage{
   background-color: rgb(255, 255, 255);
@@ -68,7 +69,7 @@
 .operateButton{
   border: none;
   border-radius: 30px;
-  background-color: #873E15;
+  background-color: #ff962d;
   color: white;
   padding: 10px 200px;
   margin: 10px 0;
@@ -77,6 +78,7 @@
   font-style: normal;
   text-transform: uppercase;
 }
+/* 873E15 */
 
 .operateButton:hover{
   background-color: #825941;
