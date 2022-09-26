@@ -15,21 +15,20 @@ header {
 
 .left-header {
   height: inherit;
-  width: 40%;
+  min-width: 600px;
   margin-left: 10px;
   font-size: 15px;
   display: flex;
-  justify-content: space-between;
+  justify-content: start;
   align-items: center;
 }
 
 .right-header {
-  width: 25%;
   min-width: 480px;
   height: inherit;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: end;
   margin-right: 20px;
 }
 
