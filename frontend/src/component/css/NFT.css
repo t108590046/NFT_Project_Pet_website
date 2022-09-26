@@ -1,6 +1,6 @@
 
 .infoContainer{
-  background-color: rgba(244, 117, 33, 0.9);
+  background-color: #b73b02fd;
   position: absolute;
   width: 75%;
   height: 85%;
@@ -14,6 +14,7 @@
   align-items: center;
   justify-content: space-between;
 }
+/* rgba(244, 117, 33, 0.9); */
 
 .infoImage{
   position: relative;
@@ -39,7 +40,7 @@
 
 .infoText{
   position: relative;
-  background-color: rgba(220, 91, 10, 0.973);
+  background-color: #ffd180;
   width: 60%;
   height: 100%;
   display: flex;
@@ -70,7 +71,7 @@
 .operateButton{
   border: none;
   border-radius: 30px;
-  background-color: #873E15;
+  background-color: #ff962d;
   color: white;
   padding: 15px 200px;
   font-size: 24px;
@@ -79,6 +80,7 @@
   text-transform: uppercase;
   margin-top: 20px;
 }
+/* 873E15 */
 
 .operateButton:hover{
   background-color: #825941;

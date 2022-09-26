@@ -13,7 +13,11 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import "./css/ItemSwiper.css";
 import { useMoralis } from "react-moralis";
-import { Button, Icon } from "semantic-ui-react";
+import { Button, Icon} from "semantic-ui-react";
+// import {Advertisement, Container, Divider, Header, Message } from "semantic-ui-react";
+// import AdSense from "react-adsense";
+// import { render } from "react-dom";
+// import { Component } from "react";
 
 
 SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
@@ -89,5 +93,59 @@ const Market = () => {
 			</div>
 		</div>
 	);
+
 };
 export default Market;
+
+
+
+//try to add Ads in web page
+// class BasicAd extends Component {
+	// 	componentDidMount() {
+	// 	  (window.adsbygoogle = window.adsbygoogle || []).push({});
+	// 	}
+	  
+	// 	render() {
+	// 	  return (
+	// 		<ins
+	// 		  className="adsbygoogle"
+	// 		  data-ad-client="ca-pub-4591861188995436"
+	// 		  data-ad-slot="4640466102"
+	// 		  data-adtest="on"
+	// 		  style={{ display: "inline-block", height: 250, width: 300 }}
+	// 		/>
+	// 	  );
+	// 	}
+	//   }
+	// const Ads = () => {
+	// 	return(
+	// 		<Container>
+	// 			<Divider hidden />
+	// 			<Message info>
+	// 			<Message.Header><Icon name="video play" />AD</Message.Header>
+	// 			<p>
+	// 				Watch Ads to earn coin for item.
+	// 			</p>
+	// 			<Message.List>
+	// 				<Message.Item>1 Video for 10 coins</Message.Item>
+	// 				<Message.Item>You also need to disable your ad blocker</Message.Item>
+	// 				<Message.Item>Supported by GoogleAds</Message.Item>
+	// 			</Message.List>
+	// 			</Message>
+
+	// 			<Advertisement unit="medium rectangle">
+	// 			<BasicAd />
+	// 			</Advertisement>
+	
+	// 			<Advertisement unit='medium rectangle'>
+	// 			<AdSense.Google
+	// 				client="ca-pub-4591861188995436"
+	// 				format=""
+	// 				data-adtest="on"
+	// 				slot="6710577704"
+	// 				style={{ display: "inline-block", height: 90, width: 728 }}
+	// 			/>
+	// 			</Advertisement>
+	// 		</Container>
+	// 	)
+	// }
