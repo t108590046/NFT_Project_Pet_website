@@ -500,7 +500,6 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
             </Button.Content>
           </Button>
         </Button.Group>
-
       </div>
 
       <div className="tabs">
