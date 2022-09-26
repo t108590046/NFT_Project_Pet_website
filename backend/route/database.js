@@ -128,17 +128,21 @@ router.get('/checkSatiety/:id', async (req, res, next) => {
     let temp =
     {
         "TokenID": parseInt(req.params["id"]),
-        "FoodType": "hungry",
     }
     let time = await GetLastFeedTime(temp.TokenID);
     timeUTC = new Date(time.toUTCString());
     const nowtime = new Date(new Date().toUTCString());
     console.log(timeUTC,nowtime)
     var diff = nowtime - timeUTC;
-    var leftMins = Math.floor(diff/ONE_HOUR); //距離上次餵食時間超過?小時
-    console.log(leftMins);
-    if(leftMins >= 1) {
-        await FeedPetUpdate(temp);
+    var hours = Math.floor(diff/ONE_HOUR); //距離上次餵食時間超過?小時
+    console.log(hours);
+    let temp2 = {
+        "TokenID": parseInt(req.params["id"]),
+        "FoodType": "hungry",
+        "hours":hours
+    }
+    if(hours >= 1) {
+        await FeedPetUpdate(temp2);
         res.send("pet is hungry");
     }
     else

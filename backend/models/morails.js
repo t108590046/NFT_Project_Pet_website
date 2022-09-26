@@ -335,8 +335,8 @@ const FeedPetUpdate = async (data) => {
         }
     );
     console.log("now:", oldPetSatiety, oldFriendship);
-    var GetSatiety = { "meat": 10, "banana": 20, "chocolate": 30, "hungry": -10 };
-    var GetFriendship = { "meat": 1, "banana": 2, "chocolate": 3, "hungry": -1 };
+    var GetSatiety = { "meat": 10, "banana": 20, "chocolate": 30};
+    var GetFriendship = { "meat": 1, "banana": 2, "chocolate": 3};
 
     switch (data.FoodType) {
         case "meat":
@@ -352,8 +352,8 @@ const FeedPetUpdate = async (data) => {
             oldFriendship = await UpdateFriendship(oldFriendship, GetFriendship["chocolate"]);
             break;
         case "hungry":
-            oldPetSatiety = await UpdateSatiety(oldPetSatiety, GetSatiety["hungry"]);
-            oldFriendship = await UpdateFriendship(oldFriendship, GetFriendship["hungry"]);
+            oldPetSatiety = await UpdateSatiety(oldPetSatiety, (data.hours * -1));
+            oldFriendship = await UpdateFriendship(oldFriendship,(data.hours * -1));
             break;
     }
     console.log(oldPetSatiety, oldFriendship);
