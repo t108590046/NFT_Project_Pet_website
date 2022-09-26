@@ -213,7 +213,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       }).then((response) => {
         Separate_Contract(response.data);
         console.log(response.data)
-      }).catch((error) => console.log(error));
+      }).catch((error) => alert(error));
     }
   }
 
@@ -242,7 +242,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
       }).then((response) => {
         Combine_Contract(response.data);
         console.log(response.data)
-      }).catch((error) => console.log(error));
+      }).catch((error) => alert(error));
     }
   }
   console.log(operationType)
@@ -500,7 +500,6 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
             </Button.Content>
           </Button>
         </Button.Group>
-
       </div>
 
       <div className="tabs">

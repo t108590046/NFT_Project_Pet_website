@@ -58,7 +58,7 @@ const Homepage = () => {
     );
   }
   return (
-    <div>
+    <div className="unconnectedPage">
       <h1>Please connect your wallet</h1>
     </div>
   );

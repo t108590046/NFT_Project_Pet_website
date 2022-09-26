@@ -1,3 +1,13 @@
+.collectionPage {
+  height: 75vh;
+  max-height: 698px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  overflow-y: auto;
+}
+
 .showImg {
   top: 3%;
   padding: 1%;
@@ -28,7 +38,8 @@
   padding: auto;
 }
 
-.showImg .image{
+.showImg .image {
+  min-width: 100px;
   width: 20%;
   height: 25%;
   padding: 20px;

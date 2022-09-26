@@ -4,6 +4,7 @@ import { useMoralis } from "react-moralis";
 import {contractAddress_Pet, mint_ABI_Pet, tokenURI_ABI_Pet} from "../abi/pet"
 import "./css/Modal.css";
 import axios from 'axios';
+import Popup from "./Popup.js"
 
 function Modal({ trigger, content,PNtitle }) {
   const { Moralis } = useMoralis();
@@ -12,9 +13,12 @@ function Modal({ trigger, content,PNtitle }) {
   const [tokenId, setTokenId] = useState();
   const [PetName, setPetName] = useState();
 
-  const InsertNewPetToDatabase = async(_tokenId, _URI)=>
+  const [popupOpen, setPopupOpen] = useState(false); //判斷Popup是否開啟
+  const [mintType, setMintType] = useState("角色");
+
+  const InsertNewPetToDatabase = async(_tokenId)=>
   {
-    axios({
+    await axios({
       method: 'POST',
       url: 'http://localhost:8001/database/insertNewPet',
       data:
@@ -22,32 +26,10 @@ function Modal({ trigger, content,PNtitle }) {
         Name:PetName,
         Owner:user.get("ethAddress"),
         TokenID:_tokenId,
-        MetadataURI:_URI
       }
     }).then((response) => {
       console.log(response.data);
     })
-  }
-
-  const GetMetadata = async (_id) => {
-    let options = {
-      contractAddress: contractAddress_Pet,
-      functionName: "tokenURI",
-      abi: [tokenURI_ABI_Pet],
-      params: {
-        tokenId: _id
-      },
-    };
-
-    await contractProcessor.fetch({
-      params: options,
-      onSuccess: (response) => {
-        InsertNewPetToDatabase(_id, response);
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    });
   }
 
   const mint = async (_tokenId) => {
@@ -65,7 +47,7 @@ function Modal({ trigger, content,PNtitle }) {
     await contractProcessor.fetch({
       params: options,
       onSuccess: () => {
-        GetMetadata(_tokenId);
+        InsertNewPetToDatabase(_tokenId);
         alert("Succesful Mint");
       },
       onError: (error) => {
@@ -90,12 +72,13 @@ function Modal({ trigger, content,PNtitle }) {
             <input onChange={(e) => setPetName(e.target.value)}></input>
           </div>
           <div className="modalFooter">
-            <button onClick={() => mint(tokenId)}>
+            <button onClick={() => {setPopupOpen(true)}}>
               <p>Confirm</p>
             </button>
           </div>
         </section>
       </article>
+      {popupOpen && < Popup mode="mint" mintType={mintType} setPopupOpen={setPopupOpen} mint_function={mint} mint_tokenID={tokenId}/>}
     </div>
   );
 }

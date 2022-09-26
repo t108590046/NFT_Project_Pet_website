@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Operate from "./Operate";
-import { getSubTokens_ABI_Pet, contractAddress_Pet, tokenURI_ABI_Pet } from "../abi/pet"
+import { getSubTokens_ABI_Pet, contractAddress_Pet, tokenURI_ABI_Pet,TextOf_ABI } from "../abi/pet"
 import axios from 'axios'
 import {
   useMoralis,
@@ -10,8 +10,7 @@ import {
 } from "react-moralis";
 
 import "./css/NFT.css";
-import background from "../image/background.png";
-import { Button, Icon, Modal, Header, Input } from "semantic-ui-react";
+import { Button, Icon, Modal, Header, Input} from "semantic-ui-react";
 
 const NFT = () => {
   const { id } = useParams()
@@ -23,6 +22,7 @@ const NFT = () => {
   const [NFT_info_database, setNFT_info_database] = useState({});
   const [isShowOperate, setIsShowOperate] = useState(false);
   const [equipments, setEquipments] = useState([]);
+  const [characteristic, setCharacteristic] = useState("")
   const [open, setOpen] = React.useState(false);
 
   const [newName, setNewName] = React.useState("");
@@ -72,6 +72,39 @@ const NFT = () => {
         else {
           TurnToJson(response, "pet");
         }
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+  }
+
+  const Hex_to_ascii = (input_hex)=>{
+    var hex = input_hex.toString();
+    var str = '';
+    for (var n = 0; n < hex.length; n += 2) {
+      str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+    }
+    return str;
+  }
+
+  const GetAttribute = async (_attID) => {
+    let options = {
+      contractAddress: contractAddress_Pet,
+      functionName: "textOf",
+      abi: [TextOf_ABI],
+      params: {
+        tokenId: id,
+        attrId:_attID
+      },
+    };
+
+    await contractProcessor.fetch({
+      params: options,
+      onSuccess: (response) => {
+        var str = Hex_to_ascii(response.toString().slice(2));
+        if(_attID === 4)setCharacteristic(str);
+        else if(_attID === 3)setSpecies(str);
       },
       onError: (error) => {
         console.log(error);
@@ -174,26 +207,29 @@ const NFT = () => {
         alert(response.data);
         window.location.reload();
       }
-  
-    })
+    }).catch((error)=>{alert(error)})
+  }
+
+  const GetDatabaseInfo =()=>
+  {
+    checkPetSatiety();
+    axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/QueryPet/${id}`,
+    }).then((response) => {
+      console.log(response.data)
+      setNFT_info_database(response.data)
+      //TurnToJson(response.data.Metadata, "image");
+    }).catch((error)=>{alert(error)})
   }
 
   useEffect(() => {
     if (isAuthenticated && isWeb3Enabled) {
       GetMetadata(id, contractAddress_Pet);
       GetSubTokens(id);
-      checkPetSatiety();
-      //getSubTokens()
-      //getMetadata(id);
-      setTimeout(50);
-      axios({
-        method: 'GET',
-        url: `http://localhost:8001/database/QueryPet/${id}`,
-      }).then((response) => {
-        console.log(response.data)
-        setNFT_info_database(response.data)
-        //TurnToJson(response.data.Metadata, "image");
-      })
+      GetAttribute(3);//個性
+      GetAttribute(4);//種族
+      GetDatabaseInfo();
     }
     else if (!isWeb3Enabled) {
       enableWeb3();
@@ -211,9 +247,9 @@ const NFT = () => {
           {setingPopup(NFT_info_database.Name)}
         </div>
         <div className="inner">
-          <p>TokenID:{id}</p>
+          <p>寵物編號:{id}</p>
           <p>種族：{species}</p>
-          <p>個性：{NFT_info_database.Characteristics}</p>
+          <p>個性：{characteristic}</p>
           <p>親密度：{NFT_info_database.Friendship}</p>
           <p>等級：三</p>
           <p>飽足度：{NFT_info_database.Satiety}</p>
@@ -232,19 +268,16 @@ const NFT = () => {
 
   return (
     <div className="box">
-      <img
-        className="background"
-        src={background}
-        alt=''
-      />
-      <section className="infoContainer">
-        <div className="infoImage">
-          <h2>Your Pet</h2>
-          <img src={ImageURI} alt='' />
-        </div>
-        {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} _species={species} />}
-        {!isShowOperate && ShowNFTInfo()}
-      </section>
+      <div className="NFTPage">
+        <section className="infoContainer">
+          <div className="infoImage">
+            <h2>Your Pet</h2>
+            <img src={ImageURI} alt='' />
+          </div>
+          {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} _species={species} />}
+          {!isShowOperate && ShowNFTInfo()}
+        </section>
+      </div>
     </div>
   );
 };

@@ -4,7 +4,7 @@ import { useState } from "react";
 import axios from 'axios'
 import { useMoralis } from "react-moralis";
 
-function Popup({mode, mintType, itemDescription, itemName, setPopupOpen,foodtype}) {
+function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtype, mint_function, mint_tokenID}) {
     const {user,isAuthenticated,authenticate} = useMoralis();
     const [currentNum, setcurrentNum] = useState(1); //購買數量
 
@@ -88,7 +88,7 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen,foodtype
                     >
                     Cancel
                     </button>
-                    <button onClick={()=>{ }}>Confirm</button>
+                    <button onClick={()=>{mint_function(mint_tokenID)}}>Confirm</button>
                 </div>
             </div>
         );

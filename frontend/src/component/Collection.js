@@ -113,6 +113,16 @@ const Collection = () => {
     GetAllPetMetadata();
   }, [amountOfNFT]);
 
+  useEffect(() => {
+    if(amountOfNFT > Pets.length)
+    {
+      setCollectionLoadComplete(false);
+    }
+    else{
+      setCollectionLoadComplete(true);
+    }
+  }, [Pets]);
+
   const showNFTImage = Pets.map((data) => {
     let hungry=false;
     if(data.token_id === 1){

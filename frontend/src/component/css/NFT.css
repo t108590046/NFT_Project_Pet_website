@@ -1,13 +1,16 @@
+.NFTPage {
+  height: 75vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .infoContainer{
   background-color: #9c3303ef;
   position: absolute;
   width: 75%;
   height: 85%;
-  top: 50%;
-  left: 50%;
-  padding: 3%;
-  transform: translate(-50%, -50%);
+  padding: 30px;
   border-radius: 30px;
   display: flex;
   flex-direction: row;
@@ -17,36 +20,32 @@
 /* rgba(244, 117, 33, 0.9); */
 
 .infoImage{
-  position: relative;
   background-color: rgb(255, 255, 255);
   width: 30%;
-  height: 70%;
+  height: 80%;
   padding: 10px;
-  padding-right: 15px;
   border-radius: 50px;
   color: rgb(47, 47, 47);
   text-align: center;
 }
 
 
-.infoImage img{
+.infoImage img {
   overflow: hidden;
-  position: relative;
   top: 0%;
   left: 0%;
-  width: 100%;
-  height:auto
+  max-width: 90%;
+  max-height: 70%;
 }
 
 .infoText{
-  position: relative;
-  background-color: #ffd180;
+  background-color: rgba(220, 91, 10, 0.973);
   width: 60%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   border-radius:30px;
 }
 
@@ -73,12 +72,12 @@
   border-radius: 30px;
   background-color: #ff962d;
   color: white;
-  padding: 15px 200px;
+  padding: 10px 200px;
+  margin: 10px 0;
   font-size: 24px;
   font-family: "Inter";
   font-style: normal;
   text-transform: uppercase;
-  margin-top: 20px;
 }
 /* 873E15 */
 
@@ -87,7 +86,7 @@
 }
 
 .componentList{
-  padding-top: 50px;
+  padding-top: 10px;
   width: 100%;
   display: flex;
   justify-content: space-around;

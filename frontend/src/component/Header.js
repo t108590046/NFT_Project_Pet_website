@@ -10,20 +10,25 @@ import axios from 'axios'
 const Header = () => {
   const { authenticate, isAuthenticated, user, logout } = useMoralis();
   const [coinAmount,setCoin] = useState();
+
+  const GetUserCoin = async()=>{
+    await axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/GetCoinAmount/${user.get("ethAddress")}`,
+    }).then((response) => {
+      if(response.data !== "error") setCoin(response.data);
+    }).catch((error) => alert(error));
+  }
+  
   useEffect(() => {
     if(isAuthenticated)
     {
-      axios({
-        method: 'GET',
-        url: `http://localhost:8001/database/GetCoinAmount/${user.get("ethAddress")}`,
-      }).then((response) => {
-        if(response.data !== "error") setCoin(response.data);
-      }).catch((error) => console.log(error));
+      GetUserCoin();
     }
   }, [isAuthenticated]);
 
-  const InsertNewData = (_objectid)=>{
-    axios({
+  const InsertNewData = async (_objectid)=>{
+    await axios({
       method: 'POST',
       url: 'http://localhost:8001/database/insertNewUser',
       data:
@@ -66,7 +71,7 @@ const Header = () => {
           </div>
           <div>
             <p className="address">
-              {user.get("ethAddress").slice(0, 8) + "..."}
+              {user.get("ethAddress").slice(0, 5) + "..." + user.get("ethAddress").slice(38)}
             </p>
           </div>
           <div>

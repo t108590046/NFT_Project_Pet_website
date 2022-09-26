@@ -1,9 +1,9 @@
-export const contractAddress_Pet = "0x95c30152321e6A5Dfe0E094c170463Aa9EB98BC5";
-export const contractAddress_Hat = "0xAea595f675477b79C38A9323C2E11545958e0AE4";
-export const contractAddress_Hand = "0xC5149278aEa479635f0cC9F199aF5016c862D840";
-export const contractAddress_Glasses = "0x1448c7338D99286a46099559bDEd5869d708823c";
-export const contractAddress_Pant = "0xF63eD1CC8F9A63201E31c39a4693902c85EF1C0D";
-export const contractAddress_Cloth = "0xE33ab82b23a484930D6e8932a5bC16b175552854";
+export const contractAddress_Pet = "0xd5439412528EEC4803bfBf757Ad1Cbf921eE9DBe";
+export const contractAddress_Hat = "0x7205EFA750b847F663465C1408998aba6Db60593";
+export const contractAddress_Hand = "0xb8f7c87a4589Bc057CfDF6eeFd4D43D6abed5a1b";
+export const contractAddress_Glasses = "0xaFdDb6FAc072858E26bddED15a08dD1981ACA815";
+export const contractAddress_Pant = "0x522065c7Fb97C37C29a8F6aE630CC1A190c1b8cA";
+export const contractAddress_Cloth = "0xeD5FBb309dDD0fD4eA961f96DF1b9e8d034c20c3";
 
 export const act_ABI = {
     input: [
@@ -239,4 +239,29 @@ export const setApprovalForAll_ABI = {
     outputs:[],
     stateMutability:"nonpayable",
     type:"function"
-}
+};
+
+export const TextOf_ABI = {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256"
+      },
+      {
+        internalType: "uint256",
+        name: "attrId",
+        type: "uint256"
+      }
+    ],
+    name: "textOf",
+    outputs: [
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes"
+      }
+    ],
+    stateMutability: "view",
+    type: "function"
+  };
