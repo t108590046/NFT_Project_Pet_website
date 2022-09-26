@@ -9,15 +9,12 @@ const port = process.env.PORT
 
 //加入新寵物
 router.post('/insertNewPet', async (req, res, next) => {
-    let Characteristics = ["懶散", "活潑", "易怒", "平易近人", "膽小"]
     let temp = {
         "Name": req.body.Name,
         "Friendship": 0,
         "Satiety": 100,
-        "Characteristics": GetRandomFromList(Characteristics),
         "Owner": await CheckUser(req.body.Owner),
         "TokenID": parseInt(req.body.TokenID),
-        "Metadata": req.body.MetadataURI
     }
     await InsertData("Pet", temp);
     res.send("Inserted New Pet!!")
