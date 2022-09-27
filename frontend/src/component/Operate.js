@@ -3,12 +3,12 @@ import axios from 'axios'
 import Meat from "../image/meat.png";
 import Banana from "../image/banana.png";
 import Chocolate from "../image/chocolate.png"
-import { contractAddress_Cloth, contractAddress_Pant, contractAddress_Glasses, contractAddress_Pet, contractAddress_Hat, contractAddress_Hand, balanceOf_ABI_Pet, separate_One_ABI_Pet, combine_ABI_Pet, tokenOfOwnerByIndex_ABI_Pet, tokenURI_ABI_Pet } from "../abi/pet"
+import { setApprovalForAll_ABI, IsApprovedForAll_ABI, contractAddress_Cloth, contractAddress_Pant, contractAddress_Glasses, contractAddress_Pet, contractAddress_Hat, contractAddress_Hand, balanceOf_ABI_Pet, separate_One_ABI_Pet, combine_ABI_Pet, tokenOfOwnerByIndex_ABI_Pet, tokenURI_ABI_Pet } from "../abi/pet"
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-moralis";
 import "./css/Operate.css";
 import { Button, Icon, Popup } from "semantic-ui-react";
 
-const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
+const Operate = ({ trigger, equipments, TokenID, pettype }) => {
   const { user, isAuthenticated, authenticate } = useMoralis();
   const contractProcessor = useWeb3ExecuteFunction();
   const Web3Api = useMoralisWeb3Api();
@@ -26,10 +26,59 @@ const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
   const [chocolateAmount, setChocolateAmount] = useState(0);
   const contract_List = [contractAddress_Hat, contractAddress_Hand, contractAddress_Glasses, contractAddress_Pant, contractAddress_Cloth];
   const contract_dictionary = { 'hand': contractAddress_Hand, 'hat': contractAddress_Hat, 'glasses': contractAddress_Glasses, 'cloth': contractAddress_Cloth, 'pant': contractAddress_Pant }
+  const [isApprove, setIsApprove] = useState(false);
 
   const [equipmentsLabel, setequipmentsLabel] = useState("defaultTab");
   const [itemLabel, setitemLabel] = useState("defaultTab");
   const [componentLabel, setcomponentLabel] = useState("defaultTab");
+
+
+  const setApprove = async (_type) => {
+    let options = {
+      contractAddress: contract_dictionary[_type],
+      functionName: "setApprovalForAll",
+      abi: [setApprovalForAll_ABI],
+      params: {
+        approved: true,
+        operator: contractAddress_Pet,
+      },
+    };
+    await contractProcessor.fetch({
+      params: options,
+      onSuccess: (data) => {
+        console.log(data);
+        setIsApprove(true);
+        alert("已開啟操作權限，請稍後再試一次")
+      },
+      onError: (error) => {
+        alert(error);
+      },
+    });
+  }
+
+  const checkApprove = async (_type) => {
+    let bool;
+    let options = {
+      contractAddress: contract_dictionary[_type],
+      functionName: "isApprovedForAll",
+      abi: [IsApprovedForAll_ABI],
+      params: {
+        owner: user.get("ethAddress"),
+        operator: contractAddress_Pet,
+      },
+    };
+    await contractProcessor.fetch({
+      params: options,
+      onSuccess: (data) => {
+        bool = data;
+        
+      },
+      onError: (error) => {
+        alert(error);
+      },
+    });
+    return bool;
+  }
 
   const SetTypeNone = (name) => {
     switch (name) {
@@ -85,6 +134,16 @@ const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
   }
   //改變腳色配件資訊
   const ChangeState = (equipment) => {
+    //--開啟權限--
+    checkApprove(equipment.name).then((data)=>{
+      if(!data){
+        setApprove(equipment.name);
+      }
+      else{
+        setIsApprove(true);
+      }
+    })
+    //----
     let alertText = "you selected " + equipment.name + " id: " + equipment.token_id;
     setSelectedSubToken(equipment.token_id);
     setSelectedType(equipment.name);
@@ -267,7 +326,7 @@ const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
         url: 'http://localhost:8001/database/FeedPet',
         data:
         {
-          Owner:user.get("ethAddress"),
+          Owner: user.get("ethAddress"),
           FoodType: _foodtype,
           TokenID: TokenID
         }
@@ -457,9 +516,11 @@ const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
     }
   }, []);
 
+  console.log(isApprove)
+
   //post 改變寵物圖片及合約寵物狀態
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && isApprove) {
       if (operationType === 'separate') {
         postRequest_separate();
       }
@@ -467,10 +528,10 @@ const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
         postRequest_combine();
       }
     }
-    else {
+    else if(!isAuthenticated){
       authenticate();
     }
-  }, [handType, hatType, glassesType, pantType, clothType]);
+  }, [handType, hatType, glassesType, pantType, clothType,isApprove]);
 
 
   // 切換操作 reset狀態
@@ -487,7 +548,7 @@ const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
 
       <div className="BtnGroup">
         <Button.Group>
-          <Button animated="fade"  color='brown' onClick={() => trigger(false)} size="large">
+          <Button animated="fade" color='brown' onClick={() => trigger(false)} size="large">
             <Button.Content visible>Back To Info</Button.Content>
             <Button.Content hidden>
               <Icon name='arrow left' />
@@ -503,7 +564,7 @@ const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
       </div>
 
       <div className="tabs">
-        <input type="radio" name="tabs" id="items"/>
+        <input type="radio" name="tabs" id="items" />
         <label for="items" className={itemLabel} onClick={() => { setLabelSelected(0); }}>ITEM</label>
         <div className="tabsContent">
           <section className="itemList">
