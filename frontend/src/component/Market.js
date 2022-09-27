@@ -13,7 +13,8 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import "./css/ItemSwiper.css";
 import { useMoralis } from "react-moralis";
-import { Button, Icon} from "semantic-ui-react";
+import { Button, Icon, Header} from "semantic-ui-react";
+import "./css/Collection.css";
 // import {Advertisement, Container, Divider, Header, Message } from "semantic-ui-react";
 // import AdSense from "react-adsense";
 // import { render } from "react-dom";
@@ -50,12 +51,10 @@ const Market = () => {
 		return (
 			<Swiper
 				spaceBetween={30}
-				slidesPerView={4}
+				slidesPerView={3}
 				navigation
 				pagination={{ clickable: true }}
-				scrollbar={{ draggable: true }}
-			// onSlideChange={() => console.log('slide change')}
-			// onSwiper={(swiper) => console.log(swiper)}
+				scrollbar={{ draggable: true }}	
 			>
 				{
 					maketItemList.map(item => (
@@ -82,11 +81,22 @@ const Market = () => {
 
 	return (
 		<div className="box">
-			<div className="marketArea">
-				<div className="title">
-					<h1 className="heading"> Welcome</h1>
+			<div className="collectionPage">
+				<div>
+					<div className="CollectionTitle">
+						<Header as='h2'>
+							<Icon name='shopping cart' size='tiny'/>
+							<Header.Content>
+							Market
+							<Header.Subheader>
+								Buy food to feed your pet!
+							</Header.Subheader>
+							</Header.Content>
+						</Header>
+					</div>
 				</div>
-				<div className="sliderContainer">
+				
+				<div className="showImg">
 					<CollectionSwiper maketItemList={maketItemList} />
 				</div>
 				{popupOpen && < Popup mode="market" itemDescription={itemDescription} itemName={itemName} setPopupOpen={setPopupOpen} foodtype={foodType} />}

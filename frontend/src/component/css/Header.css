@@ -43,8 +43,8 @@ header {
   color:black;
 }
 
-.coinRemain img {
-  width:20%;
+.coin {
+  width: 23%;
 }
 
 .coinRemain .textArea {
@@ -64,24 +64,30 @@ header {
 
 .connectButton{
   margin: 0 20px;
-  width: 150px;
+  width: 120px;
   height: 50px;
   border: none;
   border-radius: 9999px;
   background-color: #FDC314;
   color: white;
   font-size: 14px;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .connectButton p{
   color: black;
+  font-weight: bold;
   margin: 0px;
 }
 
 .address{
   margin: 0 20px;
-  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  color: #082032;
   width: auto;
 }
 
@@ -99,4 +105,23 @@ header {
 
 .logo{
   max-width: 65%;
+}
+
+.headerTextFiled{
+  border-radius:20px;
+  background-color:#FFD36E;
+  display: flex;
+  padding: 10px 5px;
+  justify-content:center;
+  align-items:center;
+  width: 160px;
+  height: 50px;
+}
+
+.headerContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding:0px 20px;
 }
