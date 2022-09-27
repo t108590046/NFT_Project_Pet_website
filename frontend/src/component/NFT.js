@@ -19,6 +19,7 @@ const NFT = () => {
   const contractProcessor = useWeb3ExecuteFunction();
   const [ImageURI, setImageURI] = useState();
   const [species, setSpecies] = useState();
+  const [petType, setPetType] = useState();
   const [NFT_info_database, setNFT_info_database] = useState({});
   const [isShowOperate, setIsShowOperate] = useState(false);
   const [equipments, setEquipments] = useState([]);
@@ -40,7 +41,7 @@ const NFT = () => {
           type: responseData.type
         }
         if (_type === "component") setEquipments(oldArray => [...oldArray, temp]);
-        else if (_type === "pet") {setImageURI(responseData.image);setSpecies(responseData.attributes[5].value);}
+        else if (_type === "pet") {setImageURI(responseData.image);setPetType(responseData.attributes[5].value);}
       })
   }
 
@@ -274,7 +275,7 @@ const NFT = () => {
             <h2>Your Pet</h2>
             <img src={ImageURI} alt='' />
           </div>
-          {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} _species={species} />}
+          {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments}  pettype={petType}/>}
           {!isShowOperate && ShowNFTInfo()}
         </section>
       </div>

@@ -8,7 +8,7 @@ import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-mor
 import "./css/Operate.css";
 import { Button, Icon, Popup } from "semantic-ui-react";
 
-const Operate = ({ trigger, equipments, TokenID, _species }) => {
+const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
   const { user, isAuthenticated, authenticate } = useMoralis();
   const contractProcessor = useWeb3ExecuteFunction();
   const Web3Api = useMoralisWeb3Api();
@@ -125,7 +125,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
     glasses: glassesType,
     cloth: clothType,
     pant: pantType,
-    pet: _species,
+    pet: pettype,
     tokenId: TokenID
   })
 
@@ -207,7 +207,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
           glasses: glassesType,
           cloth: clothType,
           pant: pantType,
-          pet: _species,
+          pet: pettype,
           tokenId: TokenID
         }
       }).then((response) => {
@@ -236,7 +236,7 @@ const Operate = ({ trigger, equipments, TokenID, _species }) => {
           glasses: glassesType,
           cloth: clothType,
           pant: pantType,
-          pet: _species,
+          pet: pettype,
           tokenId: TokenID
         }
       }).then((response) => {
