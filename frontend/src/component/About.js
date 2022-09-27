@@ -11,7 +11,7 @@ import {Header, Card, Icon, Image, Reveal } from 'semantic-ui-react'
 
 const About = () => {
 
-    function AboutCard({color,name, classes, image, description, work, email}){
+    function AboutCard({color,name, classes, image, description, work, email}) {
         return(
             <Card color={color}>
                 <Reveal animated='move up'>
