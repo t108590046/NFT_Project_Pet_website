@@ -1,11 +1,9 @@
 .collectionPage {
-  height: 75vh;
-  max-height: 698px;
+  height: 85vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  overflow-y: auto;
 }
 
 .showImg {
@@ -26,16 +24,6 @@
   border-radius: 40px 40px 0px 0px;
   width: 105%;
   padding: 2%;
-}
-
-.collectionPage {
-  background-color: #8E7700;
-  height: 75vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: auto;
 }
 
 .showImg .image {

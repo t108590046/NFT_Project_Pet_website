@@ -1,12 +1,5 @@
-.row {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-direction: row;
-}
-
 .aboutPage {
-    padding-top:1%;
+    padding-top:20px;
     background-color: rgba(249, 240, 163, 0.815);
 }
 
@@ -15,8 +8,15 @@
     width: 15%;
     margin-bottom: 16px;
     padding: 0 8px;
-  }
+}
   
+
+.row {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
 /* .aboutPage .card {
     box-shadow: 0 4px 8px 0 rgba(37, 37, 37, 0.2);
     margin: 8px;
