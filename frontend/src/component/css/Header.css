@@ -26,7 +26,7 @@ header {
 
 .right-header {
   min-width: 480px;
-  width: 25vw;
+  width: 30vw;
   height: inherit;
   display: flex;
   align-items: center;

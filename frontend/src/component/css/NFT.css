@@ -1,5 +1,5 @@
 .NFTPage {
-  height: 75vh;
+  height: 85vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -67,12 +67,13 @@
   font-size: 40px;
 }
 
-.operateButton{
+.operateButton {
   border: none;
+  width: 70%;
+  height: 50px;
   border-radius: 30px;
   background-color: #ff962d;
   color: white;
-  padding: 10px 200px;
   margin: 10px 0;
   font-size: 24px;
   font-family: "Inter";
