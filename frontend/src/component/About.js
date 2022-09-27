@@ -1,7 +1,9 @@
 import React from 'react';
-import AboutCard from "./css/About.css";
+import "./css/About.css";
 import "./Card.js";
 import Meat from "../image/meat.png";
+import PetNoBackground from "../image/petNoBackground.png";
+import MockTokenNoBackground from "../image/MockTokenNoBackground.png";
 import Banana from "../image/banana.png";
 import {Header, Card, Icon, Image, Reveal } from 'semantic-ui-react'
 
@@ -9,15 +11,16 @@ import {Header, Card, Icon, Image, Reveal } from 'semantic-ui-react'
 
 const About = () => {
 
-    function AboutCard({color,name, classes, image, description, work, email}){
+    function AboutCard({color,name, classes, image, description, work, email}) {
         return(
             <Card color={color}>
                 <Reveal animated='move up'>
                     <Reveal.Content visible>
-                    <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png'/>
+                        {/* <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png'/> */}
+                        <Image src={PetNoBackground}/>
                     </Reveal.Content>
                     <Reveal.Content hidden>
-                    <Image  src={image} alt="Image in about" wrapped ui={false} />
+                        <Image  src={MockTokenNoBackground} alt="Image in about" wrapped ui={false} />
                     </Reveal.Content>
                 </Reveal>
                 <Card.Content>
@@ -62,7 +65,7 @@ const About = () => {
                 <div className="column">
                     <div className="card">
                         <div className="container">
-                            <AboutCard color="red" name="洪子翔" classes="電資學士班(主修資工)" image={Meat} work="前端" email="test@example.com"/>
+                            <AboutCard color="red" name="洪子翔" classes="電資學士班(主修資工)" image={Banana} work="前端" email="test@example.com"/>
                         </div>
                     </div>
                 </div>

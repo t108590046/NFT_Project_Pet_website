@@ -6,19 +6,6 @@ footer {
     justify-content: center;
 }
 
-.footerTop {
-    min-height: 80px;
-    height: 10vh;
-    width: 100vw;
-    font-size: medium;
-    background-color: #1A4D2E;
-    color: #FAF3E3;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
 .footerBottom {
     min-height: 40px;
     height: 5vh;
