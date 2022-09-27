@@ -24,6 +24,17 @@ const coinJson = (_owner) => {
     return temp
 }
 
+
+const CheckPetIn = async(_tokenID) =>{
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const _object = Moralis.Object.extend("Pet")
+    const query = new Moralis.Query(_object)
+    query.equalTo("TokenID", parseInt(_tokenID))
+    const result = await query.find({ useMasterKey: true })
+    if(result.length == 0) return false;
+    else return true;
+}
+
 //檢查帳號是否存在資料庫
 const CheckUserIn = async (_objectID, _objectName) => {
     let isInUser = await CheckUserByObjectID(_objectID);
@@ -115,8 +126,6 @@ const FindQueryPet = async (_tokenID) => {
                 "Name": Pet.get("Name"),
                 "Satiety": Pet.get("Satiety"),
                 "Friendship": Pet.get("Friendship"),
-                "Characteristics": Pet.get("Characteristics"),
-                "Metadata": Pet.get("Metadata")
             }
         },
         (error) => {
@@ -335,8 +344,8 @@ const FeedPetUpdate = async (data) => {
         }
     );
     console.log("now:", oldPetSatiety, oldFriendship);
-    var GetSatiety = { "meat": 10, "banana": 20, "chocolate": 30};
-    var GetFriendship = { "meat": 1, "banana": 2, "chocolate": 3};
+    var GetSatiety = { "meat": 10, "banana": 20, "chocolate": 30 };
+    var GetFriendship = { "meat": 1, "banana": 2, "chocolate": 3 };
 
     switch (data.FoodType) {
         case "meat":
@@ -353,7 +362,7 @@ const FeedPetUpdate = async (data) => {
             break;
         case "hungry":
             oldPetSatiety = await UpdateSatiety(oldPetSatiety, (data.hours * -1));
-            oldFriendship = await UpdateFriendship(oldFriendship,(data.hours * -1));
+            oldFriendship = await UpdateFriendship(oldFriendship, (data.hours * -1));
             break;
     }
     console.log(oldPetSatiety, oldFriendship);
@@ -416,5 +425,66 @@ const UploadFileToMoralisIpfs = async () => {
     });
     await file.saveIPFS();
 }
+/*
+const InitTransferEventHandle = async () => {
+    await Moralis.start({ serverUrl, appId, masterKey });
+    let query = new Moralis.Query('Pet_Transfer');
+    let subscription = await query.subscribe();
+    subscription.on('update', onTransferCreated);
+}
 
-module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn, GetFoodAmount, GetLastFeedTime }
+//transferEventHandle
+const onTransferCreated = async (object) => {
+    console.log(object.id);
+    await Moralis.start({ serverUrl, appId, masterKey });
+    let query = new Moralis.Query('Pet_Transfer');
+    const nowtime = new Date(new Date().toUTCString());
+    var fromAddress, toAddress,tokenID;
+    var seconds;
+    await query.get(object.id).then(
+        (info) => {
+            var createTime = new Date(info.get("createdAt").toUTCString());
+            var diff = nowtime - createTime;
+            seconds = Math.floor(diff / 1000);
+            console.log(seconds);
+            if (seconds < 10) {
+                fromAddress = info.get("from");
+                toAddress = info.get("to");
+                tokenID = info.get("tokenId");
+                console.log('from', fromAddress);
+                console.log('to', toAddress);
+            }
+        },
+        (error) => {
+        }
+    );
+    if (seconds < 10) await TransferPet(toAddress, tokenID);
+}
+
+const TransferPet = async (toAddress, tokenid) => {
+    objectId = await CheckUser(toAddress);
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Pet")
+    const query = new Moralis.Query(Class)
+    query.equalTo("TokenID", parseInt(tokenid));
+    const object = await query.first();
+    console.log(objectId)
+    if(objectId)
+    {
+        if (object) {
+            object.set("Owner", objectId);
+            object.save().then(() => {
+                console.log(`pet id:${tokenid} transfer to ${toAddress}`);
+            }, (error) => {
+                console.log(error);
+            });
+        }
+    }
+    else{
+        InsertData("_User")
+    }
+}
+*/
+
+
+module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn, GetFoodAmount, GetLastFeedTime, CheckPetIn }

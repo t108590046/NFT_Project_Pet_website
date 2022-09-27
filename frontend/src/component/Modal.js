@@ -24,7 +24,6 @@ function Modal({ trigger, content,PNtitle }) {
       data:
       {
         Name:PetName,
-        Owner:user.get("ethAddress"),
         TokenID:_tokenId,
       }
     }).then((response) => {

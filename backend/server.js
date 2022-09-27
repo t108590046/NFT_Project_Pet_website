@@ -6,6 +6,8 @@ const app = express()  //宣告框架變數
 const port = process.env.PORT //定義本地伺服端port
 const combine = require('./route/combine')
 const database = require('./route/database')
+const basePath = process.cwd();
+const {InitTransferEventHandle} = require(`${basePath}/models/morails`)
 
 const limiter = rateLimit({
     windowMs: 5 * 60 * 1000, // 限制5分鐘
@@ -18,6 +20,8 @@ app.use(cors())
 app.use(limiter)
 app.use('/combine', combine)
 app.use('/database', database)
+
+//InitTransferEventHandle();
 
 app.listen(port, () => {        //伺服器運行的Function
     console.log(`Server listening at http://localhost:${port}`)  //運作提示字樣
