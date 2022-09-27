@@ -157,7 +157,6 @@ const Collection = () => {
           {!collectionLoadComplete && <Loader size="large" active inline='centered'><h3>Loading Pet</h3></Loader>}
           {collectionLoadComplete && showNFTImage}
         </section>
-        <div></div>
       </div>
     </div>
   );

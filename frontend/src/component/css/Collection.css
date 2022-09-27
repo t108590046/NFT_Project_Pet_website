@@ -9,7 +9,7 @@
 .showImg {
   top: 3%;
   padding: 1%;
-  background-color: #9c3303ef;
+  background-color: #61481cf3;
   border-radius: 40px ;
   height: 80%;
   width: 70%;
@@ -20,10 +20,10 @@
 }
 
 .CollectionTitle{
-  background-color:orange;
+  background-color:#BF9742;
   border-radius: 40px 40px 0px 0px;
-  width: 105%;
-  padding: 2%;
+  width: 110%;
+  padding: 5%;
 }
 
 .showImg .image {
