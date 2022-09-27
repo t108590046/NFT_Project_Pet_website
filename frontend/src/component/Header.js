@@ -107,9 +107,6 @@ const Header = () => {
         <Link className="link" to="/collection">
           <p>Collection</p>
         </Link>
-        <Link className="link" to="/market">
-          <p>Learn</p>
-        </Link>
         <Link className="link" to="/about">
           <p>About</p>
         </Link>
