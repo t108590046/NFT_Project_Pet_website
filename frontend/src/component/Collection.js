@@ -5,7 +5,7 @@ import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-mor
 import Moralis from "moralis";
 import "./css/Collection.css";
 import axios from 'axios';
-import { Button, Header, Icon, Loader,Label } from 'semantic-ui-react'
+import { Button, Header, Icon, Loader, Label } from 'semantic-ui-react'
 
 const Collection = () => {
   const [Pets, setPets] = useState([]);
@@ -15,13 +15,40 @@ const Collection = () => {
   const Web3Api = useMoralisWeb3Api();
   const [collectionLoadComplete, setCollectionLoadComplete] = useState(true);
 
+
+  const CheckPetIndatabase = async (_id) => {
+    await axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/CheckPet/${_id}`,
+    }).then((response) => {
+      console.log(response.data)
+    }).catch((error) => console.log(error));
+  }
+
+  async function CheckPetHungry(_id) {
+    let bool = 'true';
+    await axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/checkHungry/${_id}`,
+    }).then((response) => {
+      bool = response.data;
+    }).catch((error) => console.log(error));
+    return bool;
+  }
+
   //將MetadataURI轉成json格式
-  const TurnToJson = async (_uri) => {
+  const TurnToJson = async (_uri, _id) => {
     console.log(_uri);
     await fetch(_uri)
       .then(response => response.json())
       .then(responseData => {
-        setPets(oldArray => [...oldArray, responseData]);
+        CheckPetHungry(_id).then((data)=>{
+          responseData = {
+            ...responseData,
+            "IsHungry": data
+          }
+          setPets(oldArray => [...oldArray, responseData]);
+        })
       })
   }
 
@@ -44,6 +71,7 @@ const Collection = () => {
         let id = parseInt(response._hex, 16);
         console.log(id);
         GetMetadata(id);
+        CheckPetIndatabase(id);
       },
       onError: (error) => {
         console.log(error);
@@ -72,14 +100,13 @@ const Collection = () => {
     await contractProcessor.fetch({
       params: options,
       onSuccess: (response) => {
-        TurnToJson(response);
+        TurnToJson(response, _id);
       },
       onError: (error) => {
         console.log(error);
       },
     });
   }
-
 
   //查詢address所有的NFT數量
   const fetchNFTsForContract = async () => {
@@ -113,26 +140,23 @@ const Collection = () => {
   }, [amountOfNFT]);
 
   useEffect(() => {
-    if(amountOfNFT > Pets.length)
-    {
+    if (amountOfNFT > Pets.length) {
       setCollectionLoadComplete(false);
     }
-    else{
+    else {
       setCollectionLoadComplete(true);
     }
   }, [Pets]);
 
   const showNFTImage = Pets.map((data) => {
-    let hungry=false;
-    if(data.token_id === 1){
-      hungry=true;
-    }
+    var hungry = true;
+    if (data.IsHungry) hungry = false;
     //在此處新增飽足感判斷
     return (
-        <NavLink className="image" to={`/NFT/${data.token_id}`}>
-          <img src={data.image} alt='' />
-          <Icon circular inverted color='yellow' size='large' name='food' corner='top right' disabled={hungry}/>
-        </NavLink>
+      <NavLink className="image" to={`/NFT/${data.token_id}`}>
+        <img src={data.image} alt='' />
+        <Icon circular inverted color='yellow' size='large' name='food' corner='top right' disabled={hungry} />
+      </NavLink>
     );
   })
 
@@ -141,23 +165,22 @@ const Collection = () => {
       <div className="collectionPage">
         <div>
           <div className="CollectionTitle">
-          <Header as='h2'>
-            <Icon name='paw' size='tiny' />
-            <Header.Content>
-              Your Collection
-              <Header.Subheader>
-                click the image to feed and manage
-              </Header.Subheader>
-            </Header.Content>
-          </Header>
+            <Header as='h2'>
+              <Icon name='paw' size='tiny' />
+              <Header.Content>
+                Your Collection
+                <Header.Subheader>
+                  click the image to feed and manage
+                </Header.Subheader>
+              </Header.Content>
+            </Header>
           </div>
         </div>
-        
+
         <section className="showImg">
           {!collectionLoadComplete && <Loader size="large" active inline='centered'><h3>Loading Pet</h3></Loader>}
           {collectionLoadComplete && showNFTImage}
         </section>
-        <div></div>
       </div>
     </div>
   );

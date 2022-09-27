@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const basePath = process.cwd();
-const { InsertData, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn,GetFoodAmount,GetLastFeedTime} = require(`${basePath}/models/morails`)
+const { InsertData, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn,GetFoodAmount,GetLastFeedTime,CheckPetIn} = require(`${basePath}/models/morails`)
 const { GetRandomFromList } = require(`${basePath}/models/function`)
 const router = express.Router()
 const ipAddress = process.env.IP_ADDRESS
@@ -13,7 +13,6 @@ router.post('/insertNewPet', async (req, res, next) => {
         "Name": req.body.Name,
         "Friendship": 0,
         "Satiety": 100,
-        "Owner": await CheckUser(req.body.Owner),
         "TokenID": parseInt(req.body.TokenID),
     }
     await InsertData("Pet", temp);
@@ -38,6 +37,25 @@ router.post('/insertNewUser', async (req, res, next) => {
 router.get('/QueryPet/:id', async (req, res, next) => {
     const data = await FindQueryPet(parseInt(req.params["id"]));
     res.json(data);
+})
+
+//檢查pet是否存在資料庫若不在則新增
+router.get('/CheckPet/:id', async (req, res, next) => {
+    var bool = await CheckPetIn(req.params["id"]);
+    let temp = {
+        "Name": "外來物",
+        "Friendship": 0,
+        "Satiety": 100,
+        "TokenID": parseInt(req.params["id"]),
+    }
+    if(bool){
+        res.send("pet already in database");
+    }
+    else{
+        res.send(`${req.params["id"]} add in database`);
+        await InsertData("Pet", temp);
+    }
+    
 })
 
 //更新寵物名字
@@ -145,6 +163,28 @@ router.get('/checkSatiety/:id', async (req, res, next) => {
     else
     {
         res.send("pet is good");
+    }
+   
+})
+
+//檢查寵物是否餓
+router.get('/checkHungry/:id', async (req, res, next) => {
+    var ONE_HOUR = 1000*60*60;
+    let temp =
+    {
+        "TokenID": parseInt(req.params["id"]),
+    }
+    let time = await GetLastFeedTime(temp.TokenID);
+    timeUTC = new Date(time.toUTCString());
+    const nowtime = new Date(new Date().toUTCString());
+    var diff = nowtime - timeUTC;
+    var hours = Math.floor(diff/ONE_HOUR); 
+    if(hours >= 1) {
+        res.send("true");
+    }
+    else
+    {
+        res.send("false");
     }
    
 })

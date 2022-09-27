@@ -6,6 +6,7 @@ import { useMoralis } from "react-moralis";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios'
+import {Icon} from "semantic-ui-react";
 
 const Header = () => {
   const { authenticate, isAuthenticated, user, logout } = useMoralis();
@@ -63,19 +64,27 @@ const Header = () => {
     if (isAuthenticated) {
       return (
         <div className="right-header">
-          <div className="coinRemain">
-            <img src={coin} className="logo"></img>
-            <div className="textArea">
-              <p>{coinAmount}</p>
+          <div className="headerContainer">
+            <img src={coin} className="coin"></img>
+            <div className="headerTextFiled">
+              <div className="address">
+                <p>{coinAmount}</p>
+              </div>
             </div>
           </div>
-          <div>
-            <p className="address">
-              {user.get("ethAddress").slice(0, 5) + "..." + user.get("ethAddress").slice(38)}
-            </p>
+            
+          <div className="headerContainer">
+            <Icon name='address card' size='large' color='yellow'/>
+            <div className="headerTextFiled">
+              <p className="address">
+                {user.get("ethAddress").slice(0, 5) + "..." + user.get("ethAddress").slice(38)}
+              </p>
+            </div>
           </div>
+
           <div>
             <button className="connectButton" onClick={logOut}>
+              <Icon name="log out" color='black' size='large'/>
               <p>Log Out</p>
             </button>
           </div>
