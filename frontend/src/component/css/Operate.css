@@ -32,19 +32,19 @@
 .selectedTab {
   margin: 0 5px;
   width: auto;
-  height: 45px;
+  height: 35px;
   padding: 5px 30px;
   background-color: #331301;
   font-size: 15px;
   font-weight: bold;
   color: white;
   align-items:center;
-  border-radius: 30px 30px 0px 0px;
+  border-radius: 30px
 }
 
-.tabs label:hover{
+/* .tabs label:hover{
   background-color: #825941;
-}
+} */
 
 .tabs .tabsContent{
   width: 100%;

@@ -487,13 +487,13 @@ const Operate = ({ trigger, equipments, TokenID ,pettype}) => {
 
       <div className="BtnGroup">
         <Button.Group>
-          <Button animated="fade" basic inverted color='red' onClick={() => trigger(false)} size="large">
+          <Button animated="fade"  color='brown' onClick={() => trigger(false)} size="large">
             <Button.Content visible>Back To Info</Button.Content>
             <Button.Content hidden>
               <Icon name='arrow left' />
             </Button.Content>
           </Button>
-          <Button animated="fade" basic inverted color='red' onClick={() => { window.location.reload(); }} size="large">
+          <Button animated="fade" color='brown' onClick={() => { window.location.reload(); }} size="large">
             <Button.Content visible>Reload</Button.Content>
             <Button.Content hidden>
               <Icon name='redo alternate' />

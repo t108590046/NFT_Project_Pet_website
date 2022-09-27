@@ -6,7 +6,7 @@ import background from "../image/background.png";
 import Moralis from "moralis";
 import "./css/Collection.css";
 import axios from 'axios';
-import { Loader } from 'semantic-ui-react'
+import { Button, Header, Icon, Loader,Label } from 'semantic-ui-react'
 
 const Collection = () => {
   const [Pets, setPets] = useState([]);
@@ -124,9 +124,15 @@ const Collection = () => {
   }, [Pets]);
 
   const showNFTImage = Pets.map((data) => {
+    let hungry=false;
+    if(data.token_id === 1){
+      hungry=true;
+    }
+    //在此處新增飽足感判斷
     return (
         <NavLink className="image" to={`/NFT/${data.token_id}`}>
           <img src={data.image} alt='' />
+          <Icon circular inverted color='yellow' size='large' name='food' corner='top right' disabled={hungry}/>
         </NavLink>
     );
   })
@@ -134,10 +140,25 @@ const Collection = () => {
   return (
     <div className="box">
       <div className="collectionPage">
+        <div>
+          <div className="CollectionTitle">
+          <Header as='h2'>
+            <Icon name='paw' size='tiny' />
+            <Header.Content>
+              Your Collection
+              <Header.Subheader>
+                click the image to feed and manage
+              </Header.Subheader>
+            </Header.Content>
+          </Header>
+          </div>
+        </div>
+        
         <section className="showImg">
           {!collectionLoadComplete && <Loader size="large" active inline='centered'><h3>Loading Pet</h3></Loader>}
           {collectionLoadComplete && showNFTImage}
         </section>
+        <div></div>
       </div>
     </div>
   );

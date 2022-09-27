@@ -6,8 +6,9 @@
 }
 
 .infoContainer{
-  background-color: rgba(244, 117, 33, 0.9);
-  width: 70%;
+  background-color: #9c3303ef;
+  position: absolute;
+  width: 75%;
   height: 85%;
   padding: 30px;
   border-radius: 30px;
@@ -34,7 +35,7 @@
   top: 0%;
   left: 0%;
   max-width: 90%;
-  max-height: 80%;
+  max-height: 70%;
 }
 
 .infoText{
