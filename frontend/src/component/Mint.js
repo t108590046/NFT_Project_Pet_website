@@ -38,7 +38,7 @@ const Mint = () => {
               setPetNameTitle("Pet Name");
               setOpenModal(true);
               //setPopupOpen(true);
-              //setMintType("角色");
+              setMintType("角色");
             }}
           >
             Mint
@@ -53,17 +53,17 @@ const Mint = () => {
           <button
             className="mintButton"
             onClick={() => {
-              setText("Input component ID");
+              setText("Get a Random Component");
               setOpenModal(true);
               //setPopupOpen(true);
-              //setMintType("裝備");
+              setMintType("裝備");
             }}
           >
             Mint
           </button>
         </div>
       </section>
-      {openModal && <Modal trigger={setOpenModal} content={text} PNtitle={PetNameTitle} />}
+      {openModal && <Modal trigger={setOpenModal} content={text} PNtitle={PetNameTitle} mintType={mintType}/>}
     </div>
   );
 };

@@ -223,45 +223,53 @@ export const IsApprovedForAll_ABI = {
 };
 
 export const setApprovalForAll_ABI = {
-    inputs:[
+    inputs: [
         {
-            internalType:"address",
-            name:"operator",
-            type:"address"
+            internalType: "address",
+            name: "operator",
+            type: "address"
         },
         {
-            internalType:"bool",
-            name:"approved",
-            type:"bool"
+            internalType: "bool",
+            name: "approved",
+            type: "bool"
         }
     ],
-    name:"setApprovalForAll",
-    outputs:[],
-    stateMutability:"nonpayable",
-    type:"function"
+    name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
 };
 
 export const TextOf_ABI = {
     inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256"
-      },
-      {
-        internalType: "uint256",
-        name: "attrId",
-        type: "uint256"
-      }
+        {
+            internalType: "uint256",
+            name: "tokenId",
+            type: "uint256"
+        },
+        {
+            internalType: "uint256",
+            name: "attrId",
+            type: "uint256"
+        }
     ],
     name: "textOf",
     outputs: [
-      {
-        internalType: "bytes",
-        name: "",
-        type: "bytes"
-      }
+        {
+            internalType: "bytes",
+            name: "",
+            type: "bytes"
+        }
     ],
     stateMutability: "view",
     type: "function"
-  };
+};
+
+export const Component_mint_ABI = {
+    inputs: [],
+    name: "mint",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+};
