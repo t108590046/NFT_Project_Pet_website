@@ -71,21 +71,27 @@
     background: rgb(230, 230, 230);
     border-radius: 12px;
     box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-  }
-  
-  .numSelect span{
+}
+
+.numSelect span{
     width: 100%;
     text-align: center;
     font-size: 40px;
     font-weight: 600;
     cursor: pointer;
     user-select: none;
-  }
+}
 
-  .numSelect span.num{
+.numSelect span.num{
     font-size: 30px;
     border-right: 2px solid rgba(0,0,0,0.2);
     border-left: 2px solid rgba(0,0,0,0.2);
     pointer-events: none;
-  }
-  
+}
+
+/* daily coin */
+.dailyCoinPage {
+    background-color: #FAF3E3;;
+    width: 400px !important;
+    font-weight: bolder;
+}

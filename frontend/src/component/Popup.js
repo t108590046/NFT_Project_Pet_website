@@ -3,8 +3,11 @@ import "./css/Popup.css";
 import { useState } from "react";
 import axios from 'axios'
 import { useMoralis } from "react-moralis";
+import { Button, Header, Image, Modal, Checkbox, Form } from 'semantic-ui-react'
+import Coin from "../image/coin.png"
 
-function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtype, mint_function, mint_tokenID}) {
+
+function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtype, mint_function, mint_tokenID, continueDay}) {
     const {user,isAuthenticated,authenticate} = useMoralis();
     const [currentNum, setcurrentNum] = useState(1); //購買數量
 
@@ -92,6 +95,88 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                 </div>
             </div>
         );
+    }
+
+    if (mode === "dailyCoin") {
+        return (
+            <Modal
+                onClose={() => setPopupOpen(false)}
+                onOpen={() => setPopupOpen(true)}
+                open={true}
+                className="dailyCoinPage"
+            >
+                { console.log('here')}
+                <Modal.Header>每日登入領金幣</Modal.Header>
+                <Modal.Content image>
+                    <Image src={Coin} wrapped fluid size="small"/>
+                    <Modal.Description>
+                        <Header>您已連續領取第{continueDay}天</Header>
+                        <p>恭喜你獲得{0}元！</p>
+                        <p>記得每天持續領取金幣，<br/>存夠錢幫猴子買食物吃！</p>
+                    </Modal.Description>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button
+                        content="領取"
+                        labelPosition='right'
+                        icon='checkmark'
+                        onClick={() => setPopupOpen(false)}
+                        positive
+                    />
+                </Modal.Actions>
+            </Modal>
+        );
+    }
+
+    if(mode == "contact"){
+        return(
+            <Modal
+                onClose={() => setPopupOpen(false)}
+                onOpen={() => setPopupOpen(true)}
+                open={true}
+                className="dailyCoinPage"
+            >
+                <Modal.Header>Contact US</Modal.Header>
+                <Modal.Content image>
+                    <Form>
+                        <Form.Group widths='equal'>
+                            <Form.Field>
+                                <label>First Name</label>
+                                <input placeholder='First Name' />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Last Name</label>
+                                <input placeholder='Last Name' />
+                            </Form.Field>
+                        </Form.Group>
+                        <Form.Field>
+                                <label>email</label>
+                                <input placeholder='sample@example.com' />
+                            </Form.Field>
+                        <Form.TextArea label='Feed back' placeholder='' />
+                        <Form.Field>
+                            <Checkbox label='Send Confirm' />
+                        </Form.Field>
+                    </Form>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button
+                        color='prey'
+                        content="Cancel"
+                        labelPosition='right'
+                        icon='cancel'
+                        onClick={() => setPopupOpen(false)}
+                    />
+                    <Button
+                        content="send"
+                        labelPosition='right'
+                        icon='send'
+                        onClick={() => setPopupOpen(false)}
+                        positive
+                    />
+                </Modal.Actions>
+            </Modal>
+        )
     }
 }
 

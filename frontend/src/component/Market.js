@@ -83,7 +83,7 @@ const Market = () => {
 		<div className="box">
 			<div className="collectionPage">
 				<div>
-					<div className="CollectionTitle">
+					<div className="CollectionLabel">
 						<Header as='h2'>
 							<Icon name='shopping cart' size='tiny'/>
 							<Header.Content>

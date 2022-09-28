@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useMoralis, useMoralisWeb3Api } from "react-moralis";
+import Popup from "./Popup.js"
 import Moralis from "moralis";
 import "./css/HomePage.css";
+import { Button } from 'semantic-ui-react';
 
 const Homepage = () => {
   const { isAuthenticated, user } = useMoralis();
@@ -10,6 +12,8 @@ const Homepage = () => {
 
   const [balance, setBalance] = useState("");
   const [name, setName] = useState("");
+  const [dailyCoinOpen, setDailyCoinOpen] = useState(true);  // daily coin useState
+  const [contact, setContact] = useState(false);
 
   const enableWeb3 = async () => {
     await Moralis.enableWeb3();
@@ -31,6 +35,12 @@ const Homepage = () => {
         console.log(error);
       });
   };
+
+  // check if need to open daily coin
+  const openDailyCoin = async () => {
+    // ...
+    setDailyCoinOpen(true);
+  }
 
   const getBalance = () => {
     const options = {
@@ -54,6 +64,11 @@ const Homepage = () => {
   if (isAuthenticated) {
     return (
       <div className="homePage">
+        { console.log(dailyCoinOpen) }
+        <Button onClick={ () => {openDailyCoin();}}>open daily coin page</Button>
+        {dailyCoinOpen && <Popup mode="dailyCoin" setPopupOpen={setDailyCoinOpen} />}
+        <Button color="red" onClick={() => {setContact(true)}}>Report</Button>
+        {contact && <Popup mode="contact" setPopupOpen={setContact} />}
       </div>
     );
   }

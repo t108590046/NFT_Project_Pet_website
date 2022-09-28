@@ -243,8 +243,9 @@ const NFT = () => {
   const ShowNFTInfo = () => {
     return (
       <div className="infoText">
-        <div className="inner">
-          <h1>{NFT_info_database.Name}</h1>
+        <div className="nameField">
+          <h1>Name</h1>
+          {/* <h1>{NFT_info_database.Name}</h1> */}
           {setingPopup(NFT_info_database.Name)}
         </div>
         <div className="inner">
