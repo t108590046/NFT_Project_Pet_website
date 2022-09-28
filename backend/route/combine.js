@@ -4,6 +4,7 @@ const basePath = process.cwd();
 const { UploadFileToIpfs,UploadImageMoralisIpfs,UploadFileMoralisIpfs } = require(`${basePath}/models/ipfs`)
 const { Combine, GetBuildImagePath, GetNFTMetadata,GetRandomNFT } = require(`${basePath}/models/canvas`)
 const { AddAttributeToList, GetAttributeList } = require(`${basePath}/models/function`)
+const {GetBalance, GetUri,Separate_Contract,Combine_Contract} = require(`${basePath}/models/ethers`)
 const router = express.Router()
 const ipAddress = process.env.IP_ADDRESS
 const port = process.env.PORT
@@ -17,23 +18,30 @@ router.post('/', async (req, res, next) => {
     var pant = req.body.pant
     var pet = req.body.pet
     var tokenId = req.body.tokenId
+    var subId = req.body.subId
+    var subAddress = req.body.subAddress
+    var operateType = req.body.operateType
     var itemList = [pet, pant, cloth, glasses, hat, hand]
+    console.log(tokenId,subId);
     await Combine(itemList, tokenId)
     let ipfsPath = await UploadImageMoralisIpfs(`${basePath}/public/build/${tokenId}.png`)
     let attributesList = GetAttributeList(itemList)
     let tempMetadata =  GetNFTMetadata('nft_pet', 'it is a cool pet', tokenId, ipfsPath, GetBuildImagePath(tokenId), attributesList)
     let URL = await UploadFileMoralisIpfs(tempMetadata);
-    res.send(URL);
+    console.log(URL);
+    try {
+        var result;
+        if(operateType == "combine") {
+            result = await Combine_Contract(tokenId,subId,subAddress,URL);
+        } 
+        else if(operateType == "separate"){
+            result = await Separate_Contract(tokenId,subId,subAddress,URL);
+        }
+        res.send(result);
+    } catch (error) {
+        res.send("error");
+    }
 })
-
-/*
-router.post('/nft', async (req, res, next) => {
-    await GetRandomNFT(0, 10);
-    res.send(123);
-})
-*/
-
-
 
 
 
