@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { contractAddress_Pet, tokenOfOwnerByIndex_ABI_Pet, tokenURI_ABI_Pet } from "../abi/pet"
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-moralis";
 import Moralis from "moralis";
@@ -163,8 +163,8 @@ const Collection = () => {
   return (
     <div className="box">
       <div className="collectionPage">
-        <div>
-          <div className="CollectionTitle">
+        <div className="CollectionTitle">
+          <div className="CollectionLabel">
             <Header as='h2'>
               <Icon name='paw' size='tiny' />
               <Header.Content>
@@ -181,6 +181,12 @@ const Collection = () => {
           {!collectionLoadComplete && <Loader size="large" active inline='centered'><h3>Loading Pet</h3></Loader>}
           {collectionLoadComplete && showNFTImage}
         </section>
+        <a href="https://testnet.rarible.com/" target="_blank" rel="noreferrer">
+          <Button icon labelPosition='right' size='large' color='black'>
+              Exchange
+              <Icon name='exchange' />
+          </Button>
+        </a>
       </div>
     </div>
   );
