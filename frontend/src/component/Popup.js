@@ -3,8 +3,9 @@ import "./css/Popup.css";
 import { useState } from "react";
 import axios from 'axios'
 import { useMoralis } from "react-moralis";
-import { Button, Header, Image, Modal } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Checkbox, Form } from 'semantic-ui-react'
 import Coin from "../image/coin.png"
+
 
 function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtype, mint_function, mint_tokenID, continueDay}) {
     const {user,isAuthenticated,authenticate} = useMoralis();
@@ -125,6 +126,57 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                 </Modal.Actions>
             </Modal>
         );
+    }
+
+    if(mode == "contact"){
+        return(
+            <Modal
+                onClose={() => setPopupOpen(false)}
+                onOpen={() => setPopupOpen(true)}
+                open={true}
+                className="dailyCoinPage"
+            >
+                <Modal.Header>Contact US</Modal.Header>
+                <Modal.Content image>
+                    <Form>
+                        <Form.Group widths='equal'>
+                            <Form.Field>
+                                <label>First Name</label>
+                                <input placeholder='First Name' />
+                            </Form.Field>
+                            <Form.Field>
+                                <label>Last Name</label>
+                                <input placeholder='Last Name' />
+                            </Form.Field>
+                        </Form.Group>
+                        <Form.Field>
+                                <label>email</label>
+                                <input placeholder='sample@example.com' />
+                            </Form.Field>
+                        <Form.TextArea label='Feed back' placeholder='' />
+                        <Form.Field>
+                            <Checkbox label='Send Confirm' />
+                        </Form.Field>
+                    </Form>
+                </Modal.Content>
+                <Modal.Actions>
+                    <Button
+                        color='prey'
+                        content="Cancel"
+                        labelPosition='right'
+                        icon='cancel'
+                        onClick={() => setPopupOpen(false)}
+                    />
+                    <Button
+                        content="send"
+                        labelPosition='right'
+                        icon='send'
+                        onClick={() => setPopupOpen(false)}
+                        positive
+                    />
+                </Modal.Actions>
+            </Modal>
+        )
     }
 }
 
