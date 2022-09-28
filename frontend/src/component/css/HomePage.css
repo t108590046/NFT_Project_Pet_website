@@ -42,3 +42,9 @@ h2 {
   width: 100%;
   z-index: 10;
 }
+
+.homepageBtn{
+  position: fixed;
+  top: 85%;
+  left: 39%;
+}
