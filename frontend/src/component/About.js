@@ -2,8 +2,8 @@ import React from 'react';
 import "./css/About.css";
 import "./Card.js";
 import Meat from "../image/meat.png";
-import PetNoBackground from "../image/petNoBackground.png";
-import MockTokenNoBackground from "../image/MockTokenNoBackground.png";
+import Pet from "../image/pet.png";
+import MockToken from "../image/MockToken.png";
 import Banana from "../image/banana.png";
 import {Header, Card, Icon, Image, Reveal } from 'semantic-ui-react'
 
@@ -17,10 +17,10 @@ const About = () => {
                 <Reveal animated='move up'>
                     <Reveal.Content visible>
                         {/* <Image src='https://react.semantic-ui.com/images/wireframe/square-image.png'/> */}
-                        <Image src={PetNoBackground}/>
+                        <Image src={Pet}/>
                     </Reveal.Content>
                     <Reveal.Content hidden>
-                        <Image  src={MockTokenNoBackground} alt="Image in about" wrapped ui={false} />
+                        <Image src={MockToken} alt="Image in about"/>
                     </Reveal.Content>
                 </Reveal>
                 <Card.Content>
