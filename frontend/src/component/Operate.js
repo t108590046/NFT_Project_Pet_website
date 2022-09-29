@@ -185,67 +185,10 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     cloth: clothType,
     pant: pantType,
     pet: pettype,
-    tokenId: TokenID
+    tokenId: TokenID,
+    subId:selectedSubToken,
+    selectedType:selectedType,
   })
-
-  const Separate_Contract = async (uri) => {
-    let options = {
-      contractAddress: contractAddress_Pet,
-      functionName: "separateOne",
-      abi: [separate_One_ABI_Pet],
-      params: {
-        tokenId: parseInt(TokenID),
-        subId: parseInt(selectedSubToken),
-        subAddress: contract_dictionary[selectedType],
-        _uri: uri
-      },
-    };
-
-    await contractProcessor.fetch({
-      params: options,
-      onSuccess: () => {
-        alert("Succesful Separate");
-        window.location.reload();
-      },
-      onError: (error) => {
-        InitEquipmentState();
-        alert(error);
-      },
-    });
-  };
-
-  const Combine_Contract = async (uri) => {
-    let subArray = []
-    let subArray_address = [contract_dictionary[selectedType]]
-
-    subArray.push(selectedSubToken);
-    console.log(subArray)
-    console.log(subArray_address)
-    let options = {
-      contractAddress: contractAddress_Pet,
-      functionName: "combine",
-      abi: [combine_ABI_Pet],
-      params: {
-        tokenId: parseInt(TokenID),
-        subIds: subArray,
-        subAddress: subArray_address,
-        _uri: uri
-      },
-    };
-
-    await contractProcessor.fetch({
-      params: options,
-      onSuccess: () => {
-        alert("Succesful Combine");
-        window.location.reload();
-      },
-      onError: (error) => {
-        InitEquipmentState();
-        alert(error.data.message);
-        alert("請檢查setting是否開啟操作權限");
-      },
-    });
-  };
 
   const postRequest_separate = () => {
     if (selectedSubToken === '') {
@@ -267,11 +210,13 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           cloth: clothType,
           pant: pantType,
           pet: pettype,
-          tokenId: TokenID
+          tokenId: TokenID,
+          subId:selectedSubToken,
+          subAddress:contract_dictionary[selectedType],
+          operateType:"separate"
         }
       }).then((response) => {
-        Separate_Contract(response.data);
-        console.log(response.data)
+        alert(response.data)
       }).catch((error) => alert(error));
     }
   }
@@ -296,11 +241,13 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           cloth: clothType,
           pant: pantType,
           pet: pettype,
-          tokenId: TokenID
+          tokenId: TokenID,
+          subId:selectedSubToken,
+          subAddress:contract_dictionary[selectedType],
+          operateType:"combine"
         }
       }).then((response) => {
-        Combine_Contract(response.data);
-        console.log(response.data)
+        alert(response.data)
       }).catch((error) => alert(error));
     }
   }

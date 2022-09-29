@@ -19,7 +19,8 @@
   overflow-y: scroll;
 }
 
-.CollectionTitle{
+
+.CollectionLabel{
   background-color:#BF9742;
   border-radius: 40px 40px 0px 0px;
   width: 110%;

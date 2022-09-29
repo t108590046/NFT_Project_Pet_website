@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const basePath = process.cwd();
-const { InsertData, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn,GetFoodAmount,GetLastFeedTime,CheckPetIn} = require(`${basePath}/models/morails`)
+const { InsertData, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn,GetFoodAmount,GetLastFeedTime,CheckPetIn,GetLastCheckInTime,AddCoinAmount,GetCurrentCheckInCount,UpdateCheckInCount,ResetPetFriendShip} = require(`${basePath}/models/morails`)
 const { GetRandomFromList } = require(`${basePath}/models/function`)
 const router = express.Router()
 const ipAddress = process.env.IP_ADDRESS
@@ -24,10 +24,12 @@ router.post('/insertNewUser', async (req, res, next) => {
 
     let food = await CheckUserIn(req.body.id,"Food");
     let coin = await CheckUserIn(req.body.id,"Coin");
-    
+    let checkIn = await CheckUserIn(req.body.id,"User_CheckIn");
+
     let temp = {
         food:food,
-        coin:coin
+        coin:coin,
+        checkIn:checkIn
     }
     res.json(temp)
     
@@ -186,6 +188,42 @@ router.get('/checkHungry/:id', async (req, res, next) => {
     {
         res.send("false");
     }
+   
+})
+
+//檢查今天是否登入
+router.get('/checkIn/:owner', async (req, res, next) => {
+    var ONE_DAY = 1000*60*60*24;
+    let Owner = await CheckUser(req.params["owner"])
+    let time = await GetLastCheckInTime(Owner);
+    timeUTC = new Date(time.toUTCString());
+    const nowtime = new Date(new Date().toUTCString());
+    var diff = nowtime - timeUTC;
+    var days = Math.floor(diff/ONE_DAY); 
+
+    if(days < 1){
+        res.send(false);
+    }
+    else{
+        await UpdateCheckInCount(Owner,days);
+        await AddCoinAmount(Owner, 100);
+        res.send(true);
+    }
+   
+})
+
+//獲得之前連續登入天數
+router.get('/checkInCount/:owner', async (req, res, next) => {
+    let Owner = await CheckUser(req.params["owner"])
+    let count = await GetCurrentCheckInCount(Owner);
+    res.send(count.toString());
+   
+})
+
+//重置pet 親密度
+router.get('/reset/:id', async (req, res, next) => {
+    let result = await ResetPetFriendShip(req.params["id"]);
+    res.send(result);
    
 })
 

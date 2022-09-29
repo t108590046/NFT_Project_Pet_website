@@ -273,3 +273,52 @@ export const Component_mint_ABI = {
     stateMutability: "nonpayable",
     type: "function"
 };
+
+export const LevelOf_ABI = {
+    inputs: [
+        {
+            internalType: "uint256",
+            name: "_tokenId",
+            type: "uint256"
+        },
+        {
+            internalType: "uint256",
+            name: "_attrId",
+            type: "uint256"
+        }
+    ],
+    name: "levelOf",
+    outputs: [
+        {
+            internalType: "uint8",
+            name: "",
+            type: "uint8"
+        }
+    ],
+    stateMutability: "view",
+    type: "function"
+};
+
+export const Upgrade_ABI = {
+    inputs: [
+        {
+            internalType: "uint256",
+            name: "_tokenId",
+            type: "uint256"
+        },
+        {
+            internalType: "uint256",
+            name: "_attrId",
+            type: "uint256"
+        },
+        {
+            internalType: "uint8",
+            name: "_level",
+            type: "uint8"
+        }
+    ],
+    name: "upgrade",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function"
+};
