@@ -62,7 +62,7 @@ header {
   text-align: baseline;
 }
 
-.connectButton{
+.connectButton {
   margin: 0 20px;
   width: 120px;
   height: 50px;
@@ -75,6 +75,11 @@ header {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.connectButton:hover {
+  background-color: #aaffde;
+  
 }
 
 .connectButton p{
