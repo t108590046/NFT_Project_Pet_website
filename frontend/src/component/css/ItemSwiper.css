@@ -13,13 +13,18 @@
 }
 
 .slide{
-  background-color:rgb(233, 244, 111);
+  background-color:rgb(255, 245, 102);
   display: flex;
   justify-content: center; 
   align-items: center; 
   text-align: center;
   padding: 3% 0%;
   border-radius:30px;
+  transition: 0.2s;
+}
+
+.slide:hover {
+  background-color:rgb(255, 218, 97);
 }
 
 .sliderContainer{

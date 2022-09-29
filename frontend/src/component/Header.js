@@ -67,22 +67,20 @@ const Header = () => {
           <div className="headerContainer">
             <img src={coin} className="coin"></img>
             <div className="headerTextFiled">
-              <div className="address">
-                <p>{coinAmount}</p>
-              </div>
+              <div className="coinAmount">{coinAmount}</div>
             </div>
           </div>
             
           <div className="headerContainer">
             <Icon name='address card' size='large' color='yellow'/>
             <div className="headerTextFiled">
-              <p className="address">
+              <div className="address">
                 {user.get("ethAddress").slice(0, 5) + "..." + user.get("ethAddress").slice(38)}
-              </p>
+              </div>
             </div>
           </div>
 
-          <div>
+          <div className="headerContainer">
             <button className="connectButton" onClick={logOut}>
               <Icon name="log out" color='black' size='large'/>
               <p>Log Out</p>

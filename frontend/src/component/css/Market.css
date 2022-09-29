@@ -14,6 +14,7 @@
     color:var(--black);
 }
 
+/* 
 .market-box-container{
     margin: 5vw;
     display: grid;
@@ -67,4 +68,4 @@
 .market-btn:hover{
     background: var(--orange);
     color:#fff;
-}
+} */
