@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Operate from "./Operate";
-import { getSubTokens_ABI_Pet, contractAddress_Pet, tokenURI_ABI_Pet,TextOf_ABI } from "../abi/pet"
+import { getSubTokens_ABI_Pet, contractAddress_Pet, tokenURI_ABI_Pet, TextOf_ABI, LevelOf_ABI, Upgrade_ABI } from "../abi/pet"
 import axios from 'axios'
 import {
   useMoralis,
@@ -10,7 +10,7 @@ import {
 } from "react-moralis";
 
 import "./css/NFT.css";
-import { Button, Icon, Modal, Header, Input} from "semantic-ui-react";
+import { Button, Icon, Modal, Header, Input } from "semantic-ui-react";
 
 const NFT = () => {
   const { id } = useParams()
@@ -20,6 +20,7 @@ const NFT = () => {
   const [ImageURI, setImageURI] = useState();
   const [species, setSpecies] = useState();
   const [petType, setPetType] = useState();
+  const [level, setLevel] = useState();
   const [NFT_info_database, setNFT_info_database] = useState({});
   const [isShowOperate, setIsShowOperate] = useState(false);
   const [equipments, setEquipments] = useState([]);
@@ -27,6 +28,66 @@ const NFT = () => {
   const [open, setOpen] = React.useState(false);
 
   const [newName, setNewName] = React.useState("");
+
+
+  const ResetPetFriendShip = async()=>{
+    await axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/reset/${id}`,
+    }).then((response) => {
+      console.log(response);
+    }).catch((error) => alert(error));
+  }
+
+  const CheckFriendship = async (_id) => {
+    console.log(NFT_info_database.Friendship,level)
+    if (NFT_info_database.Friendship >= 100) {
+      alert("恭喜! 你可以升等")
+      let options = {
+        contractAddress: contractAddress_Pet,
+        functionName: "upgrade",
+        abi: [Upgrade_ABI],
+        params: {
+          _tokenId: _id,
+          _attrId: 2,
+          _level: level + 1
+        },
+      };
+
+      await contractProcessor.fetch({
+        params: options,
+        onSuccess: (response) => {
+          ResetPetFriendShip();
+          alert("等級提升!!")
+        },
+        onError: (error) => {
+          console.log(error);
+        },
+      });
+    }
+  }
+
+  const GetLevelOf = async (_id) => {
+    let options = {
+      contractAddress: contractAddress_Pet,
+      functionName: "levelOf",
+      abi: [LevelOf_ABI],
+      params: {
+        _tokenId: _id,
+        _attrId: 2
+      },
+    };
+
+    await contractProcessor.fetch({
+      params: options,
+      onSuccess: (response) => {
+        setLevel(parseInt(response));
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    });
+  }
 
   //將MetadataURI轉成json格式
   const TurnToJson = async (_uri, _type) => {
@@ -41,7 +102,7 @@ const NFT = () => {
           type: responseData.type
         }
         if (_type === "component") setEquipments(oldArray => [...oldArray, temp]);
-        else if (_type === "pet") {setImageURI(responseData.image);setPetType(responseData.attributes[5].value);}
+        else if (_type === "pet") { setImageURI(responseData.image); setPetType(responseData.attributes[5].value); }
       })
   }
 
@@ -80,7 +141,7 @@ const NFT = () => {
     });
   }
 
-  const Hex_to_ascii = (input_hex)=>{
+  const Hex_to_ascii = (input_hex) => {
     var hex = input_hex.toString();
     var str = '';
     for (var n = 0; n < hex.length; n += 2) {
@@ -96,7 +157,7 @@ const NFT = () => {
       abi: [TextOf_ABI],
       params: {
         tokenId: id,
-        attrId:_attID
+        attrId: _attID
       },
     };
 
@@ -104,8 +165,8 @@ const NFT = () => {
       params: options,
       onSuccess: (response) => {
         var str = Hex_to_ascii(response.toString().slice(2));
-        if(_attID === 4)setCharacteristic(str);
-        else if(_attID === 3)setSpecies(str);
+        if (_attID === 4) setCharacteristic(str);
+        else if (_attID === 3) setSpecies(str);
       },
       onError: (error) => {
         console.log(error);
@@ -149,14 +210,14 @@ const NFT = () => {
     }).then((response) => {
       alert("更改成功");
       window.location.reload();
-    }).catch((error)=>{
+    }).catch((error) => {
       alert(error);
     })
   }
 
   const ShowSubInfo = equipments.map((equipment) => {
     return (<div>
-      <div>配件:<img src={equipment.imageURI} alt=''/></div>
+      <div>配件:<img src={equipment.imageURI} alt='' /></div>
       <div>tokenID:{equipment.token_id}</div>
     </div>)
   })
@@ -194,7 +255,7 @@ const NFT = () => {
     )
   }
 
-  const checkPetSatiety = async()=>{
+  const checkPetSatiety = async () => {
     await axios({
       method: 'GET',
       url: `http://localhost:8001/database/checkSatiety/${id}`,
@@ -203,16 +264,14 @@ const NFT = () => {
         TokenID: id
       }
     }).then((response) => {
-      if(response.data === "pet is hungry") 
-      {
+      if (response.data === "pet is hungry") {
         alert(response.data);
         window.location.reload();
       }
-    }).catch((error)=>{alert(error)})
+    }).catch((error) => { alert(error) })
   }
 
-  const GetDatabaseInfo =()=>
-  {
+  const GetDatabaseInfo = () => {
     checkPetSatiety();
     axios({
       method: 'GET',
@@ -221,7 +280,7 @@ const NFT = () => {
       console.log(response.data)
       setNFT_info_database(response.data)
       //TurnToJson(response.data.Metadata, "image");
-    }).catch((error)=>{alert(error)})
+    }).catch((error) => { alert(error) })
   }
 
   useEffect(() => {
@@ -230,6 +289,7 @@ const NFT = () => {
       GetSubTokens(id);
       GetAttribute(3);//個性
       GetAttribute(4);//種族
+      GetLevelOf(id);//等級
       GetDatabaseInfo();
     }
     else if (!isWeb3Enabled) {
@@ -240,11 +300,17 @@ const NFT = () => {
     }
   }, [isWeb3Enabled, isAuthenticated]);
 
+  useEffect(() => {
+    if ((level !== undefined) &&(NFT_info_database.Friendship !== undefined) && isAuthenticated && isWeb3Enabled) {
+      CheckFriendship(id);
+    }
+  }, [NFT_info_database,level])
+
   const ShowNFTInfo = () => {
     return (
       <div className="infoText">
         <div className="nameField">
-          <h1>Name</h1>
+          <h1>{NFT_info_database.Name}</h1>
           {/* <h1>{NFT_info_database.Name}</h1> */}
           {setingPopup(NFT_info_database.Name)}
         </div>
@@ -253,7 +319,7 @@ const NFT = () => {
           <p>種族：{species}</p>
           <p>個性：{characteristic}</p>
           <p>親密度：{NFT_info_database.Friendship}</p>
-          <p>等級：三</p>
+          <p>等級：{level}</p>
           <p>飽足度：{NFT_info_database.Satiety}</p>
         </div>
         <div className="inner">
@@ -276,7 +342,7 @@ const NFT = () => {
             <h2>Your Pet</h2>
             <img src={ImageURI} alt='' />
           </div>
-          {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments}  pettype={petType}/>}
+          {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} pettype={petType} />}
           {!isShowOperate && ShowNFTInfo()}
         </section>
       </div>

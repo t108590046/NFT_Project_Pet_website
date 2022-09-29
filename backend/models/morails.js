@@ -24,14 +24,23 @@ const coinJson = (_owner) => {
     return temp
 }
 
+const UserCheckInJson = (_owner) => {
+    let temp = {
+        CheckCount: 0,
+        Owner: _owner
+    }
+    return temp
+}
 
-const CheckPetIn = async(_tokenID) =>{
+
+
+const CheckPetIn = async (_tokenID) => {
     await Moralis.start({ serverUrl, appId, masterKey })
     const _object = Moralis.Object.extend("Pet")
     const query = new Moralis.Query(_object)
     query.equalTo("TokenID", parseInt(_tokenID))
     const result = await query.find({ useMasterKey: true })
-    if(result.length == 0) return false;
+    if (result.length == 0) return false;
     else return true;
 }
 
@@ -57,6 +66,9 @@ const CheckUserIn = async (_objectID, _objectName) => {
                     break;
                 case "Coin":
                     await InsertData("Coin", coinJson(isInUser));
+                    break;
+                case "User_CheckIn":
+                    await InsertData("User_CheckIn", UserCheckInJson(isInUser));
                     break;
             }
             return ("insert done");
@@ -253,6 +265,101 @@ const GetLastFeedTime = async (id) => {
     return time;
 }
 
+//獲得上次簽到時間
+const GetLastCheckInTime = async (owner_id) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("User_CheckIn")
+    const query = new Moralis.Query(Class)
+    query.equalTo("Owner", owner_id)
+    let time = 0;
+    const results = await query.find();
+    const objectID = results[0].id
+
+    await query.get(objectID).then(
+        (data) => {
+            time = data.get("updatedAt");
+            // The object was retrieved successfully.
+        },
+        (error) => {
+            // The object was not retrieved successfully.
+            // error is a Moralis.Error with an error code and message.
+        }
+    );
+    return time;
+}
+
+const GetCurrentCheckInCount = async (owner) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("User_CheckIn")
+    const query = new Moralis.Query(Class)
+    query.equalTo("Owner", owner)
+    let CurrentCount = 0;
+    const results = await query.find();
+    console.log(owner);
+
+    const objectID = results[0].id
+
+    await query.get(objectID).then(
+        (coin) => {
+            CurrentCount = coin.get("CheckCount");
+            // The object was retrieved successfully.
+        },
+        (error) => {
+            // The object was not retrieved successfully.
+            // error is a Moralis.Error with an error code and message.
+        }
+    );
+
+    return CurrentCount;
+}
+
+const UpdateCheckInCount = async (owner,diffday) => {
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("User_CheckIn")
+    const query = new Moralis.Query(Class)
+    query.equalTo("Owner", owner);
+    let oldCount = await GetCurrentCheckInCount(owner);
+    console.log("old", oldCount,"diffday",diffday)
+    if(diffday>=2){
+        oldCount = 0;
+    }
+    else if(diffday>=1){
+        oldCount +=1;
+    }
+    console.log("new", oldCount)
+    const object = await query.first();
+        if (object) {
+            object.set("CheckCount", oldCount)
+            object.save().then(() => {
+                console.log('update CheckIn');
+                return ("update CheckIn done");
+            }, (error) => {
+                console.log(error);
+                return (error);
+            });
+        }
+}
+
+const AddCoinAmount = async(owner, coins)=>{
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Coin")
+    const query = new Moralis.Query(Class)
+    query.equalTo("Owner", owner);
+    let oldCoinAmount = await GetCurrentCoin(owner);
+    const object = await query.first();
+        if (object) {
+            object.set("Amount", oldCoinAmount+coins)
+            object.save().then(() => {
+                console.log('update coin done');
+                return ("update coin done");
+            }, (error) => {
+                console.log(error);
+                return (error);
+            });
+        }
+}
+
+
 //更新coin數量
 const UpdateCoinAmount = async (data) => {
     await Moralis.start({ serverUrl, appId, masterKey })
@@ -318,6 +425,25 @@ const GetCurrentCoin = async (owner) => {
     );
 
     return CurrentCoin;
+}
+
+const ResetPetFriendShip = async(_tokenID)=>{
+    await Moralis.start({ serverUrl, appId, masterKey })
+    const Class = Moralis.Object.extend("Pet")
+    const query = new Moralis.Query(Class)
+    query.equalTo("TokenID", parseInt(_tokenID));
+    const object = await query.first();
+    console.log(object)
+    if (object) {
+        object.set("Friendship", 0);
+        object.save().then(() => {
+            console.log('Reset Friendship done');
+            return('Reset Friendship done');
+        }, (error) => {
+            console.log(error);
+            return(error);
+        });
+    }
 }
 
 //寵物吃食物後更新飽食度與親密度
@@ -487,4 +613,4 @@ const TransferPet = async (toAddress, tokenid) => {
 */
 
 
-module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn, GetFoodAmount, GetLastFeedTime, CheckPetIn }
+module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn, GetFoodAmount, GetLastFeedTime, CheckPetIn,GetLastCheckInTime,UpdateCheckInCount,AddCoinAmount,GetCurrentCheckInCount,ResetPetFriendShip }

@@ -185,7 +185,9 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     cloth: clothType,
     pant: pantType,
     pet: pettype,
-    tokenId: TokenID
+    tokenId: TokenID,
+    subId:selectedSubToken,
+    selectedType:selectedType,
   })
 
   const postRequest_separate = () => {

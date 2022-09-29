@@ -33,6 +33,30 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
             authenticate();
         }
 	}
+
+
+    const CheckIn = async () => {
+        if(isAuthenticated)
+        {
+            await axios({
+                method: 'GET',
+                url: `http://localhost:8001/database/checkIn/${user.get("ethAddress")}`,
+              }).then((response) => {
+                console.log(response.data);
+                if(!response.data){
+                    alert("今天已領取!!")
+                }
+                else{
+                    alert("領取成功!!")
+                }
+              }).catch((error) => console.log(error));
+        }
+		else
+        {
+            authenticate();
+        }
+	}
+    
     
     if(mode === "market"){
         return (
@@ -111,7 +135,7 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                     <Image src={Coin} wrapped fluid size="small"/>
                     <Modal.Description>
                         <Header>您已連續領取第{continueDay}天</Header>
-                        <p>恭喜你獲得{0}元！</p>
+                        <p>恭喜你獲得{100}元！</p>
                         <p>記得每天持續領取金幣，<br/>存夠錢幫猴子買食物吃！</p>
                     </Modal.Description>
                 </Modal.Content>
@@ -120,7 +144,10 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                         content="領取"
                         labelPosition='right'
                         icon='checkmark'
-                        onClick={() => setPopupOpen(false)}
+                        onClick={() => {
+                            CheckIn();
+                            setPopupOpen(false);
+                        }}
                         positive
                     />
                 </Modal.Actions>
@@ -128,7 +155,7 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
         );
     }
 
-    if(mode == "contact"){
+    if(mode === "contact"){
         return(
             <Modal
                 onClose={() => setPopupOpen(false)}

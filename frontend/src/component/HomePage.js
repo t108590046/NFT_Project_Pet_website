@@ -3,6 +3,7 @@ import { useMoralis, useMoralisWeb3Api } from "react-moralis";
 import Popup from "./Popup.js"
 import Moralis from "moralis";
 import "./css/HomePage.css";
+import axios from 'axios'
 import { Button, Icon } from 'semantic-ui-react';
 
 const Homepage = () => {
@@ -12,6 +13,7 @@ const Homepage = () => {
 
   const [balance, setBalance] = useState("");
   const [name, setName] = useState("");
+  const [continueDay,SetContinueDay] = useState("")
   const [dailyCoinOpen, setDailyCoinOpen] = useState(false);  // daily coin useState
   const [contact, setContact] = useState(false); //contact page controll
 
@@ -19,26 +21,21 @@ const Homepage = () => {
     await Moralis.enableWeb3();
   };
 
-  const updateName = async () => {
-    const _User = Moralis.Object.extend("_User");
-    const query = new Moralis.Query(_User);
-    query.equalTo("objectId", user.id);
-    const results = await query.find({ useMasterKey: true });
+  const GetCheckInCount = async()=>{
+    await axios({
+      method: 'GET',
+      url: `http://localhost:8001/database/checkInCount/${user.get("ethAddress")}`,
+    }).then((response) => {
+      SetContinueDay(response.data);
+    }).catch((error) => alert(error));
+  }
 
-    results[0].set("name", name);
-    results[0]
-      .save()
-      .then(() => {
-        alert("Update success, please refresh the website to look");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  console.log(continueDay);
 
   // check if need to open daily coin
   const openDailyCoin = async () => {
     // ...
+    await GetCheckInCount();
     setDailyCoinOpen(true);
   }
 
@@ -56,7 +53,6 @@ const Homepage = () => {
   useEffect(() => {
     if (isAuthenticated) {
       getBalance();
-
       enableWeb3();
     }
   }, [isAuthenticated]);
@@ -65,7 +61,7 @@ const Homepage = () => {
     return (
       <div className="homePage">
         { console.log(dailyCoinOpen) }
-        {dailyCoinOpen && <Popup mode="dailyCoin" setPopupOpen={setDailyCoinOpen} />}
+        {dailyCoinOpen && <Popup mode="dailyCoin" setPopupOpen={setDailyCoinOpen} continueDay = {continueDay}/>}
         <div className="homepageBtn">
           <Button primary size="huge" animated='fade' onClick={ () => {openDailyCoin();}}>
             <Button.Content visible>Daily Check In</Button.Content>
