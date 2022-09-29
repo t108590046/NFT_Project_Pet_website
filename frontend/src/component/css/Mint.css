@@ -1,4 +1,4 @@
-.mintArea{
+.mintArea {
   box-sizing: border-box;
   height: 85vh;
   margin: auto 20vw;
@@ -9,30 +9,34 @@
   position: relative;
 }
 
-.mintArea img{
+.mintArea img {
+
   max-width: 450px;
+  border-radius: 10%;
   width: 80%;
   margin: 2em auto;
 }
 
-.mintArea h1{
+.mintArea h1 {
   margin: 10px 0;
 }
 
-.mintButton{
+.mintButton {
   margin: 5%;
   width: 80%;
   height: 84px;
   border-radius: 100px;
   border: none;
   background-color: #873E15;
-  color: white;
+  color: antiquewhite;
   font-weight: 700;
   font-size: 24px;
+  transition: 0.2s;
 }
 
-.mintButton:hover{
-  background-color: #825941;
+.mintButton:hover {
+  color: #873E15;
+  background-color: antiquewhite;
   font-size: 30px;
 }
 
@@ -43,7 +47,7 @@
 }
 
 
-.component{
+.component {
   min-width: 300px;
   max-width: 500px;
   color: white;
