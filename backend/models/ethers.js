@@ -1,6 +1,7 @@
 const { ethers ,utils } = require('ethers');
 
-const provider = new ethers.providers.JsonRpcProvider("https://polygon-mumbai.infura.io/v3/c6e52241ba734e3cbd1cd2685a966454");
+const provider = new ethers.providers.JsonRpcProvider("https://goerli.infura.io/v3/76e268940375422d80fbbcb963895dc5");
+//const provider = new ethers.providers.JsonRpcProvider("https://polygon-mumbai.infura.io/v3/c6e52241ba734e3cbd1cd2685a966454");
 const privateKey = process.env.PRIVATE_KEY
 const address = process.env.USER_ADDRESS
 const contract_address = process.env.CONTACT_ADDRESS

@@ -1,9 +1,9 @@
-export const contractAddress_Pet = "0xd5439412528EEC4803bfBf757Ad1Cbf921eE9DBe";
-export const contractAddress_Hat = "0x7205EFA750b847F663465C1408998aba6Db60593";
-export const contractAddress_Hand = "0xb8f7c87a4589Bc057CfDF6eeFd4D43D6abed5a1b";
-export const contractAddress_Glasses = "0xaFdDb6FAc072858E26bddED15a08dD1981ACA815";
-export const contractAddress_Pant = "0x522065c7Fb97C37C29a8F6aE630CC1A190c1b8cA";
-export const contractAddress_Cloth = "0xeD5FBb309dDD0fD4eA961f96DF1b9e8d034c20c3";
+export const contractAddress_Pet = "0x2590c52D60eD502a8e0eAF526Deb791d06Ca4011";
+export const contractAddress_Hat = "0xf085c257f8fad3973632b4C3f616Ee02Bd894dc0";
+export const contractAddress_Hand = "0x68abc467161496D19E2abbA808B958710ad85D70";
+export const contractAddress_Glasses = "0x9850c29a7B4A2A24A236c9A89966C1e300080DBc";
+export const contractAddress_Pant = "0x8460d69825D5FAEC328DFD2a1E481e5D1711490A";
+export const contractAddress_Cloth = "0xeCA7B96A6036C96A345E327850292bA2CdaD2Cd8";
 
 export const act_ABI = {
     input: [
@@ -25,13 +25,7 @@ export const act_ABI = {
 };
 
 export const mint_ABI_Pet = {
-    inputs: [
-        {
-            internalType: "uint256",
-            name: "tokenId",
-            type: "uint256"
-        }
-    ],
+    inputs: [],
     name: "mint",
     outputs: [],
     stateMutability: "payable",

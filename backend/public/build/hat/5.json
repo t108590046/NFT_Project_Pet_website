@@ -2,7 +2,7 @@
   "name": "hat",
   "description": "component",
   "token_id": 5,
-  "image": "https://ipfs.moralis.io:2053/ipfs/QmVxvawprLNnYX6mRUxMoFsCVreh59qeocLJLVAVBJr37s",
-  "local_image": "http://127.0.0.1:8001/image/hat_0.png",
-  "type": "hat_0"
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmV8EeENBbaMDtT6P3RGtwNEKpzg9kEFeDgCJ5ZGMkxqB8",
+  "local_image": "http://127.0.0.1:8001/image/hat_1.png",
+  "type": "hat_1"
 }

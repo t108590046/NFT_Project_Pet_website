@@ -102,7 +102,7 @@ const NFT = () => {
           type: responseData.type
         }
         if (_type === "component") setEquipments(oldArray => [...oldArray, temp]);
-        else if (_type === "pet") { setImageURI(responseData.image); setPetType(responseData.attributes[5].value); }
+        else if (_type === "pet") { setImageURI(responseData.image); setPetType(responseData.attributes[5].value);setSpecies(responseData.species) }
       })
   }
 
@@ -166,7 +166,7 @@ const NFT = () => {
       onSuccess: (response) => {
         var str = Hex_to_ascii(response.toString().slice(2));
         if (_attID === 4) setCharacteristic(str);
-        else if (_attID === 3) setSpecies(str);
+        //else if (_attID === 3) setSpecies(str);
       },
       onError: (error) => {
         console.log(error);

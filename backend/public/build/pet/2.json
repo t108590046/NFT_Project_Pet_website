@@ -2,7 +2,7 @@
   "name": "pet",
   "description": "component",
   "token_id": 2,
-  "image": "https://ipfs.moralis.io:2053/ipfs/QmRGhsSspxKnwpDCRYCWw7g7WznCyuApcx1VqkWGiyXSny",
-  "local_image": "http://127.0.0.1:8001/image/pet_0.png",
-  "type": "pet_0"
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmUhoCfGLJ317i7j5pa3nVbQYC7gYTGj7jqG1iuypp2W9A",
+  "local_image": "http://127.0.0.1:8001/image/pet_1.png",
+  "type": "pet_1"
 }

@@ -48,7 +48,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       onSuccess: (data) => {
         console.log(data);
         setIsApprove(true);
-        alert("已開啟操作權限，請稍後再試一次")
+        alert("已開啟操作權限")
       },
       onError: (error) => {
         alert(error);
