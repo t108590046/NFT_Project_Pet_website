@@ -25,17 +25,17 @@ SwiperCore.use([Navigation, Pagination, Scrollbar, A11y]);
 
 const maketItemList = [
 	{
-		id: 1, itemName: "好吃的肉", itemDescription: "親密度+1 飽足度+10", itemCost: 1, itemImg: Meat, foodtype:"meat"
+		id: 1, itemName: "Meat", itemDescription: "Friendship+1 Satiety+10", itemCost: 1, itemImg: Meat, foodtype:"meat"
 	}, {
-		id: 2, itemName: "好吃香蕉", itemDescription: "親密度+2 飽足度+20", itemCost: 2, itemImg: Banana, foodtype:"banana"
+		id: 2, itemName: "Banana", itemDescription: "Friendship+2 Satiety+20", itemCost: 2, itemImg: Banana, foodtype:"banana"
 	}, {
-		id: 3, itemName: "好吃巧克力", itemDescription: "親密度+3 飽足度+30", itemCost: 3, itemImg: Chocolate, foodtype:"chocolate"
+		id: 3, itemName: "Chocolate", itemDescription: "Friendship+3 Satiety+30", itemCost: 3, itemImg: Chocolate, foodtype:"chocolate"
 	}, {
-		id: 4, itemName: "好吃的肉04", itemDescription: "親密度+1 飽足度+5", itemCost: 40, itemImg: Meat, foodtype:"meat"
+		id: 4, itemName: "Meat04", itemDescription: "Friendship+1 Satiety+10", itemCost: 40, itemImg: Meat, foodtype:"meat"
 	}, {
-		id: 5, itemName: "好吃的肉05", itemDescription: "親密度+1 飽足度+5", itemCost: 50, itemImg: Meat, foodtype:"meat"
+		id: 5, itemName: "Meat05", itemDescription: "Friendship+1 Satiety+10", itemCost: 50, itemImg: Meat, foodtype:"meat"
 	}, {
-		id: 6, itemName: "好吃的肉06", itemDescription: "親密度+1 飽足度+5", itemCost: 60, itemImg: Meat, foodtype:"meat"
+		id: 6, itemName: "Meat06", itemDescription: "Friendship+1 Satiety+10", itemCost: 60, itemImg: Meat, foodtype:"meat"
 	}
 ]
 

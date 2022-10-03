@@ -77,7 +77,10 @@ const DrawImage = async (image) => {
 }
 
 //NFT本體的metadata預設值
-const GetNFTMetadata = (_name, _description, _tokenId, _image, _localImage, _attributesList) => {
+const GetNFTMetadata = (_name, _description, _tokenId, _image, _localImage, _attributesList,_species) => {
+    let Ch_species;
+    if(_species == "pet_0") Ch_species = "猴子";
+    else Ch_species = "小狗";
     let tempMetadata = {
         name: _name,
         description: _description,
@@ -85,6 +88,7 @@ const GetNFTMetadata = (_name, _description, _tokenId, _image, _localImage, _att
         image: _image,
         local_image: _localImage,
         attributes: _attributesList,
+        species:Ch_species
     };
     return tempMetadata
 }
@@ -130,7 +134,7 @@ const GetRandomNFT = async (_tokenStart, _tokenEnd) => {
         await Combine(randomItemList, i)
         let ipfsPath = await UploadImageMoralisIpfs(`${basePath}/public/build/${i}.png`)
         let attributesList = GetAttributeList(randomItemList)
-        let tempMetadata = GetNFTMetadata('nft_pet', 'it is a cool pet', i, ipfsPath, GetBuildImagePath(i), attributesList)
+        let tempMetadata = GetNFTMetadata('nft_pet', 'it is a cool pet', i, ipfsPath, GetBuildImagePath(i), attributesList,attributesList[5].value)
         await SaveMetadata(tempMetadata, i , "main")
         await GenerateComponentJson(randomItemList, i)
     }

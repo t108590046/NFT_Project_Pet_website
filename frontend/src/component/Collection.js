@@ -111,7 +111,7 @@ const Collection = () => {
   //查詢address所有的NFT數量
   const fetchNFTsForContract = async () => {
     const options = {
-      chain: "mumbai",
+      chain: "goerli",
       address: user.get("ethAddress"),
       token_address: contractAddress_Pet,
     };

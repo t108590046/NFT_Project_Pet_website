@@ -26,7 +26,7 @@ router.post('/', async (req, res, next) => {
     await Combine(itemList, tokenId)
     let ipfsPath = await UploadImageMoralisIpfs(`${basePath}/public/build/${tokenId}.png`)
     let attributesList = GetAttributeList(itemList)
-    let tempMetadata =  GetNFTMetadata('nft_pet', 'it is a cool pet', tokenId, ipfsPath, GetBuildImagePath(tokenId), attributesList)
+    let tempMetadata =  GetNFTMetadata('nft_pet', 'it is a cool pet', tokenId, ipfsPath, GetBuildImagePath(tokenId), attributesList,attributesList[5].value)
     let URL = await UploadFileMoralisIpfs(tempMetadata);
     console.log(URL);
     try {
@@ -41,6 +41,10 @@ router.post('/', async (req, res, next) => {
     } catch (error) {
         res.send("error");
     }
+})
+
+router.post('/create', async (req, res, next) => {
+    GetRandomNFT(0,10);
 })
 
 

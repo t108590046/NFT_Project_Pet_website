@@ -7,7 +7,7 @@ import { Button, Header, Image, Modal, Checkbox, Form } from 'semantic-ui-react'
 import Coin from "../image/coin.png"
 
 
-function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtype, mint_function, mint_tokenID, continueDay}) {
+function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtype, mint_function, continueDay}) {
     const {user,isAuthenticated,authenticate} = useMoralis();
     const [currentNum, setcurrentNum] = useState(1); //購買數量
 
@@ -115,7 +115,7 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                     >
                     Cancel
                     </button>
-                    <button onClick={()=>{mint_function(mint_tokenID,mintType)}}>Confirm</button>
+                    <button onClick={()=>{mint_function(mintType)}}>Confirm</button>
                 </div>
             </div>
         );
