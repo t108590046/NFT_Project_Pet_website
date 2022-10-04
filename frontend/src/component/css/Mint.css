@@ -18,17 +18,17 @@
     caret 1s steps(1) infinite;
 } */
 
-.content {
+.mintArea .content {
   margin-top: 30px;
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.title {
+.mintArea .title {
   display: inline-block;
 }
-.title div {
+.mintArea .title div {
   overflow: hidden;
   border-right: .15em solid orange;
   white-space: nowrap;
