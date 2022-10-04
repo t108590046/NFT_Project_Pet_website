@@ -82,39 +82,44 @@ const Mint = () => {
   return (
     <div className="box">
       <section className="mintArea">
-        <div className="token">
-          <img src={unknownPet} alt="Loading" />
-          <h1>Mint Your Pet</h1>
-          <button
-            className="mintButton"
-            onClick={() => {
-              setText("Input token ID");
-              setPetNameTitle("Pet Name");
-              //setOpenModal(true);
-              setPopupOpen(true);
-              setMintType("角色");
-            }}
-          >
-            Mint
-          </button>
+        <div className="title">
+          <div>Come and Create Your Own Pet !</div>
         </div>
-          
-        {popupOpen && < Popup mode="mint" mintType={mintType} setPopupOpen={setPopupOpen} mint_function={mint}/>}
+        <div className="content">
+          <div className="token">
+            <img src={unknownPet} alt="Loading" />
+            <h1>Mint Your Pet</h1>
+            <button
+              className="mintButton"
+              onClick={() => {
+                setText("Input token ID");
+                setPetNameTitle("Pet Name");
+                //setOpenModal(true);
+                setPopupOpen(true);
+                setMintType("角色");
+              }}
+            >
+              Mint
+            </button>
+          </div>
+            
+          {popupOpen && < Popup mode="mint" mintType={mintType} setPopupOpen={setPopupOpen} mint_function={mint}/>}
 
-        <div className="component">
-          <img src={unknownComponent} alt="Loading" />
-          <h1>Mint Your Component</h1>
-          <button
-            className="mintButton"
-            onClick={() => {
-              setText("Get a Random Component");
-              //setOpenModal(true);
-              setPopupOpen(true);
-              setMintType("裝備");
-            }}
-          >
-            Mint
-          </button>
+          <div className="component">
+            <img src={unknownComponent} alt="Loading" />
+            <h1>Mint Your Component</h1>
+            <button
+              className="mintButton"
+              onClick={() => {
+                setText("Get a Random Component");
+                //setOpenModal(true);
+                setPopupOpen(true);
+                setMintType("裝備");
+              }}
+            >
+              Mint
+            </button>
+          </div>
         </div>
       </section>
       {/*openModal && <Modal trigger={setOpenModal} content={text} PNtitle={PetNameTitle} mintType={mintType}/>*/}

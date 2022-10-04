@@ -3,10 +3,48 @@
   height: 85vh;
   margin: auto 20vw;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-around;
-  flex-wrap: wrap;
+  justify-content: center;
   position: relative;
+}
+
+/* .title {
+  width: 30em;
+  border-right: .05em solid;
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 5s steps(30),
+    caret 1s steps(1) infinite;
+} */
+
+.content {
+  margin-top: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.title {
+  display: inline-block;
+}
+.title div {
+  overflow: hidden;
+  border-right: .15em solid orange;
+  white-space: nowrap;
+  animation: typing 6s steps(30, end) infinite, blinking .8s infinite;
+  font-size: 50px;
+  line-height: 50px;
+  width: 0;
+}
+@keyframes typing {
+  from { width: 0 }
+  40% { width: 100% }
+  to { width: 100% }
+}
+@keyframes blinking {
+  from { border-color: transparent }
+  to { border-color: orange; }
 }
 
 .mintArea img {

@@ -1,10 +1,17 @@
 import React from 'react';
 import "./css/About.css";
 import "./Card.js";
-import Meat from "../image/meat.png";
 import Pet from "../image/pet.png";
-import MockToken from "../image/MockToken.png";
-import Banana from "../image/banana.png";
+import mockToken from "../image/mockToken.png";
+import tokenSample_0 from "../image/tokenSample_0.png";
+import tokenSample_2 from "../image/tokenSample_2.png";
+import tokenSample_4 from "../image/tokenSample_4.png";
+import tokenSample_9 from "../image/tokenSample_9.png";
+import pet_noBackground from "../image/pet_noBackground.png";
+import mockToken_noBackground from "../image/mockToken_noBackground.png";
+import tokenSample_0_noBackground from "../image/tokenSample_0_noBackground.png";
+import tokenSample_4_noBackground from "../image/tokenSample_4_noBackground.png";
+import tokenSample_8_noBackground from "../image/tokenSample_8_noBackground.png";
 import {Header, Card, Icon, Image, Reveal } from 'semantic-ui-react'
 
 
@@ -20,7 +27,7 @@ const About = () => {
                         <Image src={Pet}/>
                     </Reveal.Content>
                     <Reveal.Content hidden>
-                        <Image src={MockToken} alt="Image in about"/>
+                        <Image src={image} alt="Image in about"/>
                     </Reveal.Content>
                 </Reveal>
                 <Card.Content>
@@ -28,9 +35,12 @@ const About = () => {
                 <Card.Meta>
                     <p className="aboutCardContent"><Icon name='handshake' />{work}</p>
                 </Card.Meta>
-                <Card.Description>
-                    <p className="aboutCardContent">{classes}</p>
-                </Card.Description>
+
+                </Card.Content>
+                <Card.Content extra>
+                    <Card.Description>
+                        <p className="aboutCardContent">{classes}</p>
+                    </Card.Description>
                 </Card.Content>
                 <Card.Content extra>
                 <p className="aboutCardContent">
@@ -45,7 +55,11 @@ const About = () => {
     return (
         <div className = "aboutPage"> 
             <Header as='h2' icon textAlign='center'>
-                <Icon name='flag' circular />
+                <div className='titleContainer'>
+                    <img src={ tokenSample_0_noBackground }></img>
+                    <Icon name='flag' circular />
+                    <img src={tokenSample_8_noBackground }></img>
+                </div>
                 <Header.Content><h1>Project Description</h1></Header.Content>
             </Header>
             <div>
@@ -65,38 +79,43 @@ const About = () => {
                 <div className="column">
                     <div className="card">
                         <div className="container">
-                            <AboutCard color="red" name="洪子翔" classes="電資學士班(主修資工)" image={Banana} work="前端" email="test@example.com"/>
+                            <AboutCard color="red" name="洪子翔" classes="電資學士班(主修資工)" image={tokenSample_4} work="前端" email="test@example.com"/>
                         </div>
                     </div>
                 </div>
                 <div className="column">
                     <div className="card">
                         <div className="container">
-                            <AboutCard color="orange" name="洪德易" classes="電資學士班(主修資工)" image={Meat} work="前端" email="test@example.com"/>
+                            <AboutCard color="orange" name="洪德易" classes="電資學士班(主修資工)" image={tokenSample_9} work="前端" email="test@example.com"/>
                         </div>
                     </div>
                 </div>
                 <div className="column">
                     <div className="card">
                         <div className="container">
-                            <AboutCard color="yellow" name="李永祺" classes="資訊工程系" image={Meat} work="合約撰寫" email="test@example.com"/>
+                            <AboutCard color="yellow" name="李永祺" classes="資訊工程系" image={tokenSample_0} work="合約撰寫" email="test@example.com"/>
                         </div>
                     </div>
                 </div>
                 <div className="column">
                     <div className="card">
                         <div className="container">
-                            <AboutCard color="violet" name="蔡禎宸" classes="資訊工程系" image={Meat} work="資料庫系統" email="test@example.com"/>
+                            <AboutCard color="violet" name="蔡禎宸" classes="資訊工程系" image={ tokenSample_2 } work="資料庫" email="test@example.com"/>
                         </div>
                     </div>
                 </div>
                 <div className="column">
                     <div className="card">
                         <div className="container">
-                            <AboutCard color="purple" name="劉彥麟" classes="資訊工程系" image={Meat} work="資料庫系統" email="test@example.com"/>
+                            <AboutCard color="purple" name="劉彥麟" classes="資訊工程系" image={ mockToken } work="資料庫" email="test@example.com"/>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div className='bottomPic'>
+                <img src={ mockToken_noBackground }></img>
+                <img src={tokenSample_4_noBackground }></img>
             </div>
         </div>
     );
