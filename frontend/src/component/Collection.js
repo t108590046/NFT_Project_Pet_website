@@ -181,7 +181,7 @@ const Collection = () => {
           {!collectionLoadComplete && <Loader size="large" active inline='centered'><h3>Loading Pet</h3></Loader>}
           {collectionLoadComplete && showNFTImage}
         </section>
-        <a href="https://testnet.rarible.com/" target="_blank" rel="noreferrer">
+        <a href="https://testnets.opensea.io/" target="_blank" rel="noreferrer">
           <Button icon labelPosition='right' size='large' color='black'>
               Exchange
               <Icon name='exchange' />

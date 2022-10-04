@@ -12,12 +12,13 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
   const { user, isAuthenticated, authenticate } = useMoralis();
   const contractProcessor = useWeb3ExecuteFunction();
   const Web3Api = useMoralisWeb3Api();
+  const [correctOperation, setCorrectOperation] = useState(false);
   const [components, setComponents] = useState([]);
   const [handType, setHandType] = useState('none');
   const [hatType, setHatType] = useState('none');
   const [glassesType, setGlassesType] = useState('none');
   const [clothType, setClothType] = useState('none');
-  const [pantType, setPantTyp] = useState('none');
+  const [pantType, setPantType] = useState('none');
   const [selectedSubToken, setSelectedSubToken] = useState('');
   const [selectedType, setSelectedType] = useState('');
   const [operationType, setOperationType] = useState('');
@@ -48,10 +49,11 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       onSuccess: (data) => {
         console.log(data);
         setIsApprove(true);
-        alert("已開啟操作權限")
+        InitEquipmentState();
+        alert("已開啟操作權限,稍後再試一次")
       },
       onError: (error) => {
-        alert(error);
+        console.log(error);
       },
     });
   }
@@ -71,7 +73,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       params: options,
       onSuccess: (data) => {
         bool = data;
-        
+
       },
       onError: (error) => {
         alert(error);
@@ -95,7 +97,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
         setClothType("none");
         break;
       case "pant":
-        setPantTyp("none");
+        setPantType("none");
         break;
       default:
     }
@@ -103,6 +105,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
 
   //初始角色裝備類型狀態
   const InitEquipmentState = () => {
+    setCorrectOperation(false);
     let total = ["hand", "hat", "glasses", "cloth", "pant"]
     let equipmentList = []
     equipments.forEach((equipment) => {
@@ -121,7 +124,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           setClothType(equipment.type);
           break;
         case "pant":
-          setPantTyp(equipment.type);
+          setPantType(equipment.type);
           break;
         default:
       }
@@ -132,47 +135,79 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       }
     })
   }
-  //改變腳色配件資訊
-  const ChangeState = (equipment) => {
-    //--開啟權限--
-    checkApprove(equipment.name).then((data)=>{
-      if(!data){
-        setApprove(equipment.name);
+
+  const checkApproveFunction = async(_name) => {
+     var bool;
+     await checkApprove(_name).then((data) => {
+      if (!data) {
+        setApprove(_name);
+        bool = false;
       }
-      else{
+      else {
         setIsApprove(true);
+        bool = true;
       }
     })
-    //----
+    console.log(bool)
+    return bool;
+  }
+
+  console.log("correct", correctOperation);
+  //改變腳色配件資訊
+  const ChangeState = async (equipment) => {
     let alertText = "you selected " + equipment.name + " id: " + equipment.token_id;
     setSelectedSubToken(equipment.token_id);
     setSelectedType(equipment.name);
     if (operationType === "separate") {
       SetTypeNone(equipment.name);
+      setIsApprove(true);
+      setCorrectOperation(true);
     }
-    else if (operationType === "combine") {
+    else if (operationType === "combine")
+    {
       switch (equipment.name) {
         case "hand":
-          if (handType === "none") setHandType(equipment.type);
-          else alertText = "you have been equipped " + handType;
+          if (handType === "none") {
+            checkApproveFunction(equipment.name).then((bool)=>{
+              if(bool){
+                setHandType(equipment.type); setCorrectOperation(true); 
+              }})}
+          else { alertText = "error: you have been equipped " + handType; setCorrectOperation(false) };
           break;
         case "hat":
-          if (hatType === "none") setHatType(equipment.type);
-          else alertText = "you have been equipped " + hatType;
+          if (hatType === "none") { 
+            checkApproveFunction(equipment.name).then((bool)=>{
+              if(bool){
+                setHatType(equipment.type); setCorrectOperation(true); 
+              }})}
+          else { alertText = "error: you have been equipped " + hatType; setCorrectOperation(false); }
           break;
         case "glasses":
-          if (glassesType === "none") setGlassesType(equipment.type);
-          else alertText = "you have been equipped " + glassesType;
+          if (glassesType === "none") { 
+            checkApproveFunction(equipment.name).then((bool)=>{
+              if(bool){
+                setGlassesType(equipment.type); setCorrectOperation(true); 
+              }})}
+          else { alertText = "error: you have been equipped " + glassesType; setCorrectOperation(false); }
           break;
         case "cloth":
-          if (clothType === "none") setClothType(equipment.type);
-          else alertText = "you have been equipped " + clothType;
+          if (clothType === "none") {
+            checkApproveFunction(equipment.name).then((bool)=>{
+              if(bool){
+                setClothType(equipment.type); setCorrectOperation(true); 
+              }})}
+          else { alertText = "error: you have been equipped " + clothType; setCorrectOperation(false); }
           break;
         case "pant":
-          if (pantType === "none") setPantTyp(equipment.type);
-          else alertText = "you have been equipped " + pantType;
+          if (pantType === "none") {
+            checkApproveFunction(equipment.name).then((bool)=>{
+              if(bool){
+                setPantType(equipment.type); setCorrectOperation(true); 
+              }})}
+          else { alertText = "error: you have been equipped " + pantType; setCorrectOperation(false); }
           break;
         default:
+          break;
       }
     }
     alert(alertText);
@@ -186,8 +221,8 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     pant: pantType,
     pet: pettype,
     tokenId: TokenID,
-    subId:selectedSubToken,
-    selectedType:selectedType,
+    subId: selectedSubToken,
+    selectedType: selectedType,
   })
 
   const postRequest_separate = () => {
@@ -211,13 +246,13 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           pant: pantType,
           pet: pettype,
           tokenId: TokenID,
-          subId:selectedSubToken,
-          subAddress:contract_dictionary[selectedType],
-          operateType:"separate"
+          subId: selectedSubToken,
+          subAddress: contract_dictionary[selectedType],
+          operateType: "separate"
         }
       }).then((response) => {
         alert(response.data)
-      }).catch((error) => alert(error));
+      }).catch((error) => { alert(error); InitEquipmentState(); });
     }
   }
 
@@ -242,13 +277,13 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           pant: pantType,
           pet: pettype,
           tokenId: TokenID,
-          subId:selectedSubToken,
-          subAddress:contract_dictionary[selectedType],
-          operateType:"combine"
+          subId: selectedSubToken,
+          subAddress: contract_dictionary[selectedType],
+          operateType: "combine"
         }
       }).then((response) => {
         alert(response.data)
-      }).catch((error) => alert(error));
+      }).catch((error) => { alert(error); InitEquipmentState(); });
     }
   }
   console.log(operationType)
@@ -326,7 +361,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       <div className="itemInfo">
         <h1>{component.name}</h1>
         <img src={component.image} alt=''></img>
-        <Button inverted color='brown' onClick={() => { ChangeState(component) }}>select</Button>
+        <Button inverted color='brown' onClick={() => { ChangeState(component) }}>Combine</Button>
       </div>
     )
   })
@@ -467,7 +502,8 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
 
   //post 改變寵物圖片及合約寵物狀態
   useEffect(() => {
-    if (isAuthenticated && isApprove) {
+    if (isAuthenticated && isApprove && correctOperation) {
+      alert("執行中!! 請耐心等待")
       if (operationType === 'separate') {
         postRequest_separate();
       }
@@ -475,10 +511,10 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
         postRequest_combine();
       }
     }
-    else if(!isAuthenticated){
+    else if (!isAuthenticated) {
       authenticate();
     }
-  }, [handType, hatType, glassesType, pantType, clothType,isApprove]);
+  }, [isApprove, correctOperation]);
 
 
   // 切換操作 reset狀態

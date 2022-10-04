@@ -2,7 +2,7 @@ import React from 'react';
 import "./css/About.css";
 import "./Card.js";
 import Pet from "../image/pet.png";
-import mockToken from "../image/mockToken.png";
+//import mockToken from "../image/mockToken.png";
 import tokenSample_0 from "../image/tokenSample_0.png";
 import tokenSample_2 from "../image/tokenSample_2.png";
 import tokenSample_4 from "../image/tokenSample_4.png";
@@ -107,7 +107,7 @@ const About = () => {
                 <div className="column">
                     <div className="card">
                         <div className="container">
-                            <AboutCard color="purple" name="劉彥麟" classes="資訊工程系" image={ mockToken } work="資料庫" email="test@example.com"/>
+                        <AboutCard color="violet" name="劉彥麟" classes="資訊工程系" image={ tokenSample_2 } work="資料庫" email="test@example.com"/>
                         </div>
                     </div>
                 </div>
