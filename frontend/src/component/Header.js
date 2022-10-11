@@ -90,7 +90,7 @@ const Header = () => {
       );
     } else {
       return (
-        <div className="right-header">
+        <div className="right-header" style={{ 'justify-content': "end" }}>
           <button className="connectButton" onClick={logIn}>
             <p>Connect Wallet</p>
           </button>
