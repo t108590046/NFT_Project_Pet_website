@@ -10,19 +10,19 @@ const buildDir = `${basePath}/public/build`
 const componentDir = `${basePath}/public/image`
 
 const componentIpfs = {
-    'cloth_0': 'https://ipfs.moralis.io:2053/ipfs/QmcgUMSF4TK8U1wkBqguxvm7jBaUdMq9EkapB9YbqHbwMH',
-    'cloth_1': 'https://ipfs.moralis.io:2053/ipfs/QmYhL3pXPnbNxzbvP7qYoRYx5RTY4A3EyBU4PcqwJzSFf1',
-    'glasses_0': 'https://ipfs.moralis.io:2053/ipfs/QmWvbcRVUG49DHhzDo61FdeGhZhj1fxjBkeYP5bWiWTrAY',
-    'glasses_1': 'https://ipfs.moralis.io:2053/ipfs/QmZJugaT5jqaMv8zLZeR2hRzknm33yGo6Q2p8UAU1E84jr',
-    'hand_0': 'https://ipfs.moralis.io:2053/ipfs/QmfFqHZnMEiS9fbSENadjppSHgMmFYX5FhjNsEDtdTzHNj',
-    'hand_1': 'https://ipfs.moralis.io:2053/ipfs/Qmd6zBhXzUn4VBiXDLTWgsLuUHM276MKg38sRCfVc2sqfm',
-    'hat_0': 'https://ipfs.moralis.io:2053/ipfs/QmVxvawprLNnYX6mRUxMoFsCVreh59qeocLJLVAVBJr37s',
-    'hat_1': 'https://ipfs.moralis.io:2053/ipfs/QmV8EeENBbaMDtT6P3RGtwNEKpzg9kEFeDgCJ5ZGMkxqB8',
+    'cloth_blue': 'https://ipfs.moralis.io:2053/ipfs/QmcgUMSF4TK8U1wkBqguxvm7jBaUdMq9EkapB9YbqHbwMH',
+    'cloth_pink': 'https://ipfs.moralis.io:2053/ipfs/QmYhL3pXPnbNxzbvP7qYoRYx5RTY4A3EyBU4PcqwJzSFf1',
+    'glasses_sun': 'https://ipfs.moralis.io:2053/ipfs/QmWvbcRVUG49DHhzDo61FdeGhZhj1fxjBkeYP5bWiWTrAY',
+    'glasses_circle': 'https://ipfs.moralis.io:2053/ipfs/QmZJugaT5jqaMv8zLZeR2hRzknm33yGo6Q2p8UAU1E84jr',
+    'hand_pistol': 'https://ipfs.moralis.io:2053/ipfs/QmfFqHZnMEiS9fbSENadjppSHgMmFYX5FhjNsEDtdTzHNj',
+    'hand_AK47': 'https://ipfs.moralis.io:2053/ipfs/Qmd6zBhXzUn4VBiXDLTWgsLuUHM276MKg38sRCfVc2sqfm',
+    'hat_gentleman': 'https://ipfs.moralis.io:2053/ipfs/QmVxvawprLNnYX6mRUxMoFsCVreh59qeocLJLVAVBJr37s',
+    'hat_pirate': 'https://ipfs.moralis.io:2053/ipfs/QmV8EeENBbaMDtT6P3RGtwNEKpzg9kEFeDgCJ5ZGMkxqB8',
     'none': 'https://ipfs.moralis.io:2053/ipfs/QmSNZs6NQpbQccdrtXpmrRp2BmhWThvLsHgrHbAnEBFiH1',
-    'pant_0': 'https://ipfs.moralis.io:2053/ipfs/QmXzmeDZ6Kd7gLV3Yw8ynvLF4MfyAUhrE6Xj5WCe76CupY',
-    'pant_1': 'https://ipfs.moralis.io:2053/ipfs/QmSWSakdxHGrgmbLGt5vw33jkCvtUMBFEh1Gh4o61cbPL5',
-    'pet_0': 'https://ipfs.moralis.io:2053/ipfs/QmRGhsSspxKnwpDCRYCWw7g7WznCyuApcx1VqkWGiyXSny',
-    'pet_1': 'https://ipfs.moralis.io:2053/ipfs/QmUhoCfGLJ317i7j5pa3nVbQYC7gYTGj7jqG1iuypp2W9A'
+    'pant_purple': 'https://ipfs.moralis.io:2053/ipfs/QmXzmeDZ6Kd7gLV3Yw8ynvLF4MfyAUhrE6Xj5WCe76CupY',
+    'pant_green': 'https://ipfs.moralis.io:2053/ipfs/QmSWSakdxHGrgmbLGt5vw33jkCvtUMBFEh1Gh4o61cbPL5',
+    'pet_monkey': 'https://ipfs.moralis.io:2053/ipfs/QmRGhsSspxKnwpDCRYCWw7g7WznCyuApcx1VqkWGiyXSny',
+    'pet_dog': 'https://ipfs.moralis.io:2053/ipfs/QmUhoCfGLJ317i7j5pa3nVbQYC7gYTGj7jqG1iuypp2W9A'
 }
 const ipAddress = process.env.IP_ADDRESS
 const port = process.env.PORT
@@ -53,6 +53,7 @@ const SaveImage = async (_name) => {
 
 //將json object儲存成json檔
 const SaveMetadata = async (_data, _name, _object) => {
+    console.log(_object)
     let path = `${buildDir}/${_name}.json`;
     if(_object != "main")
     {
@@ -77,10 +78,7 @@ const DrawImage = async (image) => {
 }
 
 //NFT本體的metadata預設值
-const GetNFTMetadata = (_name, _description, _tokenId, _image, _localImage, _attributesList,_species) => {
-    let Ch_species;
-    if(_species == "pet_0") Ch_species = "猴子";
-    else Ch_species = "小狗";
+const GetNFTMetadata = (_name, _description, _tokenId, _image, _localImage, _attributesList) => {
     let tempMetadata = {
         name: _name,
         description: _description,
@@ -88,7 +86,6 @@ const GetNFTMetadata = (_name, _description, _tokenId, _image, _localImage, _att
         image: _image,
         local_image: _localImage,
         attributes: _attributesList,
-        species:Ch_species
     };
     return tempMetadata
 }
@@ -134,7 +131,7 @@ const GetRandomNFT = async (_tokenStart, _tokenEnd) => {
         await Combine(randomItemList, i)
         let ipfsPath = await UploadImageMoralisIpfs(`${basePath}/public/build/${i}.png`)
         let attributesList = GetAttributeList(randomItemList)
-        let tempMetadata = GetNFTMetadata('nft_pet', 'it is a cool pet', i, ipfsPath, GetBuildImagePath(i), attributesList,attributesList[5].value)
+        let tempMetadata = GetNFTMetadata('nft_pet', 'it is a cool pet', i, ipfsPath, GetBuildImagePath(i), attributesList)
         await SaveMetadata(tempMetadata, i , "main")
         await GenerateComponentJson(randomItemList, i)
     }
@@ -167,8 +164,8 @@ const GenerateComponentJson = async (_itemList, _componentIndex) => {
     const itemName = ['pant', 'cloth', 'glasses', 'hat', 'hand','pet']
     for (let i = 0; i < itemName.length; i++) {
         var tokenId =_componentIndex
-        var tempMetadata = GetComponentsMetadata(_itemList[i].slice(0,-2), 'component', tokenId, componentIpfs[_itemList[i]], GetPublicImagePath(_itemList[i]), _itemList[i])
-        await SaveMetadata(tempMetadata, tokenId,_itemList[i].slice(0,-2))
+        var tempMetadata = GetComponentsMetadata(_itemList[i], 'component', tokenId, componentIpfs[_itemList[i]], GetPublicImagePath(_itemList[i]), _itemList[i].split("_")[0])
+        await SaveMetadata(tempMetadata, tokenId,_itemList[i].split("_")[0])
     }
 }
 

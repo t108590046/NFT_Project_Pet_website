@@ -82,8 +82,8 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     return bool;
   }
 
-  const SetTypeNone = (name) => {
-    switch (name) {
+  const SetTypeNone = (type) => {
+    switch (type) {
       case "hand":
         setHandType("none");
         break;
@@ -109,22 +109,22 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     let total = ["hand", "hat", "glasses", "cloth", "pant"]
     let equipmentList = []
     equipments.forEach((equipment) => {
-      equipmentList.push(equipment.name)
-      switch (equipment.name) {
+      equipmentList.push(equipment.type)
+      switch (equipment.type) {
         case "hand":
-          setHandType(equipment.type);
+          setHandType(equipment.name);
           break;
         case "hat":
-          setHatType(equipment.type);
+          setHatType(equipment.name);
           break;
         case "glasses":
-          setGlassesType(equipment.type);
+          setGlassesType(equipment.name);
           break;
         case "cloth":
-          setClothType(equipment.type);
+          setClothType(equipment.name);
           break;
         case "pant":
-          setPantType(equipment.type);
+          setPantType(equipment.name);
           break;
         default:
       }
@@ -136,11 +136,11 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     })
   }
 
-  const checkApproveFunction = async(_name) => {
+  const checkApproveFunction = async(_type) => {
      var bool;
-     await checkApprove(_name).then((data) => {
+     await checkApprove(_type).then((data) => {
       if (!data) {
-        setApprove(_name);
+        setApprove(_type);
         bool = false;
       }
       else {
@@ -157,52 +157,52 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
   const ChangeState = async (equipment) => {
     let alertText = "you selected " + equipment.name + " id: " + equipment.token_id;
     setSelectedSubToken(equipment.token_id);
-    setSelectedType(equipment.name);
+    setSelectedType(equipment.type);
     if (operationType === "separate") {
-      SetTypeNone(equipment.name);
+      SetTypeNone(equipment.type);
       setIsApprove(true);
       setCorrectOperation(true);
     }
     else if (operationType === "combine")
     {
-      switch (equipment.name) {
+      switch (equipment.type) {
         case "hand":
           if (handType === "none") {
-            checkApproveFunction(equipment.name).then((bool)=>{
+            checkApproveFunction(equipment.type).then((bool)=>{
               if(bool){
-                setHandType(equipment.type); setCorrectOperation(true); 
+                setHandType(equipment.name); setCorrectOperation(true); 
               }})}
           else { alertText = "error: you have been equipped " + handType; setCorrectOperation(false) };
           break;
         case "hat":
           if (hatType === "none") { 
-            checkApproveFunction(equipment.name).then((bool)=>{
+            checkApproveFunction(equipment.type).then((bool)=>{
               if(bool){
-                setHatType(equipment.type); setCorrectOperation(true); 
+                setHatType(equipment.name); setCorrectOperation(true); 
               }})}
           else { alertText = "error: you have been equipped " + hatType; setCorrectOperation(false); }
           break;
         case "glasses":
           if (glassesType === "none") { 
-            checkApproveFunction(equipment.name).then((bool)=>{
+            checkApproveFunction(equipment.type).then((bool)=>{
               if(bool){
-                setGlassesType(equipment.type); setCorrectOperation(true); 
+                setGlassesType(equipment.name); setCorrectOperation(true); 
               }})}
           else { alertText = "error: you have been equipped " + glassesType; setCorrectOperation(false); }
           break;
         case "cloth":
           if (clothType === "none") {
-            checkApproveFunction(equipment.name).then((bool)=>{
+            checkApproveFunction(equipment.type).then((bool)=>{
               if(bool){
-                setClothType(equipment.type); setCorrectOperation(true); 
+                setClothType(equipment.name); setCorrectOperation(true); 
               }})}
           else { alertText = "error: you have been equipped " + clothType; setCorrectOperation(false); }
           break;
         case "pant":
           if (pantType === "none") {
-            checkApproveFunction(equipment.name).then((bool)=>{
+            checkApproveFunction(equipment.type).then((bool)=>{
               if(bool){
-                setPantType(equipment.type); setCorrectOperation(true); 
+                setPantType(equipment.name); setCorrectOperation(true); 
               }})}
           else { alertText = "error: you have been equipped " + pantType; setCorrectOperation(false); }
           break;
@@ -252,6 +252,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
         }
       }).then((response) => {
         alert(response.data)
+        window.location.reload();
       }).catch((error) => { alert(error); InitEquipmentState(); });
     }
   }
@@ -282,7 +283,8 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           operateType: "combine"
         }
       }).then((response) => {
-        alert(response.data)
+        alert(response.data);
+        window.location.reload();
       }).catch((error) => { alert(error); InitEquipmentState(); });
     }
   }
@@ -531,14 +533,19 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
 
       <div className="BtnGroup">
         <Button.Group>
-          <Button animated="fade" color='brown' onClick={() => trigger(false)} size="large">
+          {
+            /*
+            <Button animated="fade" color='brown' onClick={() => trigger(false)} size="large">
             <Button.Content visible>Back To Info</Button.Content>
             <Button.Content hidden>
               <Icon name='arrow left' />
             </Button.Content>
-          </Button>
+            </Button>
+            */
+          }
+          
           <Button animated="fade" color='brown' onClick={() => { window.location.reload(); }} size="large">
-            <Button.Content visible>Reload</Button.Content>
+            <Button.Content visible>Back To Info</Button.Content>
             <Button.Content hidden>
               <Icon name='redo alternate' />
             </Button.Content>

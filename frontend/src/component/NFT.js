@@ -58,7 +58,7 @@ const NFT = () => {
         params: options,
         onSuccess: (response) => {
           ResetPetFriendShip();
-          alert("等級提升!!")
+          alert("等級提升!! 請重新整理頁面等待等級更新")
         },
         onError: (error) => {
           console.log(error);
@@ -102,7 +102,7 @@ const NFT = () => {
           type: responseData.type
         }
         if (_type === "component") setEquipments(oldArray => [...oldArray, temp]);
-        else if (_type === "pet") { setImageURI(responseData.image); setPetType(responseData.attributes[5].value);setSpecies(responseData.species) }
+        else if (_type === "pet") { setImageURI(responseData.image); setPetType(responseData.attributes[5].value);setSpecies(responseData.attributes[5].value.split("_")[1]) }
       })
   }
 

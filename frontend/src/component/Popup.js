@@ -88,7 +88,7 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                     >
                     Cancel
                     </button>
-                    <button onClick={()=>{BuyFood()}}>Confirm</button>
+                    <button onClick={()=>{BuyFood();setPopupOpen(false);}}>Confirm</button>
                 </div>
             </div>
         );
@@ -115,7 +115,7 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                     >
                     Cancel
                     </button>
-                    <button onClick={()=>{mint_function(mintType)}}>Confirm</button>
+                    <button onClick={()=>{mint_function(mintType);setPopupOpen(false);}}>Confirm</button>
                 </div>
             </div>
         );

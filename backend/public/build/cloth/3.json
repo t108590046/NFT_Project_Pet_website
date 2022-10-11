@@ -1,8 +1,8 @@
 {
-  "name": "cloth",
+  "name": "cloth_pink",
   "description": "component",
   "token_id": 3,
   "image": "https://ipfs.moralis.io:2053/ipfs/QmYhL3pXPnbNxzbvP7qYoRYx5RTY4A3EyBU4PcqwJzSFf1",
-  "local_image": "http://127.0.0.1:8001/image/cloth_1.png",
-  "type": "cloth_1"
+  "local_image": "http://127.0.0.1:8001/image/cloth_pink.png",
+  "type": "cloth"
 }

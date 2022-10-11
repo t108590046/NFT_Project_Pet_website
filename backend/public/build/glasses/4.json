@@ -1,8 +1,8 @@
 {
-  "name": "glasses",
+  "name": "glasses_sun",
   "description": "component",
   "token_id": 4,
   "image": "https://ipfs.moralis.io:2053/ipfs/QmWvbcRVUG49DHhzDo61FdeGhZhj1fxjBkeYP5bWiWTrAY",
-  "local_image": "http://127.0.0.1:8001/image/glasses_0.png",
-  "type": "glasses_0"
+  "local_image": "http://127.0.0.1:8001/image/glasses_sun.png",
+  "type": "glasses"
 }

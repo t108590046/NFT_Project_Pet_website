@@ -1,8 +1,8 @@
 {
-  "name": "pant",
+  "name": "pant_green",
   "description": "component",
   "token_id": 6,
-  "image": "https://ipfs.moralis.io:2053/ipfs/QmXzmeDZ6Kd7gLV3Yw8ynvLF4MfyAUhrE6Xj5WCe76CupY",
-  "local_image": "http://127.0.0.1:8001/image/pant_0.png",
-  "type": "pant_0"
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmSWSakdxHGrgmbLGt5vw33jkCvtUMBFEh1Gh4o61cbPL5",
+  "local_image": "http://127.0.0.1:8001/image/pant_green.png",
+  "type": "pant"
 }

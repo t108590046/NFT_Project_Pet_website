@@ -38,23 +38,23 @@ const GetRandomFromList = (_list) => {
 
 //隨機的取出一隻寵物的物件配對
 const GetRandomItemList = () => {
-    var handList = ['hand_0', 'hand_1']
-    var hatList = ['hat_0', 'hat_1']
-    var glassesList = ['glasses_0', 'glasses_1']
-    var clothList = ['cloth_0', 'cloth_1']
-    var pantList = ['pant_0', 'pant_1']
-    var petList = ['pet_0', 'pet_1']
+    var handList = ['hand_AK47', 'hand_pistol']
+    var hatList = ['hat_gentleman', 'hat_pirate']
+    var glassesList = ['glasses_circle', 'glasses_sun']
+    var clothList = ['cloth_blue', 'cloth_pink']
+    var pantList = ['pant_green', 'pant_purple']
+    var petList = ['pet_monkey', 'pet_dog']
     return [GetRandomFromList(petList), GetRandomFromList(pantList), GetRandomFromList(clothList), GetRandomFromList(glassesList), GetRandomFromList(hatList), GetRandomFromList(handList)]
 }
 
 //隨機的取出一隻寵物的物件配對
 const GetRandomItemListWithNone = () => {
-    var handList = ['hand_0', 'hand_1', 'none']
-    var hatList = ['hat_0', 'hat_1', 'none']
-    var glassesList = ['glasses_0', 'glasses_1', 'none']
-    var clothList = ['cloth_0', 'cloth_1', 'none']
-    var pantList = ['pant_0', 'pant_1', 'none']
-    var petList = ['pet_0', 'pet_1']
+    var handList = ['hand_AK47', 'hand_pistol']
+    var hatList = ['hat_gentleman', 'hat_pirate']
+    var glassesList = ['glasses_circle', 'glasses_sun']
+    var clothList = ['cloth_blue', 'cloth_pink']
+    var pantList = ['pant_green', 'pant_purple']
+    var petList = ['pet_monkey', 'pet_dog']
     return [GetRandomFromList(petList), GetRandomFromList(pantList), GetRandomFromList(clothList), GetRandomFromList(glassesList), GetRandomFromList(hatList), GetRandomFromList(handList)]
 }
 

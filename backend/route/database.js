@@ -45,7 +45,7 @@ router.get('/QueryPet/:id', async (req, res, next) => {
 router.get('/CheckPet/:id', async (req, res, next) => {
     var bool = await CheckPetIn(req.params["id"]);
     let temp = {
-        "Name": "外來物",
+        "Name": "新寵物",
         "Friendship": 0,
         "Satiety": 100,
         "TokenID": parseInt(req.params["id"]),
