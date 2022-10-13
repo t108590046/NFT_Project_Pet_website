@@ -353,7 +353,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           header={item.name}
           trigger={<img className="itemImg" src={item.itemImg} alt=''></img>}
         />
-        <h1 className="itemInfoName">&emsp;&emsp;{item.name}</h1>
+        <h1 className="itemInfoName">&emsp;&emsp;&emsp;&emsp;{item.name}</h1>
         <h1 className="itemInfoAmount"> x {item.itemAmount}</h1>
         {/* <h4 className="itemDescription">{item.itemDescription}</h4> */}
         <Button inverted color='orange' variant="contained" onClick={() => { FeedPet(item.name, item.itemAmount) }}>Use</Button>
