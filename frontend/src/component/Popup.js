@@ -48,6 +48,7 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                 }
                 else{
                     alert("領取成功!!")
+                    window.location.reload();
                 }
               }).catch((error) => console.log(error));
         }
@@ -134,7 +135,7 @@ function Popup({mode, mintType, itemDescription, itemName, setPopupOpen, foodtyp
                 <Modal.Content image>
                     <Image src={Coin} wrapped fluid size="small"/>
                     <Modal.Description>
-                        <Header>您已連續領取第{continueDay}天</Header>
+                        <Header>您已領取第{continueDay}天</Header>
                         <p>恭喜你獲得{100}元！</p>
                         <p>記得每天持續領取金幣，<br/>存夠錢幫猴子買食物吃！</p>
                     </Modal.Description>

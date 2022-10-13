@@ -315,7 +315,7 @@ const NFT = () => {
           {setingPopup(NFT_info_database.Name)}
         </div>
         <div className="inner">
-          <p>寵物編號:{id}</p>
+          <p>寵物編號：{id}</p>
           <p>種族：{species}</p>
           <p>個性：{characteristic}</p>
           <p>親密度：{NFT_info_database.Friendship}</p>

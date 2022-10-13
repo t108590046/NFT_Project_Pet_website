@@ -33,10 +33,6 @@ const routes = [
         path:"/about",
         element:<About />
     },
-    {
-        path:"/setting",
-        element:<Setting />
-    },
 
 ]
 export default routes;

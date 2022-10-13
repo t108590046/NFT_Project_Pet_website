@@ -11,6 +11,7 @@ const foodJson = (_owner) => {
         meat: 0,
         banana: 0,
         chocolate: 0,
+        chicken: 0,
         Owner: _owner
     }
     return temp
@@ -27,7 +28,8 @@ const coinJson = (_owner) => {
 const UserCheckInJson = (_owner) => {
     let temp = {
         CheckCount: 0,
-        Owner: _owner
+        Owner: _owner,
+        lastLoginTime: new Date(2022, 1, 1, 1, 1, 1, 1)
     }
     return temp
 }
@@ -277,7 +279,7 @@ const GetLastCheckInTime = async (owner_id) => {
 
     await query.get(objectID).then(
         (data) => {
-            time = data.get("updatedAt");
+            time = data.get("lastLoginTime");
             // The object was retrieved successfully.
         },
         (error) => {
@@ -313,50 +315,44 @@ const GetCurrentCheckInCount = async (owner) => {
     return CurrentCount;
 }
 
-const UpdateCheckInCount = async (owner,diffday) => {
+const UpdateCheckInCount = async (owner, diffday, nowtime) => {
     await Moralis.start({ serverUrl, appId, masterKey })
     const Class = Moralis.Object.extend("User_CheckIn")
     const query = new Moralis.Query(Class)
     query.equalTo("Owner", owner);
     let oldCount = await GetCurrentCheckInCount(owner);
-    console.log("old", oldCount,"diffday",diffday)
-    if(diffday>=2){
-        oldCount = 0;
-    }
-    else if(diffday>=1){
-        oldCount +=1;
-    }
-    console.log("new", oldCount)
+    console.log("old", oldCount, "diffday", diffday)
     const object = await query.first();
-        if (object) {
-            object.set("CheckCount", oldCount)
-            object.save().then(() => {
-                console.log('update CheckIn');
-                return ("update CheckIn done");
-            }, (error) => {
-                console.log(error);
-                return (error);
-            });
-        }
+    if (object) {
+        object.set("CheckCount", oldCount + 1)
+        object.set("lastLoginTime", nowtime)
+        object.save().then(() => {
+            console.log('update CheckIn');
+            return ("update CheckIn done");
+        }, (error) => {
+            console.log(error);
+            return (error);
+        });
+    }
 }
 
-const AddCoinAmount = async(owner, coins)=>{
+const AddCoinAmount = async (owner, coins) => {
     await Moralis.start({ serverUrl, appId, masterKey })
     const Class = Moralis.Object.extend("Coin")
     const query = new Moralis.Query(Class)
     query.equalTo("Owner", owner);
     let oldCoinAmount = await GetCurrentCoin(owner);
     const object = await query.first();
-        if (object) {
-            object.set("Amount", oldCoinAmount+coins)
-            object.save().then(() => {
-                console.log('update coin done');
-                return ("update coin done");
-            }, (error) => {
-                console.log(error);
-                return (error);
-            });
-        }
+    if (object) {
+        object.set("Amount", oldCoinAmount + coins)
+        object.save().then(() => {
+            console.log('update coin done');
+            return ("update coin done");
+        }, (error) => {
+            console.log(error);
+            return (error);
+        });
+    }
 }
 
 
@@ -369,7 +365,7 @@ const UpdateCoinAmount = async (data) => {
     let oldCoinAmount = await GetCurrentCoin(data.Owner);
     console.log("old", oldCoinAmount)
 
-    var FoodPrice = { "meat": 1, "banana": 2, "chocolate": 3 };
+    var FoodPrice = { "meat": 1, "banana": 2, "chocolate": 3, "chicken": 4 };
 
     switch (data.FoodType) {
         case "meat":
@@ -381,6 +377,9 @@ const UpdateCoinAmount = async (data) => {
             break;
         case "chocolate":
             oldCoinAmount -= (FoodPrice["chocolate"]) * data.Amount;
+            break;
+        case "chicken":
+            oldCoinAmount -= (FoodPrice["chicken"]) * data.Amount;
             break;
     }
     console.log(oldCoinAmount)
@@ -427,7 +426,7 @@ const GetCurrentCoin = async (owner) => {
     return CurrentCoin;
 }
 
-const ResetPetFriendShip = async(_tokenID)=>{
+const ResetPetFriendShip = async (_tokenID) => {
     await Moralis.start({ serverUrl, appId, masterKey })
     const Class = Moralis.Object.extend("Pet")
     const query = new Moralis.Query(Class)
@@ -438,10 +437,10 @@ const ResetPetFriendShip = async(_tokenID)=>{
         object.set("Friendship", 0);
         object.save().then(() => {
             console.log('Reset Friendship done');
-            return('Reset Friendship done');
+            return ('Reset Friendship done');
         }, (error) => {
             console.log(error);
-            return(error);
+            return (error);
         });
     }
 }
@@ -470,8 +469,8 @@ const FeedPetUpdate = async (data) => {
         }
     );
     console.log("now:", oldPetSatiety, oldFriendship);
-    var GetSatiety = { "meat": 10, "banana": 20, "chocolate": 30 };
-    var GetFriendship = { "meat": 1, "banana": 2, "chocolate": 3 };
+    var GetSatiety = { "meat": 10, "banana": 20, "chocolate": 30, "chicken": 40 };
+    var GetFriendship = { "meat": 1, "banana": 2, "chocolate": 3, "chicken": 4 };
 
     switch (data.FoodType) {
         case "meat":
@@ -485,6 +484,10 @@ const FeedPetUpdate = async (data) => {
         case "chocolate":
             oldPetSatiety = await UpdateSatiety(oldPetSatiety, GetSatiety["chocolate"]);
             oldFriendship = await UpdateFriendship(oldFriendship, GetFriendship["chocolate"]);
+            break;
+        case "chicken":
+            oldPetSatiety = await UpdateSatiety(oldPetSatiety, GetSatiety["chicken"]);
+            oldFriendship = await UpdateFriendship(oldFriendship, GetFriendship["chicken"]);
             break;
         case "hungry":
             oldPetSatiety = await UpdateSatiety(oldPetSatiety, (data.hours * -1));
@@ -613,4 +616,4 @@ const TransferPet = async (toAddress, tokenid) => {
 */
 
 
-module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn, GetFoodAmount, GetLastFeedTime, CheckPetIn,GetLastCheckInTime,UpdateCheckInCount,AddCoinAmount,GetCurrentCheckInCount,ResetPetFriendShip }
+module.exports = { InsertData, GetMorailsConnection, CheckUser, FindQueryPet, UpdateFoodAmount, UpdateCoinAmount, FeedPetUpdate, GetCurrentCoin, UpdatePetName, CheckUserIn, GetFoodAmount, GetLastFeedTime, CheckPetIn, GetLastCheckInTime, UpdateCheckInCount, AddCoinAmount, GetCurrentCheckInCount, ResetPetFriendShip }

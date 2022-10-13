@@ -129,11 +129,12 @@ router.get('/GetFoodAmount/:owner', async (req, res, next) => {
     let meatAmount = await GetFoodAmount(temp.Owner,"meat");
     let bananaAmount = await GetFoodAmount(temp.Owner,"banana");
     let chocolateAmount = await GetFoodAmount(temp.Owner,"chocolate");
-
+    let chickenAmount = await GetFoodAmount(temp.Owner,"chicken");
     let output = {
         meat:meatAmount,
         banana:bananaAmount,
-        chocolate:chocolateAmount
+        chocolate:chocolateAmount,
+        chicken:chickenAmount
     }
     res.json(output);
 })
@@ -196,7 +197,7 @@ router.get('/checkIn/:owner', async (req, res, next) => {
     var ONE_DAY = 1000*60*60*24;
     let Owner = await CheckUser(req.params["owner"])
     let time = await GetLastCheckInTime(Owner);
-    timeUTC = new Date(time.toUTCString());
+    timeUTC = new Date(time);
     const nowtime = new Date(new Date().toUTCString());
     var diff = nowtime - timeUTC;
     var days = Math.floor(diff/ONE_DAY); 
@@ -205,7 +206,7 @@ router.get('/checkIn/:owner', async (req, res, next) => {
         res.send(false);
     }
     else{
-        await UpdateCheckInCount(Owner,days);
+        await UpdateCheckInCount(Owner,days,nowtime);
         await AddCoinAmount(Owner, 100);
         res.send(true);
     }
@@ -226,6 +227,7 @@ router.get('/reset/:id', async (req, res, next) => {
     res.send(result);
    
 })
+
 
 
 module.exports = router

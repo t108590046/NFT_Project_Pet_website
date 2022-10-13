@@ -4,6 +4,7 @@ import "./css/Market.css";
 import Meat from "../image/meat.png";
 import Banana from "../image/banana.png";
 import Chocolate from "../image/chocolate.png"
+import Chicken from "../image/chicken.png"
 import Popup from "./Popup.js"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from 'swiper';
@@ -30,12 +31,9 @@ const maketItemList = [
 		id: 2, itemName: "Banana", itemDescription: "Friendship+2 Satiety+20", itemCost: 2, itemImg: Banana, foodtype:"banana"
 	}, {
 		id: 3, itemName: "Chocolate", itemDescription: "Friendship+3 Satiety+30", itemCost: 3, itemImg: Chocolate, foodtype:"chocolate"
-	}, {
-		id: 4, itemName: "Meat04", itemDescription: "Friendship+1 Satiety+10", itemCost: 40, itemImg: Meat, foodtype:"meat"
-	}, {
-		id: 5, itemName: "Meat05", itemDescription: "Friendship+1 Satiety+10", itemCost: 50, itemImg: Meat, foodtype:"meat"
-	}, {
-		id: 6, itemName: "Meat06", itemDescription: "Friendship+1 Satiety+10", itemCost: 60, itemImg: Meat, foodtype:"meat"
+	},
+	{
+		id: 4, itemName: "Chicken", itemDescription: "Friendship+4 Satiety+40", itemCost: 4, itemImg: Chicken, foodtype:"chicken"
 	}
 ]
 

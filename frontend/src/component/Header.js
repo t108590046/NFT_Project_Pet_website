@@ -117,9 +117,6 @@ const Header = () => {
         <Link className="link" to="/about">
           <p>About</p>
         </Link>
-        <Link className="link" to="/setting">
-          <p>Setting</p>
-        </Link>
       </div>
       {buttonController()}
     </header>

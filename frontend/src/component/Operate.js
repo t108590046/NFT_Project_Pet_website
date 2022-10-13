@@ -3,6 +3,7 @@ import axios from 'axios'
 import Meat from "../image/meat.png";
 import Banana from "../image/banana.png";
 import Chocolate from "../image/chocolate.png"
+import Chicken from "../image/chicken.png"
 import { setApprovalForAll_ABI, IsApprovedForAll_ABI, contractAddress_Cloth, contractAddress_Pant, contractAddress_Glasses, contractAddress_Pet, contractAddress_Hat, contractAddress_Hand, balanceOf_ABI_Pet, separate_One_ABI_Pet, combine_ABI_Pet, tokenOfOwnerByIndex_ABI_Pet, tokenURI_ABI_Pet } from "../abi/pet"
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-moralis";
 import "./css/Operate.css";
@@ -25,6 +26,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
   const [meatAmount, setMeatAmount] = useState(0);
   const [bananaAmount, setBananaAmount] = useState(0);
   const [chocolateAmount, setChocolateAmount] = useState(0);
+  const [chickenAmount, setChickenAmount] = useState(0);
   const contract_List = [contractAddress_Hat, contractAddress_Hand, contractAddress_Glasses, contractAddress_Pant, contractAddress_Cloth];
   const contract_dictionary = { 'hand': contractAddress_Hand, 'hat': contractAddress_Hat, 'glasses': contractAddress_Glasses, 'cloth': contractAddress_Cloth, 'pant': contractAddress_Pant }
   const [isApprove, setIsApprove] = useState(false);
@@ -136,9 +138,9 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     })
   }
 
-  const checkApproveFunction = async(_type) => {
-     var bool;
-     await checkApprove(_type).then((data) => {
+  const checkApproveFunction = async (_type) => {
+    var bool;
+    await checkApprove(_type).then((data) => {
       if (!data) {
         setApprove(_type);
         bool = false;
@@ -163,47 +165,56 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       setIsApprove(true);
       setCorrectOperation(true);
     }
-    else if (operationType === "combine")
-    {
+    else if (operationType === "combine") {
       switch (equipment.type) {
         case "hand":
           if (handType === "none") {
-            checkApproveFunction(equipment.type).then((bool)=>{
-              if(bool){
-                setHandType(equipment.name); setCorrectOperation(true); 
-              }})}
+            checkApproveFunction(equipment.type).then((bool) => {
+              if (bool) {
+                setHandType(equipment.name); setCorrectOperation(true);
+              }
+            })
+          }
           else { alertText = "error: you have been equipped " + handType; setCorrectOperation(false) };
           break;
         case "hat":
-          if (hatType === "none") { 
-            checkApproveFunction(equipment.type).then((bool)=>{
-              if(bool){
-                setHatType(equipment.name); setCorrectOperation(true); 
-              }})}
+          if (hatType === "none") {
+            checkApproveFunction(equipment.type).then((bool) => {
+              if (bool) {
+                setHatType(equipment.name); setCorrectOperation(true);
+              }
+            })
+          }
           else { alertText = "error: you have been equipped " + hatType; setCorrectOperation(false); }
           break;
         case "glasses":
-          if (glassesType === "none") { 
-            checkApproveFunction(equipment.type).then((bool)=>{
-              if(bool){
-                setGlassesType(equipment.name); setCorrectOperation(true); 
-              }})}
+          if (glassesType === "none") {
+            checkApproveFunction(equipment.type).then((bool) => {
+              if (bool) {
+                setGlassesType(equipment.name); setCorrectOperation(true);
+              }
+            })
+          }
           else { alertText = "error: you have been equipped " + glassesType; setCorrectOperation(false); }
           break;
         case "cloth":
           if (clothType === "none") {
-            checkApproveFunction(equipment.type).then((bool)=>{
-              if(bool){
-                setClothType(equipment.name); setCorrectOperation(true); 
-              }})}
+            checkApproveFunction(equipment.type).then((bool) => {
+              if (bool) {
+                setClothType(equipment.name); setCorrectOperation(true);
+              }
+            })
+          }
           else { alertText = "error: you have been equipped " + clothType; setCorrectOperation(false); }
           break;
         case "pant":
           if (pantType === "none") {
-            checkApproveFunction(equipment.type).then((bool)=>{
-              if(bool){
-                setPantType(equipment.name); setCorrectOperation(true); 
-              }})}
+            checkApproveFunction(equipment.type).then((bool) => {
+              if (bool) {
+                setPantType(equipment.name); setCorrectOperation(true);
+              }
+            })
+          }
           else { alertText = "error: you have been equipped " + pantType; setCorrectOperation(false); }
           break;
         default:
@@ -302,6 +313,9 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
         case "chocolate":
           setChocolateAmount(chocolateAmount - 1);
           break;
+        case "chicken":
+          setChickenAmount(chickenAmount - 1);
+          break;
         default:
           break;
       }
@@ -327,6 +341,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     { name: "meat", itemImg: Meat, itemAmount: meatAmount, itemDescription: "好吃的肉" },
     { name: "banana", itemImg: Banana, itemAmount: bananaAmount, itemDescription: "好吃的香蕉" },
     { name: "chocolate", itemImg: Chocolate, itemAmount: chocolateAmount, itemDescription: "好吃的巧克力" },
+    { name: "chicken", itemImg: Chicken, itemAmount: chickenAmount, itemDescription: "好吃的雞肉" },
   ]
   //顯示道具
   const showItems = items.map((item) => {
@@ -338,7 +353,8 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           header={item.name}
           trigger={<img className="itemImg" src={item.itemImg} alt=''></img>}
         />
-        <h1>{item.name} x{item.itemAmount}</h1>
+        <h1 className="itemInfoName">&emsp;&emsp;{item.name}</h1>
+        <h1 className="itemInfoAmount"> x {item.itemAmount}</h1>
         {/* <h4 className="itemDescription">{item.itemDescription}</h4> */}
         <Button inverted color='orange' variant="contained" onClick={() => { FeedPet(item.name, item.itemAmount) }}>Use</Button>
       </div>
@@ -486,6 +502,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       setMeatAmount(response.data.meat);
       setBananaAmount(response.data.banana);
       setChocolateAmount(response.data.chocolate);
+      setChickenAmount(response.data.chicken);
     }).catch((error) => console.log(error));
   }
 
@@ -543,7 +560,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
             </Button>
             */
           }
-          
+
           <Button animated="fade" color='brown' onClick={() => { window.location.reload(); }} size="large">
             <Button.Content visible>Back To Info</Button.Content>
             <Button.Content hidden>
