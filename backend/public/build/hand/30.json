@@ -1,0 +1,8 @@
+{
+  "name": "hand_AK47",
+  "description": "component",
+  "token_id": 30,
+  "image": "https://ipfs.moralis.io:2053/ipfs/Qmd6zBhXzUn4VBiXDLTWgsLuUHM276MKg38sRCfVc2sqfm",
+  "local_image": "http://127.0.0.1:8001/image/hand_AK47.png",
+  "type": "hand"
+}

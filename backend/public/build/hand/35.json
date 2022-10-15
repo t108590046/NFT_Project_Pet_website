@@ -1,0 +1,8 @@
+{
+  "name": "hand_pistol",
+  "description": "component",
+  "token_id": 35,
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmfFqHZnMEiS9fbSENadjppSHgMmFYX5FhjNsEDtdTzHNj",
+  "local_image": "http://127.0.0.1:8001/image/hand_pistol.png",
+  "type": "hand"
+}

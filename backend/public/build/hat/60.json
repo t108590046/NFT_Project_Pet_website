@@ -1,0 +1,8 @@
+{
+  "name": "hat_pirate",
+  "description": "component",
+  "token_id": 60,
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmV8EeENBbaMDtT6P3RGtwNEKpzg9kEFeDgCJ5ZGMkxqB8",
+  "local_image": "http://127.0.0.1:8001/image/hat_pirate.png",
+  "type": "hat"
+}

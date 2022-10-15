@@ -1,0 +1,8 @@
+{
+  "name": "pant_purple",
+  "description": "component",
+  "token_id": 36,
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmXzmeDZ6Kd7gLV3Yw8ynvLF4MfyAUhrE6Xj5WCe76CupY",
+  "local_image": "http://127.0.0.1:8001/image/pant_purple.png",
+  "type": "pant"
+}

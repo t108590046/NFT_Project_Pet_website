@@ -1,0 +1,8 @@
+{
+  "name": "hat_gentleman",
+  "description": "component",
+  "token_id": 49,
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmVxvawprLNnYX6mRUxMoFsCVreh59qeocLJLVAVBJr37s",
+  "local_image": "http://127.0.0.1:8001/image/hat_gentleman.png",
+  "type": "hat"
+}

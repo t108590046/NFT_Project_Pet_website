@@ -1,0 +1,8 @@
+{
+  "name": "pet_monkey",
+  "description": "component",
+  "token_id": 39,
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmRGhsSspxKnwpDCRYCWw7g7WznCyuApcx1VqkWGiyXSny",
+  "local_image": "http://127.0.0.1:8001/image/pet_monkey.png",
+  "type": "pet"
+}

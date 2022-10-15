@@ -44,7 +44,7 @@ router.post('/', async (req, res, next) => {
 })
 
 router.post('/create', async (req, res, next) => {
-    GetRandomNFT(0,10);
+    GetRandomNFT(0,61);
 })
 
 

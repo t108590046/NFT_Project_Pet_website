@@ -1,8 +1,8 @@
 {
-  "name": "glasses_sun",
+  "name": "glasses_circle",
   "description": "component",
   "token_id": 4,
-  "image": "https://ipfs.moralis.io:2053/ipfs/QmWvbcRVUG49DHhzDo61FdeGhZhj1fxjBkeYP5bWiWTrAY",
-  "local_image": "http://127.0.0.1:8001/image/glasses_sun.png",
+  "image": "https://ipfs.moralis.io:2053/ipfs/QmZJugaT5jqaMv8zLZeR2hRzknm33yGo6Q2p8UAU1E84jr",
+  "local_image": "http://127.0.0.1:8001/image/glasses_circle.png",
   "type": "glasses"
 }

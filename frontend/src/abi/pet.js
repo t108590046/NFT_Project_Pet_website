@@ -1,9 +1,9 @@
-export const contractAddress_Pet = "0x4E9833fc655AFc100096707214D25cB6197b25AA";
-export const contractAddress_Hat = "0x1448ce136bC2828Db8EBF92BA2f8bEbB99D61Fb7";
-export const contractAddress_Hand = "0x7B4eBd8Ff7c5AE10Db3045fAbcd99Cd03032D96a";
-export const contractAddress_Glasses = "0x61ac0129eBf03F09BCd53bDE1ebC02f2FA92374A";
-export const contractAddress_Pant = "0x4583df40432cca7019b598bA081F437A47426c08";
-export const contractAddress_Cloth = "0x0266eD99215255Bbd6739312f8D9339CcD890E55";
+export const contractAddress_Pet = "0x6Ba4f1F39659eCAC8bcC5faA9fDc2E97c4bE996b";
+export const contractAddress_Hat = "0xA2BEa8540114e31fe9209008497416453442B798";
+export const contractAddress_Hand = "0x9dE1EefcE37b7D6b2F71D3d15160cCF0BE376E31";
+export const contractAddress_Glasses = "0xc9bF75E40f30B0da2A00f6dCAB8478b927a6C26d";
+export const contractAddress_Pant = "0x84cf126e696e5E5f87139a69129FFe0084824E98";
+export const contractAddress_Cloth = "0x59036E6189D3f2beD80B2C547075fd9FA3920315";
 
 export const act_ABI = {
     input: [
