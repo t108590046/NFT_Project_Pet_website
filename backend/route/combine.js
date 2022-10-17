@@ -37,7 +37,7 @@ router.post('/', async (req, res, next) => {
         else if(operateType == "separate"){
             result = await Separate_Contract(tokenId,subId,subAddress,URL);
         }
-        res.send(result);
+        res.send(`${operateType} - ${result}`);
     } catch (error) {
         res.send("error");
     }

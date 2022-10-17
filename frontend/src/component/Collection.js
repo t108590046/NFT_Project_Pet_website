@@ -176,7 +176,7 @@ const Collection = () => {
             <Header as='h2'>
               <Icon name='paw' size='tiny' />
               <Header.Content>
-                Your Collection
+                Your Collection ： {amountOfNFT}
                 <Header.Subheader>
                   click the image to feed and manage
                 </Header.Subheader>

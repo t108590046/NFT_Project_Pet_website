@@ -36,11 +36,11 @@ const Separate_Contract = async (_id,_subid,_subAddress,_uri) => {
     try {
         let tx = await contract.separateOne(_id,_subid,_subAddress,_uri);
         await tx.wait();
-        console.log("Separate sucess");
-        return "Separate sucess"
+        console.log(`token id : ${_subid} Separate sucess`);
+        return `token id : ${_subid} Separate sucess`
     } catch (error) {
         console.log(error);
-        return "Separate error"
+        return `token id : ${_subid} Separate error`
     }
 }
 
@@ -51,11 +51,12 @@ const Combine_Contract = async (_id,_subid,_subAddress,_uri) => {
     try {
         let tx = await contract.combine(_id,[_subid],[_subAddress],_uri);
         await tx.wait();
-        console.log("Combine sucess");
-        return "Combine sucess"
+
+        console.log(`token id : ${_subid} Combine sucess`);
+        return `token id : ${_subid} Combine sucess`
     } catch (error) {
         console.log(error);
-        return "Combine error"
+        return `token id : ${_subid} Combine error`
     }
 }
 module.exports = { GetBalance,GetUri,Separate_Contract,Combine_Contract}
