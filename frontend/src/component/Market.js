@@ -64,7 +64,7 @@ const Market = () => {
 								<h1 className="itemName">{item.itemName}</h1>
 								<h2>Cost:{item.itemCost}</h2>
 								<h3 className="description">{item.itemDescription}</h3>
-								<Button animated='fade' size='massive' inverted color='orange' onClick={() => { SetFoodType(item.foodtype); setPopupOpen(true); setItemDescription(item.itemDescription); setItemName(item.itemName); }}>
+								<Button animated='fade' size='massive' inverted color='orange' disabled={!isAuthenticated} onClick={() => { SetFoodType(item.foodtype); setPopupOpen(true); setItemDescription(item.itemDescription); setItemName(item.itemName); }}>
 									<Button.Content visible>BUY</Button.Content>
 									<Button.Content hidden><Icon name='shop' /></Button.Content>
 								</Button>
