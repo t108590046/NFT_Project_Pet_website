@@ -330,7 +330,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
           TokenID: TokenID
         }
       }).then((response) => {
-        alert(response.data);
+        
       }).catch((error) => console.log(error));
     }
     else {
