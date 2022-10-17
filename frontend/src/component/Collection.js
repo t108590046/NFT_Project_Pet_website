@@ -188,7 +188,6 @@ const Collection = () => {
         <section className="showImg">
           {!collectionLoadComplete && <Loader size="large" active inline='centered'><h3>Loading Pet</h3></Loader>}
           {collectionLoadComplete && showNFTImage}
-          {emptyPets()}
         </section>
         <a href="https://testnets.opensea.io/" target="_blank" rel="noreferrer">
           <Button icon labelPosition='right' size='large' color='black'>
