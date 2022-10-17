@@ -7,9 +7,9 @@ import Chicken from "../image/chicken.png"
 import { setApprovalForAll_ABI, IsApprovedForAll_ABI, contractAddress_Cloth, contractAddress_Pant, contractAddress_Glasses, contractAddress_Pet, contractAddress_Hat, contractAddress_Hand, balanceOf_ABI_Pet, separate_One_ABI_Pet, combine_ABI_Pet, tokenOfOwnerByIndex_ABI_Pet, tokenURI_ABI_Pet } from "../abi/pet"
 import { useMoralis, useMoralisWeb3Api, useWeb3ExecuteFunction } from "react-moralis";
 import "./css/Operate.css";
-import { Button, Icon, Popup } from "semantic-ui-react";
+import { Button, Icon, Popup} from "semantic-ui-react";
 
-const Operate = ({ trigger, equipments, TokenID, pettype }) => {
+const Operate = ({ trigger, equipments, TokenID, pettype , setLoader}) => {
   const { user, isAuthenticated, authenticate } = useMoralis();
   const contractProcessor = useWeb3ExecuteFunction();
   const Web3Api = useMoralisWeb3Api();
@@ -30,8 +30,8 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
   const contract_List = [contractAddress_Hat, contractAddress_Hand, contractAddress_Glasses, contractAddress_Pant, contractAddress_Cloth];
   const contract_dictionary = { 'hand': contractAddress_Hand, 'hat': contractAddress_Hat, 'glasses': contractAddress_Glasses, 'cloth': contractAddress_Cloth, 'pant': contractAddress_Pant }
   const [isApprove, setIsApprove] = useState(false);
-  const [disableBtn, setDisableBtn] = useState(false);
 
+  const [disableBtn, setDisableBtn] = useState(false); 
   const [equipmentsLabel, setequipmentsLabel] = useState("defaultTab");
   const [itemLabel, setitemLabel] = useState("defaultTab");
   const [componentLabel, setcomponentLabel] = useState("defaultTab");
@@ -543,6 +543,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
     if (isAuthenticated && isApprove && correctOperation) {
       alert("執行中!! 請耐心等待")
       setDisableBtn(true);
+      setLoader(true);
       if (operationType === 'separate') {
         postRequest_separate();
       }
@@ -565,9 +566,8 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
 
 
   return (
-
+    
     <div className="infoText">
-
       <div className="BtnGroup">
         <Button.Group>
           {

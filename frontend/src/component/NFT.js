@@ -10,7 +10,7 @@ import {
 } from "react-moralis";
 
 import "./css/NFT.css";
-import { Button, Icon, Modal, Header, Input } from "semantic-ui-react";
+import { Button, Icon, Modal, Header, Input,Loader } from "semantic-ui-react";
 
 const NFT = () => {
   const { id } = useParams()
@@ -28,6 +28,7 @@ const NFT = () => {
   const [open, setOpen] = React.useState(false);
 
   const [newName, setNewName] = React.useState("");
+  const [transactionLoader,setTransactionLoader] = useState(false);
 
 
   const ResetPetFriendShip = async()=>{
@@ -340,9 +341,10 @@ const NFT = () => {
         <section className="infoContainer">
           <div className="infoImage">
             <h2>Your Pet</h2>
-            <img src={ImageURI} alt='' />
+            {!transactionLoader && <img src={ImageURI} alt='' />}
+            {transactionLoader && <Loader size="large" active inline='centered'></Loader>}
           </div>
-          {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} pettype={petType} />}
+          {isShowOperate && <Operate trigger={setIsShowOperate} TokenID={id} equipments={equipments} pettype={petType} setLoader={setTransactionLoader}/>}
           {!isShowOperate && ShowNFTInfo()}
         </section>
       </div>
