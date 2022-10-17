@@ -111,3 +111,10 @@
   width: 50%;
   
 }
+.itemInfo .itemInfoEmpty {
+  text-align: center ;
+  display: inline;
+  margin: auto;
+  width: 100%;
+  
+}

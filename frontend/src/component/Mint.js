@@ -50,8 +50,8 @@ const Mint = () => {
           alert("Succesful Mint");
         },
         onError: (error) => {
-          console.log(error)
-          alert("Error:" + error.message);
+          console.log(error.message)
+          alert("Error: 請確認是否有足夠的錢 或是 此合約未開始販售");
         },
       });
     }
@@ -72,7 +72,7 @@ const Mint = () => {
         },
         onError: (error) => {
           console.log(error)
-          alert("Error:" + error.message);
+          alert("Error: 請確認是否有足夠的錢 或是 此合約未開始販售");
         },
       });
     }

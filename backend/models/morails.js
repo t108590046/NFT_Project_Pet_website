@@ -19,7 +19,7 @@ const foodJson = (_owner) => {
 
 const coinJson = (_owner) => {
     let temp = {
-        Amount: 10000,
+        Amount: 1000,
         Owner: _owner
     }
     return temp

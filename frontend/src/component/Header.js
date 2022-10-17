@@ -6,44 +6,50 @@ import { useMoralis } from "react-moralis";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from 'axios'
-import {Icon} from "semantic-ui-react";
+import { Icon } from "semantic-ui-react";
 
 const Header = () => {
-  const { authenticate, isAuthenticated, user, logout } = useMoralis();
-  const [coinAmount,setCoin] = useState();
-
-  const GetUserCoin = async()=>{
+  const { authenticate, isAuthenticated, user, logout, Moralis } = useMoralis();
+  const [coinAmount, setCoin] = useState(0);
+  const GetUserCoin = async () => {
     await axios({
       method: 'GET',
       url: `http://localhost:8001/database/GetCoinAmount/${user.get("ethAddress")}`,
     }).then((response) => {
-      if(response.data !== "error") setCoin(response.data);
+      if (response.data !== "error") setCoin(response.data);
     }).catch((error) => alert(error));
   }
-  
+
   useEffect(() => {
-    if(isAuthenticated)
-    {
+    if (isAuthenticated) {
       GetUserCoin();
     }
   }, [isAuthenticated]);
 
-  const InsertNewData = async (_objectid)=>{
+  window.ethereum.on("accountsChanged", (account) =>
+    {
+      logOut()
+    }
+  );
+
+  const InsertNewData = async (_objectid) => {
     await axios({
       method: 'POST',
       url: 'http://localhost:8001/database/insertNewUser',
       data:
       {
-        id:_objectid
+        id: _objectid
       }
     }).then((response) => {
       console.log(response.data)
+      window.location.reload();
     }).catch((error) => console.log(error));
   }
 
 
   const logOut = async () => {
     await logout();
+    window.location.href="http://localhost:3000/"
     console.log("You are log out");
   };
 
@@ -70,9 +76,9 @@ const Header = () => {
               <div className="coinAmount">{coinAmount}</div>
             </div>
           </div>
-            
+
           <div className="headerContainer">
-            <Icon name='address card' size='large' color='yellow'/>
+            <Icon name='address card' size='large' color='yellow' />
             <div className="headerTextFiled">
               <div className="address">
                 {user.get("ethAddress").slice(0, 5) + "..." + user.get("ethAddress").slice(38)}
@@ -82,7 +88,7 @@ const Header = () => {
 
           <div className="headerContainer">
             <button className="connectButton" onClick={logOut}>
-              <Icon name="log out" color='black' size='large'/>
+              <Icon name="log out" color='black' size='large' />
               <p>Log Out</p>
             </button>
           </div>

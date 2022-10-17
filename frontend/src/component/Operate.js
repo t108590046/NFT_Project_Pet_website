@@ -30,6 +30,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
   const contract_List = [contractAddress_Hat, contractAddress_Hand, contractAddress_Glasses, contractAddress_Pant, contractAddress_Cloth];
   const contract_dictionary = { 'hand': contractAddress_Hand, 'hat': contractAddress_Hat, 'glasses': contractAddress_Glasses, 'cloth': contractAddress_Cloth, 'pant': contractAddress_Pant }
   const [isApprove, setIsApprove] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(false);
 
   const [equipmentsLabel, setequipmentsLabel] = useState("defaultTab");
   const [itemLabel, setitemLabel] = useState("defaultTab");
@@ -264,7 +265,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       }).then((response) => {
         alert(response.data)
         window.location.reload();
-      }).catch((error) => { alert(error); InitEquipmentState(); });
+      }).catch((error) => { alert(error); InitEquipmentState(); setDisableBtn(false);});
     }
   }
 
@@ -296,7 +297,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       }).then((response) => {
         alert(response.data);
         window.location.reload();
-      }).catch((error) => { alert(error); InitEquipmentState(); });
+      }).catch((error) => { alert(error); InitEquipmentState(); setDisableBtn(false);});
     }
   }
   console.log(operationType)
@@ -367,10 +368,28 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       <div className="itemInfo">
         <h1>{equipment.name}</h1>
         <img src={equipment.imageURI} alt=''></img>
-        <Button inverted color='red' variant="contained" onClick={() => { ChangeState(equipment) }}>Remove</Button>
+        <Button inverted color='red' variant="contained" onClick={() => { ChangeState(equipment) }} disabled={disableBtn}>Remove</Button>
       </div>
     )
   })
+  const emptyEquipment =()=> {
+    if (equipments.length === 0){
+      return(
+        <div className="itemInfo">
+        <h1 className="itemInfoEmpty">{"Empty , You can mint own component"}</h1>
+      </div>
+      )
+    }
+  }
+  const emptyComponent =()=> {
+    if (components.length === 0){
+      return(
+        <div className="itemInfo">
+        <h1 className="itemInfoEmpty">{"Empty , You can mint own component"}</h1>
+      </div>
+      )
+    }
+  }
 
   console.log(components);
   //顯示帳號擁有可裝備的配件
@@ -379,7 +398,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
       <div className="itemInfo">
         <h1>{component.name}</h1>
         <img src={component.image} alt=''></img>
-        <Button inverted color='brown' onClick={() => { ChangeState(component) }}>Combine</Button>
+        <Button inverted color='brown' onClick={() => { ChangeState(component) }} disabled={disableBtn}>Combine</Button>
       </div>
     )
   })
@@ -523,6 +542,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
   useEffect(() => {
     if (isAuthenticated && isApprove && correctOperation) {
       alert("執行中!! 請耐心等待")
+      setDisableBtn(true);
       if (operationType === 'separate') {
         postRequest_separate();
       }
@@ -584,6 +604,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
         <div className="tabsContent">
           <div className="itemList">
             {ShowEquipments}
+            {emptyEquipment()}
           </div>
         </div>
 
@@ -592,6 +613,7 @@ const Operate = ({ trigger, equipments, TokenID, pettype }) => {
         <div className="tabsContent">
           <div className="itemList">
             {ShowComponent}
+            {emptyComponent()}
           </div>
         </div>
       </div>
