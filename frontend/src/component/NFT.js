@@ -92,18 +92,19 @@ const NFT = () => {
 
   //將MetadataURI轉成json格式
   const TurnToJson = async (_uri, _type) => {
-    await fetch(_uri)
+    var uri = "https://gateway.moralisipfs.com/ipfs/"+_uri.slice(34);
+    await fetch(uri)
       .then(response => response.json())
       .then(responseData => {
         let temp =
         {
           name: responseData.name,
           token_id: responseData.token_id,
-          imageURI: responseData.image,
+          imageURI:"https://gateway.moralisipfs.com/ipfs/" + responseData.image.slice(34),
           type: responseData.type
         }
         if (_type === "component") setEquipments(oldArray => [...oldArray, temp]);
-        else if (_type === "pet") { setImageURI(responseData.image); setPetType(responseData.attributes[5].value);setSpecies(responseData.attributes[5].value.split("_")[1]) }
+        else if (_type === "pet") { setImageURI("https://gateway.moralisipfs.com/ipfs/" + responseData.image.slice(34)); setPetType(responseData.attributes[5].value);setSpecies(responseData.attributes[5].value.split("_")[1]) }
       })
   }
 

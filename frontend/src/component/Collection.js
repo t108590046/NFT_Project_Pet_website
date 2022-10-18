@@ -38,8 +38,9 @@ const Collection = () => {
 
   //將MetadataURI轉成json格式
   const TurnToJson = async (_uri, _id) => {
-    console.log(_uri);
-    await fetch(_uri)
+    var uri = "https://gateway.moralisipfs.com/ipfs/"+_uri.slice(34);
+    console.log(uri);
+    await fetch(uri)
       .then(response => response.json())
       .then(responseData => {
         CheckPetHungry(_id).then((data)=>{
@@ -47,6 +48,7 @@ const Collection = () => {
             ...responseData,
             "IsHungry": data
           }
+          responseData.image = "https://gateway.moralisipfs.com/ipfs/"+ responseData.image.slice(34)
           setPets(oldArray => [...oldArray, responseData]);
         })
       })

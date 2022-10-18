@@ -475,9 +475,11 @@ const Operate = ({ trigger, equipments, TokenID, pettype , setLoader}) => {
 
   //將MetadataURI轉成json格式
   const TurnToJson = async (_uri) => {
-    await fetch(_uri)
+    var uri = "https://gateway.moralisipfs.com/ipfs/"+_uri.slice(34);
+    await fetch(uri)
       .then(response => response.json())
       .then(responseData => {
+        responseData.image = "https://gateway.moralisipfs.com/ipfs/"+responseData.image.slice(34);
         setComponents(oldArray => [...oldArray, responseData])
       })
   }
