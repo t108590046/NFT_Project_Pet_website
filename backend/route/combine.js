@@ -37,7 +37,7 @@ router.post('/', async (req, res, next) => {
         else if(operateType == "separate"){
             result = await Separate_Contract(tokenId,subId,subAddress,URL);
         }
-        res.send(`${operateType} - ${result}`);
+        res.send(result);
     } catch (error) {
         res.send("error");
     }
@@ -46,7 +46,5 @@ router.post('/', async (req, res, next) => {
 router.post('/create', async (req, res, next) => {
     GetRandomNFT(0,61);
 })
-
-
 
 module.exports = router

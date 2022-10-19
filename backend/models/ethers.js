@@ -22,6 +22,7 @@ const GetBalance = () => {
     });
 }
 
+
 const GetUri = async (_id) => {
 
     let contract = new ethers.Contract(contract_address, abi, walletWithProvider);
@@ -35,9 +36,9 @@ const Separate_Contract = async (_id,_subid,_subAddress,_uri) => {
     
     try {
         let tx = await contract.separateOne(_id,_subid,_subAddress,_uri);
+        console.log("ethscan : https://goerli.etherscan.io/tx/"+ tx.hash);
         await tx.wait();
-        console.log(`token id : ${_subid} Separate sucess`);
-        return `token id : ${_subid} Separate sucess`
+        return "Separate success "+"ethscan : https://goerli.etherscan.io/tx/"+ tx.hash
     } catch (error) {
         console.log(error);
         return `token id : ${_subid} Separate error`
@@ -50,10 +51,10 @@ const Combine_Contract = async (_id,_subid,_subAddress,_uri) => {
     
     try {
         let tx = await contract.combine(_id,[_subid],[_subAddress],_uri);
+        console.log("ethscan : https://goerli.etherscan.io/tx/"+ tx.hash);
         await tx.wait();
-
-        console.log(`token id : ${_subid} Combine sucess`);
-        return `token id : ${_subid} Combine sucess`
+        
+        return "Combine success "+"ethscan : https://goerli.etherscan.io/tx/"+ tx.hash
     } catch (error) {
         console.log(error);
         return `token id : ${_subid} Combine error`

@@ -264,8 +264,12 @@ const Operate = ({ trigger, equipments, TokenID, pettype , setLoader}) => {
         }
       }).then((response) => {
         alert(response.data)
+        setDisableBtn(false);
+        setLoader(false);
         window.location.reload();
-      }).catch((error) => { alert(error); InitEquipmentState(); setDisableBtn(false);});
+      }).catch((error) => { alert(error); InitEquipmentState();
+        setDisableBtn(false);
+        setLoader(false);});
     }
   }
 
@@ -296,8 +300,12 @@ const Operate = ({ trigger, equipments, TokenID, pettype , setLoader}) => {
         }
       }).then((response) => {
         alert(response.data);
+        setDisableBtn(false);
+        setLoader(false);
         window.location.reload();
-      }).catch((error) => { alert(error); InitEquipmentState(); setDisableBtn(false);});
+      }).catch((error) => { alert(error); InitEquipmentState();
+        setDisableBtn(false);
+        setLoader(false);});
     }
   }
   console.log(operationType)
@@ -543,7 +551,6 @@ const Operate = ({ trigger, equipments, TokenID, pettype , setLoader}) => {
   //post 改變寵物圖片及合約寵物狀態
   useEffect(() => {
     if (isAuthenticated && isApprove && correctOperation) {
-      alert("執行中!! 請耐心等待")
       setDisableBtn(true);
       setLoader(true);
       if (operationType === 'separate') {
